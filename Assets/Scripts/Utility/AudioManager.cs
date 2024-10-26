@@ -29,6 +29,21 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        if (OnPlaylistFinished != null)
+        {
+            Delegate[] invocationList = OnPlaylistFinished.GetInvocationList();
+            foreach (Delegate d in invocationList)
+            {
+                OnPlaylistFinished -= (Action)d;
+            }
+        }
+
+        StopAllCoroutines();
+    }
+
+
     public void PlayPlaylist(List<AudioClip> playlist, bool fadeOutAtEnd = false)
     {
         if (playlistCoroutine != null)
@@ -72,24 +87,32 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator CrossfadeAudio(AudioClip newClip)
     {
+        if (audioSource == null)
+            yield break;
+
         float startVolume = audioSource.volume;
-        while (audioSource.volume > 0)
+
+        while (audioSource != null && audioSource.volume > 0)
         {
             audioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
             yield return null;
         }
 
-        audioSource.clip = newClip;
-        audioSource.Play();
-        audioSource.volume = 0;
-
-        while (audioSource.volume < startVolume)
+        if (audioSource != null)
         {
-            audioSource.volume += startVolume * Time.deltaTime / fadeDuration;
-            yield return null;
-        }
+            audioSource.clip = newClip;
+            audioSource.Play();
+            audioSource.volume = 0;
 
-        audioSource.volume = startVolume;
+            while (audioSource != null && audioSource.volume < startVolume)
+            {
+                audioSource.volume += startVolume * Time.deltaTime / fadeDuration;
+                yield return null;
+            }
+
+            if (audioSource != null)
+                audioSource.volume = startVolume;
+        }
     }
 
     private IEnumerator FadeOutLastTrack()
@@ -104,6 +127,15 @@ public class AudioManager : MonoBehaviour
 
         audioSource.Stop();
         audioSource.volume = 1;
+    }
+
+    public void OnSceneChange()
+    {
+        if (playlistCoroutine != null)
+        {
+            StopCoroutine(playlistCoroutine);
+        }
+        StartCoroutine(FadeOutCurrentTrack());
     }
 
     public IEnumerator FadeOutCurrentTrack()

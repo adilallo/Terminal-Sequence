@@ -26,7 +26,13 @@ public class MiddleSceneManager : MonoBehaviour
 
     private int currentVideoIndex = 0;
     private Vector2 avatarVelocity = new Vector2(100f, 100f);
-    private RectTransform canvasRectTransform;  
+    private RectTransform canvasRectTransform;
+
+    private bool clipsSet = false;
+    private bool videoPlayersPrepared = false;
+
+    private Vector2 cachedCanvasSize;
+    private Vector2 cachedAvatarSize;
 
     void Start()
     {
@@ -45,17 +51,15 @@ public class MiddleSceneManager : MonoBehaviour
 
         currentVideoIndex = 0;
 
-        npcVideoPlayer.Prepare();
-        npcVideoPlayer.prepareCompleted += OnVideosPrepared;
-
-        if (npcVideoClips.Count > 0)
+        if (!clipsSet && LeaderboardManager.Instance.GetVideoClips().Count == 0)
         {
-            PlayVideoAndAudio(currentVideoIndex);
             LeaderboardManager.Instance.SetVideoClips(npcVideoClips);
+            clipsSet = true;
         }
         else
         {
-            Debug.LogWarning("No video clips assigned in the npcVideoClips list.");
+            Debug.LogWarning("Video clips have already been assigned.");
+            clipsSet = true;
         }
 
         if (AudioManager.Instance != null)
@@ -67,6 +71,7 @@ public class MiddleSceneManager : MonoBehaviour
         if (canvas != null)
         {
             canvasRectTransform = canvas.GetComponent<RectTransform>();
+            CacheCanvasAndAvatarDimensions();
         }
         else
         {
@@ -80,6 +85,25 @@ public class MiddleSceneManager : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        // Prepare VideoPlayers and subscribe to events only once
+        if (!videoPlayersPrepared)
+        {
+            if (npcVideoPlayer != null)
+            {
+                npcVideoPlayer.prepareCompleted += OnVideosPrepared;
+                npcVideoPlayer.Prepare();
+            }
+            if (arrowVideoPlayer != null)
+            {
+                arrowVideoPlayer.prepareCompleted += OnVideosPrepared;
+                arrowVideoPlayer.Prepare();
+            }
+            videoPlayersPrepared = true;
+        }
+    }
+
     void Update()
     {
         MoveAvatarRawImage();  // Move the avatar every frame
@@ -87,8 +111,20 @@ public class MiddleSceneManager : MonoBehaviour
 
     private void OnDisable()
     {
-        npcVideoPlayer.prepareCompleted -= OnVideosPrepared;
-        arrowVideoPlayer.prepareCompleted -= OnVideosPrepared;
+        if (npcVideoPlayer != null)
+        {
+            npcVideoPlayer.prepareCompleted -= OnVideosPrepared;
+            npcVideoPlayer.Stop();
+        }
+        if (arrowVideoPlayer != null)
+        {
+            arrowVideoPlayer.prepareCompleted -= OnVideosPrepared;
+            arrowVideoPlayer.Stop();
+        }
+        if (avatarVideoPlayer != null)
+        {
+            avatarVideoPlayer.Stop();
+        }
     }
 
     public void NextVideo()
@@ -115,6 +151,10 @@ public class MiddleSceneManager : MonoBehaviour
             npcVideoPlayer.clip = npcVideoClips[index];
             npcVideoPlayer.Play();
         }
+        else
+        {
+            Debug.LogWarning("NPC VideoClip at index " + index + " is null.");
+        }
 
         if (avatarVideoClips.Count > index && avatarVideoClips[index] != null)
         {
@@ -123,7 +163,7 @@ public class MiddleSceneManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No audio clip assigned for video at index " + index);
+            Debug.LogWarning("Avatar VideoClip at index " + index + " is null.");
         }
     }
 
@@ -148,6 +188,15 @@ public class MiddleSceneManager : MonoBehaviour
         uiCanvasGroup.alpha = 1;
     }
 
+    private void CacheCanvasAndAvatarDimensions()
+    {
+        if (canvasRectTransform != null && avatarRawImage != null)
+        {
+            cachedCanvasSize = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height);
+            cachedAvatarSize = new Vector2(avatarRawImage.rect.width, avatarRawImage.rect.height);
+        }
+    }
+
     private void MoveAvatarRawImage()
     {
         // Ensure both avatarRawImage and canvasRectTransform are not null
@@ -157,19 +206,24 @@ public class MiddleSceneManager : MonoBehaviour
             return;
         }
 
+        // Check if canvas or avatar size has changed and update cache if necessary
+        Vector2 currentCanvasSize = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height);
+        Vector2 currentAvatarSize = new Vector2(avatarRawImage.rect.width, avatarRawImage.rect.height);
+        if (currentCanvasSize != cachedCanvasSize || currentAvatarSize != cachedAvatarSize)
+        {
+            CacheCanvasAndAvatarDimensions();
+        }
+
         // Get the current position of the avatar
         Vector2 currentPosition = avatarRawImage.anchoredPosition;
 
         // Update the position based on the velocity
         currentPosition += avatarVelocity * Time.deltaTime;
 
-        // Get the size of the canvas
-        float canvasWidth = canvasRectTransform.rect.width;
-        float canvasHeight = canvasRectTransform.rect.height;
-
-        // Get the size of the avatar
-        float avatarWidth = avatarRawImage.rect.width;
-        float avatarHeight = avatarRawImage.rect.height;
+        float canvasWidth = cachedCanvasSize.x;
+        float canvasHeight = cachedCanvasSize.y;
+        float avatarWidth = cachedAvatarSize.x;
+        float avatarHeight = cachedAvatarSize.y;
 
         float yOffset = canvasHeight * 0.07f;  // Adjust this value as needed to push everything up
 
@@ -182,24 +236,24 @@ public class MiddleSceneManager : MonoBehaviour
         if (currentPosition.x < minX)
         {
             currentPosition.x = minX;
-            avatarVelocity.x = Mathf.Abs(avatarVelocity.x);  // Move right
+            avatarVelocity.x *= -1;  // Move right
         }
         else if (currentPosition.x > maxX)
         {
             currentPosition.x = maxX;
-            avatarVelocity.x = -Mathf.Abs(avatarVelocity.x);  // Move left
+            avatarVelocity.x *= -1;  // Move left
         }
 
         // Check and reverse direction if hitting vertical edges
         if (currentPosition.y < minY)
         {
             currentPosition.y = minY;
-            avatarVelocity.y = Mathf.Abs(avatarVelocity.y);  // Move up
+            avatarVelocity.y *= -1;   // Move up
         }
         else if (currentPosition.y > maxY)
         {
             currentPosition.y = maxY;
-            avatarVelocity.y = -Mathf.Abs(avatarVelocity.y);  // Move down
+            avatarVelocity.y *= -1;   // Move down
         }
 
         avatarRawImage.anchoredPosition = currentPosition;

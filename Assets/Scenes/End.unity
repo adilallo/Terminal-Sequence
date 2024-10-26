@@ -219,23 +219,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae38074cfe8c9a4d80513cc6a85ecfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent_prefabs:
-  - {fileID: 8312114406260443829, guid: d15feaf4df90946d2945eafb947a6d68, type: 3}
+  agentPrefabs:
   - {fileID: 6499929168635528300, guid: a51deebedcb214e27853c4c1c2121b90, type: 3}
+  - {fileID: 5388067087109498559, guid: 395bcb220d6e14046bff743ac9b79d03, type: 3}
+  - {fileID: 8312114406260443829, guid: d15feaf4df90946d2945eafb947a6d68, type: 3}
+  - {fileID: 6985074348126498792, guid: cde867feb6c974791b23181b4f09a532, type: 3}
+  - {fileID: 8656772720759716444, guid: 38d7503c298534db09f4b1a1cb9dc9a4, type: 3}
+  - {fileID: 7071447827563053067, guid: 8edd50d8188b642a39f5992470145bfc, type: 3}
   - {fileID: 3351499934528674126, guid: 002ca47b009c149168de9d1940eedadf, type: 3}
+  - {fileID: 8353412086202436871, guid: 326c8281fb8b74df4ac48846a032990a, type: 3}
+  - {fileID: 2109688841053343063, guid: 9c9e80de6150f406cb6e1b946e1c14b2, type: 3}
   - {fileID: 4885486871096227200, guid: fcf01120827fd44279f76737709fd97d, type: 3}
   - {fileID: 7967010216821551845, guid: 69ce02cd0b8144b7fbdac8e3de1ca88c, type: 3}
-  - {fileID: 8353412086202436871, guid: 326c8281fb8b74df4ac48846a032990a, type: 3}
-  - {fileID: 7071447827563053067, guid: 8edd50d8188b642a39f5992470145bfc, type: 3}
-  - {fileID: 5388067087109498559, guid: 395bcb220d6e14046bff743ac9b79d03, type: 3}
-  - {fileID: 8656772720759716444, guid: 38d7503c298534db09f4b1a1cb9dc9a4, type: 3}
-  - {fileID: 6985074348126498792, guid: cde867feb6c974791b23181b4f09a532, type: 3}
-  - {fileID: 2109688841053343063, guid: 9c9e80de6150f406cb6e1b946e1c14b2, type: 3}
   spread: 15
   amount: 44
-  cam_rig: {fileID: 1461344151}
-  allAgents: []
   rotationSpeed: 30
+  camRig: {fileID: 1461344151}
+  allAgents: []
 --- !u!4 &92192286
 Transform:
   m_ObjectHideFlags: 0
@@ -702,7 +702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 610431624}
   m_Layer: 0
-  m_Name: UI
+  m_Name: End UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1636,7 +1636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2031572146}
   m_Layer: 0
-  m_Name: Video Players
+  m_Name: End Video Players
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

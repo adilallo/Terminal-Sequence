@@ -3,111 +3,162 @@ using UnityEngine;
 
 public class ManageSwarm : MonoBehaviour
 {
-    public List<GameObject> agent_prefabs;
-    public int spread;
-    public int amount;
-    public GameObject cam_rig;
-    public List<Agent> allAgents;
-    public float rotationSpeed = 30f;
+    [Header("Agent Configuration")]
+    [SerializeField] private List<GameObject> agentPrefabs = new List<GameObject>();
+    [SerializeField] private int spread = 50;
+    [SerializeField] private int amount = 100;
+    [SerializeField] private float rotationSpeed = 30f;
+
+    [Header("Camera")]
+    [SerializeField] private GameObject camRig;
+
+    [Header("Agent Management")]
+    [SerializeField] private List<Agent> allAgents = new List<Agent>();
+
+    // Cached components
+    private int prefabCount;
+
+    // Cached input values
+    private float normalizedMouseX;
+    private float normalizedMouseY;
 
     void Start()
     {
-        for (int i = 0; i < amount; i++)
+        InitializeSwarm();
+        prefabCount = agentPrefabs.Count;
+
+        if (camRig == null)
         {
-            GameObject selectedPrefab = agent_prefabs[i % agent_prefabs.Count];
-            GameObject newAgent = Instantiate(selectedPrefab, Random.insideUnitSphere * spread, Quaternion.identity);
-
-            Agent agentScript = newAgent.GetComponent<Agent>();
-            allAgents.Add(agentScript);
-
-            agentScript.SetAllAgents(allAgents);
+            Debug.LogError("Camera Rig is not assigned! Please assign it in the Inspector.");
         }
 
-        Debug.Log("Total Agents: " + allAgents.Count);
+        if (agentPrefabs == null || agentPrefabs.Count == 0)
+        {
+            Debug.LogError("Agent Prefabs list is empty! Please assign prefabs in the Inspector.");
+        }
+
+        Debug.Log($"Total Agents Initialized: {allAgents.Count}");
     }
 
     void Update()
     {
-        Vector3 average = Vector3.zero;
-        foreach (Agent a in allAgents)
-        {
-            average += a.transform.position;
-        }
-        average /= allAgents.Count + 1;
-
-        cam_rig.transform.position = Vector3.MoveTowards(cam_rig.transform.position, average, 0.1f);
-
-        UpdateControlsWithMouse();
-
+        UpdateMouseInputs();
+        UpdateCameraPosition();
         RotateAgents();
+        UpdateAgentProperties();
     }
 
-    void UpdateControlsWithMouse()
-    {
-        float normalizedMouseX = Mathf.Clamp01(Input.mousePosition.x / Screen.width);
-        float normalizedMouseY = Mathf.Clamp01(Input.mousePosition.y / Screen.height);
+    #region Initialization
 
-        updateCohesionRadius(normalizedMouseX);
-        updateCohesionStrength(normalizedMouseY);
-        updateSeparationRadius(normalizedMouseX);
-        updateSeparationStrength(normalizedMouseY);
-        updateAllignmentRadius(normalizedMouseX);
-        updateAllignmentStrength(normalizedMouseY);
-    }
-
-    void RotateAgents()
+    /// <summary>
+    /// Initializes the swarm by instantiating agents.
+    /// </summary>
+    private void InitializeSwarm()
     {
+        if (agentPrefabs == null || agentPrefabs.Count == 0)
+        {
+            Debug.LogError("No agent prefabs assigned. Please assign at least one prefab.");
+            return;
+        }
+
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject selectedPrefab = agentPrefabs[i % agentPrefabs.Count];
+            Vector3 spawnPosition = Random.insideUnitSphere * spread;
+            GameObject newAgent = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
+
+            Agent agentScript = newAgent.GetComponent<Agent>();
+            if (agentScript != null)
+            {
+                allAgents.Add(agentScript);
+                // Assuming SetAllAgents is necessary only once after all agents are instantiated
+            }
+            else
+            {
+                Debug.LogWarning($"Agent prefab at index {i % prefabCount} does not have an Agent component.");
+            }
+        }
+
+        // After all agents are instantiated, assign the list to each agent
         foreach (Agent agent in allAgents)
         {
-            agent.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+            agent.SetAllAgents(allAgents);
         }
     }
 
-    public void updateCohesionRadius(float val)
+    #endregion
+
+    #region Update Methods
+
+    /// <summary>
+    /// Updates normalized mouse input values.
+    /// </summary>
+    private void UpdateMouseInputs()
     {
-        foreach (Agent a in allAgents)
+        normalizedMouseX = Mathf.Clamp01(Input.mousePosition.x / Screen.width);
+        normalizedMouseY = Mathf.Clamp01(Input.mousePosition.y / Screen.height);
+    }
+
+    /// <summary>
+    /// Updates the camera position based on the average position of all agents.
+    /// </summary>
+    private void UpdateCameraPosition()
+    {
+        if (camRig == null || allAgents.Count == 0)
+            return;
+
+        Vector3 averagePosition = Vector3.zero;
+        for (int i = 0; i < allAgents.Count; i++)
         {
-            a.cohesion_radius = val;
+            averagePosition += allAgents[i].transform.position;
+        }
+        averagePosition /= allAgents.Count;
+
+        // Smoothly move the camera towards the average position
+        camRig.transform.position = Vector3.MoveTowards(camRig.transform.position, averagePosition, 0.1f);
+    }
+
+    /// <summary>
+    /// Rotates all agents around the Y-axis.
+    /// </summary>
+    private void RotateAgents()
+    {
+        if (allAgents.Count == 0)
+            return;
+
+        float rotationAmount = rotationSpeed * Time.deltaTime;
+        for (int i = 0; i < allAgents.Count; i++)
+        {
+            allAgents[i].transform.Rotate(Vector3.up, rotationAmount, Space.Self);
         }
     }
 
-    public void updateCohesionStrength(float val)
+    /// <summary>
+    /// Updates cohesion, separation, and alignment properties of all agents based on mouse input.
+    /// </summary>
+    private void UpdateAgentProperties()
     {
-        foreach (Agent a in allAgents)
+        if (allAgents.Count == 0)
+            return;
+
+        float cohesionRadius = normalizedMouseX;
+        float cohesionStrength = normalizedMouseY;
+        float separationRadius = normalizedMouseX;
+        float separationStrength = normalizedMouseY;
+        float alignmentRadius = normalizedMouseX;
+        float alignmentStrength = normalizedMouseY;
+
+        for (int i = 0; i < allAgents.Count; i++)
         {
-            a.cohesion_strength = val;
+            Agent agent = allAgents[i];
+            agent.CohesionRadius = cohesionRadius;
+            agent.CohesionStrength = cohesionStrength;
+            agent.SeparationRadius = separationRadius;
+            agent.SeparationStrength = separationStrength;
+            agent.AlignmentRadius = alignmentRadius;
+            agent.AlignmentStrength = alignmentStrength;
         }
     }
 
-    public void updateSeparationRadius(float val)
-    {
-        foreach (Agent a in allAgents)
-        {
-            a.separation_radius = val;
-        }
-    }
-
-    public void updateSeparationStrength(float val)
-    {
-        foreach (Agent a in allAgents)
-        {
-            a.separation_strength = val;
-        }
-    }
-
-    public void updateAllignmentRadius(float val)
-    {
-        foreach (Agent a in allAgents)
-        {
-            a.allignment_radius = val;
-        }
-    }
-
-    public void updateAllignmentStrength(float val)
-    {
-        foreach (Agent a in allAgents)
-        {
-            a.allignment_strength = val;
-        }
-    }
+    #endregion
 }

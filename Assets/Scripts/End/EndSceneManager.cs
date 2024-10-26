@@ -25,36 +25,94 @@ public class EndSceneManager : MonoBehaviour
     [SerializeField] private float scrollSpeed = 50f;
     private RectTransform leaderboardRectTransform;
 
+    private bool videosPrepared = false;
+    private bool leaderboardDisplayed = false;
+
+    private Vector2 cachedParentPanelSize;
+    private float textHeight;
+
     void Start()
     {
         leaderboardText.text = "";
 
-        DisplayLeaderboard();
+        if (!leaderboardDisplayed)
+        {
+            DisplayLeaderboard();
+            leaderboardDisplayed = true;
+        }
 
-        avatarVideoPlayer.Prepare();
-
-        leaderboardRectTransform = leaderboardText.GetComponent<RectTransform>();
+        if (leaderboardText != null)
+        {
+            leaderboardRectTransform = leaderboardText.GetComponent<RectTransform>();
+        }
+        else
+        {
+            Debug.LogError("LeaderboardText is not assigned! Please check the Inspector.");
+        }
 
         // Ensure the UI is invisible initially
-        uiCanvasGroup.alpha = 0;
+        if (uiCanvasGroup != null)
+        {
+            uiCanvasGroup.alpha = 0;
+        }
+        else
+        {
+            Debug.LogError("UI CanvasGroup is not assigned! Please check the Inspector.");
+        }
 
-        // Fade out the previous scene's audio
         if (AudioManager.Instance != null)
         {
-            StartCoroutine(AudioManager.Instance.FadeOutCurrentTrack());  // Fade out middle scene audio
+            AudioManager.Instance.PlayPlaylist(endSceneAudioClips, true);
+            AudioManager.Instance.OnPlaylistFinished += LoadFirstScene;
         }
 
         // Start the avatar video fade-in and play process
-        StartCoroutine(PlayAvatarVideo());
+        if (avatarVideoPlayer != null && avatarCanvasGroup != null)
+        {
+            StartCoroutine(PlayAvatarVideo());
+        }
+        else
+        {
+            Debug.LogError("Avatar VideoPlayer or Avatar CanvasGroup is not assigned!");
+        }
+
+        CacheParentPanelDimensions();
+    }
+
+    void OnEnable()
+    {
+        // Subscribe to VideoPlayer prepareCompleted event only once
+        if (avatarVideoPlayer != null && !videosPrepared)
+        {
+            avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
+            avatarVideoPlayer.Prepare();
+        }
     }
 
     void OnDisable()
     {
+        // Unsubscribe from VideoPlayer events and stop the player without releasing the clip
+        if (avatarVideoPlayer != null)
+        {
+            avatarVideoPlayer.prepareCompleted -= OnAvatarVideoPrepared;
+            avatarVideoPlayer.Stop();
+        }
+
+        // Unsubscribe from AudioManager event
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.OnPlaylistFinished -= LoadFirstScene;
         }
     }
+
+    private void OnAvatarVideoPrepared(VideoPlayer vp)
+    {
+        // Set the flag indicating videos are prepared
+        videosPrepared = true;
+
+        avatarVideoPlayer.Play();
+    }
+
 
     private void DisplayLeaderboard()
     {
@@ -84,14 +142,23 @@ public class EndSceneManager : MonoBehaviour
 
         videoSelectionList.Sort((x, y) => y.Value.CompareTo(x.Value));
 
+        System.Text.StringBuilder leaderboardBuilder = new System.Text.StringBuilder();
+
         for (int i = 0; i < videoSelectionList.Count; i++)
         {
             int videoIndex = videoSelectionList[i].Key;
+            if (videoIndex >= videoClips.Count)
+            {
+                Debug.LogWarning($"Video index {videoIndex} is out of range.");
+                continue;
+            }
             string videoName = videoClips[videoIndex].name;
             int selectionCount = videoSelectionList[i].Value;
 
-            leaderboardText.text += videoName + "\n" + selectionCount + "\n";
+            leaderboardBuilder.AppendLine($"{videoName}: {selectionCount}");
         }
+
+        leaderboardText.text = leaderboardBuilder.ToString();
     }
 
     private void LoadFirstScene()
@@ -101,6 +168,10 @@ public class EndSceneManager : MonoBehaviour
 
     private IEnumerator PlayAvatarVideo()
     {
+        while (!videosPrepared)
+        {
+            yield return null;
+        }
         // Fade in the avatar video
         float elapsedTime = 0f;
         avatarCanvasGroup.alpha = 0;
@@ -116,7 +187,10 @@ public class EndSceneManager : MonoBehaviour
         avatarCanvasGroup.alpha = 1;
 
         // Wait until the avatar video is done playing
-        yield return new WaitUntil(() => avatarVideoPlayer.isPlaying == false);
+        while (avatarVideoPlayer.isPlaying)
+        {
+            yield return null;
+        }
 
         // Fade out the avatar video
         elapsedTime = 0f;
@@ -129,15 +203,9 @@ public class EndSceneManager : MonoBehaviour
 
         avatarCanvasGroup.alpha = 0;
 
-        // After the avatar video is done, fade in the UI and start the audio playlist
-        StartCoroutine(FadeInUI());
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayPlaylist(endSceneAudioClips, true);
-            AudioManager.Instance.OnPlaylistFinished += LoadFirstScene;
-        }
-
+        // After the avatar video is done, fade in the UI
         StartCoroutine(ScrollLeaderboardText());
+        StartCoroutine(FadeInUI());
     }
 
     private IEnumerator FadeInUI()
@@ -155,26 +223,49 @@ public class EndSceneManager : MonoBehaviour
 
     private IEnumerator ScrollLeaderboardText()
     {
-        yield return null; // Ensure layout updates before proceeding
+        if (leaderboardRectTransform == null || parentPanelRectTransform == null)
+        {
+            yield break;
+        }
+
         leaderboardRectTransform.ForceUpdateRectTransforms();
 
         float textHeight = leaderboardRectTransform.rect.height;
         float parentHeight = parentPanelRectTransform.rect.height;
 
-        float startY = -textHeight;
-        float endY = parentHeight + textHeight;
+        if (cachedParentPanelSize == Vector2.zero)
+        {
+            cachedParentPanelSize = new Vector2(parentPanelRectTransform.rect.width, parentPanelRectTransform.rect.height);
+        }
 
-        leaderboardRectTransform.anchoredPosition = new Vector2(leaderboardRectTransform.anchoredPosition.x, startY);
+        Vector2 startPosition = new Vector2(leaderboardRectTransform.anchoredPosition.x, -textHeight);
+        // Ending position above the parent panel
+        Vector2 endPosition = new Vector2(leaderboardRectTransform.anchoredPosition.x, parentHeight + textHeight);
+
+        leaderboardRectTransform.anchoredPosition = startPosition;
 
         while (true)
         {
-            while (leaderboardRectTransform.anchoredPosition.y < endY)
+            while (leaderboardRectTransform.anchoredPosition.y < endPosition.y)
             {
                 leaderboardRectTransform.anchoredPosition += new Vector2(0, scrollSpeed * Time.deltaTime);
                 yield return null;
             }
 
-            leaderboardRectTransform.anchoredPosition = new Vector2(leaderboardRectTransform.anchoredPosition.x, startY);
+            // Reset to start position
+            leaderboardRectTransform.anchoredPosition = startPosition;
+        }
+    }
+
+    private void CacheParentPanelDimensions()
+    {
+        if (parentPanelRectTransform != null)
+        {
+            cachedParentPanelSize = new Vector2(parentPanelRectTransform.rect.width, parentPanelRectTransform.rect.height);
+        }
+        else
+        {
+            Debug.LogError("Parent Panel RectTransform is not assigned!");
         }
     }
 }

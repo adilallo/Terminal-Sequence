@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,7 @@ namespace Utility
         {
             if (Screen.width != targetWidth || Screen.height != targetHeight || !Screen.fullScreen)
             {
-                SetResolution(targetWidth, targetHeight, true);
+               // SetResolution(targetWidth, targetHeight, true);
             }
         }
 
@@ -32,7 +33,7 @@ namespace Utility
         {
             if (!string.IsNullOrEmpty(firstSceneName))
             {
-                SceneManager.LoadScene(firstSceneName);
+                StartCoroutine(FadeOutAndLoadScene(firstSceneName));
             }
             else
             {
@@ -40,11 +41,12 @@ namespace Utility
             }
         }
 
+
         public void LoadSecondScene()
         {
             if (!string.IsNullOrEmpty(secondSceneName))
             {
-                SceneManager.LoadScene(secondSceneName);
+                SceneManager.LoadSceneAsync(secondSceneName);
             }
             else
             {
@@ -56,7 +58,7 @@ namespace Utility
         {
             if (!string.IsNullOrEmpty(thirdSceneName))
             {
-                SceneManager.LoadScene(thirdSceneName);
+                SceneManager.LoadSceneAsync(thirdSceneName);
             }
             else
             {
@@ -71,6 +73,18 @@ namespace Utility
 #else
             Application.Quit();
 #endif
+        }
+
+        private IEnumerator FadeOutAndLoadScene(string sceneName)
+        {
+            // Fade out current audio
+            if (AudioManager.Instance != null)
+            {
+                yield return AudioManager.Instance.FadeOutCurrentTrack();  // Wait for the fade-out to complete
+            }
+
+            // Load the next scene asynchronously after fading out
+            yield return SceneManager.LoadSceneAsync(sceneName);
         }
 
         private void SetResolution(int targetWidth, int targetHeight, bool fullscreen)
