@@ -1450,7 +1450,7 @@ VideoPlayer:
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 0
-  m_SkipOnDrop: 0
+  m_SkipOnDrop: 1
   m_Looping: 1
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
@@ -1822,7 +1822,7 @@ MonoBehaviour:
   npcVideoURLs:
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Biohacker.mov
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Acronymologist.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Hustleprenuer.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Hustlepreneur.mov
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Wojak.mov
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Zombie.mov
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/NEET.mov
@@ -1834,7 +1834,7 @@ MonoBehaviour:
   avatarVideoURLs:
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Biohacker.mov
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Acronymologist.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Hustleprenuer.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Hustlepreneur.mov
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Wojak.mov
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Zombie.mov
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/NEET.mov
@@ -2134,7 +2134,7 @@ VideoPlayer:
   m_DataSource: 1
   m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
+  m_AudioOutputMode: 0
   m_TargetAudioSources:
   - {fileID: 0}
   m_DirectAudioVolumes:
@@ -2144,7 +2144,7 @@ VideoPlayer:
   m_DirectAudioMutes: 01
   m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 0
-  m_SkipOnDrop: 0
+  m_SkipOnDrop: 1
   m_Looping: 1
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
