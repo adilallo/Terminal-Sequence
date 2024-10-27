@@ -32,6 +32,7 @@ namespace StartScene
         private bool stockVideoStarted = false;
 
         private bool videosPrepared = false;
+        private bool isAvatarVideoPrepared = false;
 
         private Color initialStockRawImageColor;
         private Color initialFrameImageColor;
@@ -46,14 +47,7 @@ namespace StartScene
 
             InitializeAudio();
 
-            if (introVideoPlayer != null)
-            {
-                introVideoPlayer.Prepare();
-            }
-            else
-            {
-                Debug.LogError("Intro VideoPlayer is not assigned! Please check the Inspector.");
-            }
+            StartCoroutine(PrepareVideos());
         }
 
         void OnEnable()
@@ -61,8 +55,12 @@ namespace StartScene
             if (introVideoPlayer != null && !videosPrepared)
             {
                 introVideoPlayer.loopPointReached += OnVideoFinished;
-                introVideoPlayer.Prepare();
                 videosPrepared = true;
+            }
+
+            if (avatarVideoPlayer != null)
+            {
+                avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
             }
         }
 
@@ -82,6 +80,7 @@ namespace StartScene
             if (avatarVideoPlayer != null)
             {
                 avatarVideoPlayer.Stop();
+                avatarVideoPlayer.prepareCompleted -= OnAvatarVideoPrepared;
             }
         }
 
@@ -99,6 +98,7 @@ namespace StartScene
             selectButtonVisible = false;
             stockVideoStarted = false;
             videosPrepared = false;
+            isAvatarVideoPrepared = false;
         }
 
         private void InitializeUIElements()
@@ -153,6 +153,63 @@ namespace StartScene
         }
 
         #endregion
+
+        #region Video Preparation
+
+        /// <summary>
+        /// Prepares all VideoPlayers by setting their URLs and calling Prepare().
+        /// Ensures that the avatar video is fully loaded before allowing interactions.
+        /// </summary>
+        private IEnumerator PrepareVideos()
+        {
+            // Prepare Intro Video
+            if (introVideoPlayer != null)
+            {
+                introVideoPlayer.source = VideoSource.Url;
+                introVideoPlayer.Prepare();
+
+                // Wait until introVideoPlayer is prepared
+                while (!introVideoPlayer.isPrepared)
+                {
+                    yield return null;
+                }
+
+                Debug.Log("Intro Video Prepared.");
+            }
+
+            // Prepare Stock Video
+            if (stockVideoPlayer != null)
+            {
+                stockVideoPlayer.source = VideoSource.Url;
+                stockVideoPlayer.Prepare();
+
+                // Wait until stockVideoPlayer is prepared
+                while (!stockVideoPlayer.isPrepared)
+                {
+                    yield return null;
+                }
+
+                Debug.Log("Stock Video Prepared.");
+            }
+
+            // Prepare Avatar Video
+            if (avatarVideoPlayer != null)
+            {
+                avatarVideoPlayer.source = VideoSource.Url;
+                avatarVideoPlayer.Prepare();
+            }
+            
+            yield return null;
+        }
+
+        private void OnAvatarVideoPrepared(VideoPlayer vp)
+        {
+            isAvatarVideoPrepared = true;
+            Debug.Log("Avatar Video Prepared.");
+        }
+
+        #endregion
+
 
         #region Event Handlers
 

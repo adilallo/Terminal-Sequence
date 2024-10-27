@@ -2,260 +2,287 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
-using UnityEngine.UI;
 
-public class MiddleSceneManager : MonoBehaviour
+namespace MiddleScene
 {
-    [SerializeField] private CanvasGroup uiCanvasGroup;
-    [SerializeField] private float fadeDuration = 2f;
-
-    [Header("UI")]
-    [SerializeField] private VideoPlayer npcVideoPlayer;
-    [SerializeField] private VideoPlayer avatarVideoPlayer;
-    [SerializeField] private RectTransform npcRawImage;
-    [SerializeField] private RectTransform avatarRawImage;
-    [SerializeField] private VideoPlayer arrowVideoPlayer;
-    [SerializeField] private GameObject arrowLeftRawImage;
-    [SerializeField] private GameObject arrowRightRawImage;
-    [SerializeField] private List<VideoClip> npcVideoClips;
-    [SerializeField] private List<VideoClip> avatarVideoClips;
-    [SerializeField] private Canvas canvas;
-
-    [Header("Audio")]
-    [SerializeField] private List<AudioClip> middleSceneAudioClips;
-
-    private int currentVideoIndex = 0;
-    private Vector2 avatarVelocity = new Vector2(100f, 100f);
-    private RectTransform canvasRectTransform;
-
-    private bool clipsSet = false;
-    private bool videoPlayersPrepared = false;
-
-    private Vector2 cachedCanvasSize;
-    private Vector2 cachedAvatarSize;
-
-    void Start()
+    public class MiddleSceneManager : MonoBehaviour
     {
-        Cursor.visible = false;
+        #region Serialized Fields
 
-        npcRawImage.gameObject.SetActive(false);
-        avatarRawImage.gameObject.SetActive(false);
-        arrowLeftRawImage.SetActive(false);
-        arrowRightRawImage.SetActive(false);
+        [SerializeField] private CanvasGroup uiCanvasGroup;
+        [SerializeField] private float fadeDuration = 2f;
 
-        if (uiCanvasGroup != null)
+        [Header("UI")]
+        [SerializeField] private VideoPlayer npcVideoPlayer;
+        [SerializeField] private VideoPlayer avatarVideoPlayer;
+        [SerializeField] private RectTransform npcRawImage;
+        [SerializeField] private RectTransform avatarRawImage;
+        [SerializeField] private VideoPlayer arrowVideoPlayer;
+        [SerializeField] private GameObject arrowLeftRawImage;
+        [SerializeField] private GameObject arrowRightRawImage;
+        [SerializeField] private Canvas canvas;
+
+        [Header("Audio")]
+        [SerializeField] private List<AudioClip> middleSceneAudioClips;
+
+        [Header("Video URLs")]
+        [SerializeField] private List<string> npcVideoURLs;
+        [SerializeField] private List<string> avatarVideoURLs;
+
+        #endregion
+
+        #region Private Fields
+
+        private int currentVideoIndex = 0;
+        private Vector2 avatarVelocity = new Vector2(100f, 100f);
+        private RectTransform canvasRectTransform;
+        private bool clipsSet = false;
+        private bool videoPlayersPrepared = false;
+        private Vector2 cachedCanvasSize;
+        private Vector2 cachedAvatarSize;
+
+        #endregion
+
+        #region Unity Methods
+
+        void Start()
         {
-            uiCanvasGroup.alpha = 0;
-            StartCoroutine(FadeInUI());
+            Initialize();
         }
 
-        currentVideoIndex = 0;
-
-        if (!clipsSet && LeaderboardManager.Instance.GetVideoClips().Count == 0)
+        void OnEnable()
         {
-            LeaderboardManager.Instance.SetVideoClips(npcVideoClips);
-            clipsSet = true;
-        }
-        else
-        {
-            Debug.LogWarning("Video clips have already been assigned.");
-            clipsSet = true;
+            PrepareVideoPlayers();
         }
 
-        if (AudioManager.Instance != null)
+        void Update()
         {
-            AudioManager.Instance.PlayPlaylist(middleSceneAudioClips, false);
+            MoveAvatarRawImage();
         }
 
-        // Assign the Canvas RectTransform
-        if (canvas != null)
+        void OnDisable()
         {
-            canvasRectTransform = canvas.GetComponent<RectTransform>();
-            CacheCanvasAndAvatarDimensions();
-        }
-        else
-        {
-            Debug.LogError("Canvas is not assigned! Please assign a Canvas in the Inspector.");
+            CleanupVideoPlayers();
         }
 
-        // Check if avatarRawImage is assigned properly
-        if (avatarRawImage == null)
-        {
-            Debug.LogError("avatarRawImage is not assigned! Please check the Inspector.");
-        }
-    }
+        #endregion
 
-    void OnEnable()
-    {
-        // Prepare VideoPlayers and subscribe to events only once
-        if (!videoPlayersPrepared)
+        #region Initialization Methods
+
+        private void Initialize()
+        {
+            Cursor.visible = false;
+
+            npcRawImage.gameObject.SetActive(false);
+            avatarRawImage.gameObject.SetActive(false);
+            arrowLeftRawImage.SetActive(false);
+            arrowRightRawImage.SetActive(false);
+
+            if (uiCanvasGroup != null)
+            {
+                uiCanvasGroup.alpha = 0;
+                StartCoroutine(FadeInUI());
+            }
+
+            currentVideoIndex = 0;
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayPlaylist(middleSceneAudioClips, false);
+            }
+
+            if (canvas != null)
+            {
+                canvasRectTransform = canvas.GetComponent<RectTransform>();
+                CacheCanvasAndAvatarDimensions();
+            }
+            else
+            {
+                Debug.LogError("Canvas is not assigned! Please assign a Canvas in the Inspector.");
+            }
+
+            if (avatarRawImage == null)
+            {
+                Debug.LogError("avatarRawImage is not assigned! Please check the Inspector.");
+            }
+        }
+
+        private void PrepareVideoPlayers()
+        {
+            if (!videoPlayersPrepared)
+            {
+                if (npcVideoPlayer != null)
+                {
+                    npcVideoPlayer.prepareCompleted += OnVideosPrepared;
+                }
+                if (arrowVideoPlayer != null)
+                {
+                    arrowVideoPlayer.prepareCompleted += OnVideosPrepared;
+                }
+                videoPlayersPrepared = true;
+                PlayVideoAndAudio(currentVideoIndex);
+            }
+        }
+
+        private void CleanupVideoPlayers()
         {
             if (npcVideoPlayer != null)
             {
-                npcVideoPlayer.prepareCompleted += OnVideosPrepared;
-                npcVideoPlayer.Prepare();
+                npcVideoPlayer.prepareCompleted -= OnVideosPrepared;
+                npcVideoPlayer.Stop();
             }
             if (arrowVideoPlayer != null)
             {
-                arrowVideoPlayer.prepareCompleted += OnVideosPrepared;
-                arrowVideoPlayer.Prepare();
+                arrowVideoPlayer.prepareCompleted -= OnVideosPrepared;
+                arrowVideoPlayer.Stop();
             }
-            videoPlayersPrepared = true;
+            if (avatarVideoPlayer != null)
+            {
+                avatarVideoPlayer.Stop();
+            }
         }
-    }
 
-    void Update()
-    {
-        MoveAvatarRawImage();  // Move the avatar every frame
-    }
+        #endregion
 
-    private void OnDisable()
-    {
-        if (npcVideoPlayer != null)
+        #region Video Control Methods
+
+        public void NextVideo()
         {
-            npcVideoPlayer.prepareCompleted -= OnVideosPrepared;
-            npcVideoPlayer.Stop();
+            currentVideoIndex = (currentVideoIndex + 1) % npcVideoURLs.Count;
+            PlayVideoAndAudio(currentVideoIndex);
         }
-        if (arrowVideoPlayer != null)
+
+        public void PreviousVideo()
         {
-            arrowVideoPlayer.prepareCompleted -= OnVideosPrepared;
-            arrowVideoPlayer.Stop();
+            currentVideoIndex = (currentVideoIndex - 1 + npcVideoURLs.Count) % npcVideoURLs.Count;
+            PlayVideoAndAudio(currentVideoIndex);
         }
-        if (avatarVideoPlayer != null)
+
+        public void OnVideoSelected()
         {
-            avatarVideoPlayer.Stop();
+            LeaderboardManager.Instance.RecordVideoSelection(currentVideoIndex);
         }
-    }
 
-    public void NextVideo()
-    {
-        currentVideoIndex = (currentVideoIndex + 1) % npcVideoClips.Count;
-        PlayVideoAndAudio(currentVideoIndex);
-    }
-
-    public void PreviousVideo()
-    {
-        currentVideoIndex = (currentVideoIndex - 1 + npcVideoClips.Count) % npcVideoClips.Count;
-        PlayVideoAndAudio(currentVideoIndex);
-    }
-
-    public void OnVideoSelected()
-    {
-        LeaderboardManager.Instance.RecordVideoSelection(currentVideoIndex);
-    }
-
-    private void PlayVideoAndAudio(int index)
-    {
-        if (npcVideoClips.Count > 0 && npcVideoClips[index] != null)
+        private void PlayVideoAndAudio(int index)
         {
-            npcVideoPlayer.clip = npcVideoClips[index];
-            npcVideoPlayer.Play();
+            if (npcVideoPlayer != null && npcVideoURLs.Count > index && !string.IsNullOrEmpty(npcVideoURLs[index]))
+            {
+                npcVideoPlayer.source = VideoSource.Url;
+                npcVideoPlayer.url = npcVideoURLs[index];
+                npcVideoPlayer.Prepare();
+                npcVideoPlayer.Play();
+            }
+            else
+            {
+                Debug.LogWarning("NPC Video URL at index " + index + " is invalid.");
+            }
+
+            if (avatarVideoPlayer != null && avatarVideoURLs.Count > index && !string.IsNullOrEmpty(avatarVideoURLs[index]))
+            {
+                avatarVideoPlayer.source = VideoSource.Url;
+                avatarVideoPlayer.url = avatarVideoURLs[index];
+                avatarVideoPlayer.Prepare();
+                avatarVideoPlayer.Play();
+            }
+            else
+            {
+                Debug.LogWarning("Avatar Video URL at index " + index + " is invalid.");
+            }
         }
-        else
+
+        private void OnVideosPrepared(VideoPlayer vp)
         {
-            Debug.LogWarning("NPC VideoClip at index " + index + " is null.");
+            avatarRawImage.gameObject.SetActive(true);
+            npcRawImage.gameObject.SetActive(true);
+            arrowLeftRawImage.SetActive(true);
+            arrowRightRawImage.SetActive(true);
         }
 
-        if (avatarVideoClips.Count > index && avatarVideoClips[index] != null)
+        #endregion
+
+        #region UI Methods
+
+        private IEnumerator FadeInUI()
         {
-            avatarVideoPlayer.clip = avatarVideoClips[index];
-            avatarVideoPlayer.Play();
+            float elapsedTime = 0f;
+            while (elapsedTime < fadeDuration)
+            {
+                uiCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            uiCanvasGroup.alpha = 1;
         }
-        else
+
+        #endregion
+
+        #region Avatar Movement Methods
+
+        private void CacheCanvasAndAvatarDimensions()
         {
-            Debug.LogWarning("Avatar VideoClip at index " + index + " is null.");
+            if (canvasRectTransform != null && avatarRawImage != null)
+            {
+                cachedCanvasSize = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height);
+                cachedAvatarSize = new Vector2(avatarRawImage.rect.width, avatarRawImage.rect.height);
+            }
         }
-    }
 
-    private void OnVideosPrepared(VideoPlayer vp)
-    {
-        avatarRawImage.gameObject.SetActive(true);
-        npcRawImage.gameObject.SetActive(true);
-        arrowLeftRawImage.SetActive(true);
-        arrowRightRawImage.SetActive(true);
-    }
-
-    private IEnumerator FadeInUI()
-    {
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
+        private void MoveAvatarRawImage()
         {
-            uiCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            if (avatarRawImage == null || canvasRectTransform == null)
+            {
+                Debug.LogError("Either avatarRawImage or canvasRectTransform is null. Movement cannot proceed.");
+                return;
+            }
+
+            Vector2 currentCanvasSize = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height);
+            Vector2 currentAvatarSize = new Vector2(avatarRawImage.rect.width, avatarRawImage.rect.height);
+            if (currentCanvasSize != cachedCanvasSize || currentAvatarSize != cachedAvatarSize)
+            {
+                CacheCanvasAndAvatarDimensions();
+            }
+
+            Vector2 currentPosition = avatarRawImage.anchoredPosition;
+            currentPosition += avatarVelocity * Time.deltaTime;
+
+            float canvasWidth = cachedCanvasSize.x;
+            float canvasHeight = cachedCanvasSize.y;
+            float avatarWidth = cachedAvatarSize.x;
+            float avatarHeight = cachedAvatarSize.y;
+
+            float yOffset = canvasHeight * 0.07f;
+
+            float minX = -canvasWidth / 2 + avatarWidth / 2;
+            float maxX = canvasWidth / 2 - avatarWidth / 2;
+            float minY = (-canvasHeight / 2 + avatarHeight / 2) + yOffset;
+            float maxY = (canvasHeight / 2 - avatarHeight / 2) + yOffset;
+
+            if (currentPosition.x < minX)
+            {
+                currentPosition.x = minX;
+                avatarVelocity.x *= -1;
+            }
+            else if (currentPosition.x > maxX)
+            {
+                currentPosition.x = maxX;
+                avatarVelocity.x *= -1;
+            }
+
+            if (currentPosition.y < minY)
+            {
+                currentPosition.y = minY;
+                avatarVelocity.y *= -1;
+            }
+            else if (currentPosition.y > maxY)
+            {
+                currentPosition.y = maxY;
+                avatarVelocity.y *= -1;
+            }
+
+            avatarRawImage.anchoredPosition = currentPosition;
         }
 
-        uiCanvasGroup.alpha = 1;
-    }
-
-    private void CacheCanvasAndAvatarDimensions()
-    {
-        if (canvasRectTransform != null && avatarRawImage != null)
-        {
-            cachedCanvasSize = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height);
-            cachedAvatarSize = new Vector2(avatarRawImage.rect.width, avatarRawImage.rect.height);
-        }
-    }
-
-    private void MoveAvatarRawImage()
-    {
-        // Ensure both avatarRawImage and canvasRectTransform are not null
-        if (avatarRawImage == null || canvasRectTransform == null)
-        {
-            Debug.LogError("Either avatarRawImage or canvasRectTransform is null. Movement cannot proceed.");
-            return;
-        }
-
-        // Check if canvas or avatar size has changed and update cache if necessary
-        Vector2 currentCanvasSize = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height);
-        Vector2 currentAvatarSize = new Vector2(avatarRawImage.rect.width, avatarRawImage.rect.height);
-        if (currentCanvasSize != cachedCanvasSize || currentAvatarSize != cachedAvatarSize)
-        {
-            CacheCanvasAndAvatarDimensions();
-        }
-
-        // Get the current position of the avatar
-        Vector2 currentPosition = avatarRawImage.anchoredPosition;
-
-        // Update the position based on the velocity
-        currentPosition += avatarVelocity * Time.deltaTime;
-
-        float canvasWidth = cachedCanvasSize.x;
-        float canvasHeight = cachedCanvasSize.y;
-        float avatarWidth = cachedAvatarSize.x;
-        float avatarHeight = cachedAvatarSize.y;
-
-        float yOffset = canvasHeight * 0.07f;  // Adjust this value as needed to push everything up
-
-        float minX = -canvasWidth / 2 + avatarWidth / 2;
-        float maxX = canvasWidth / 2 - avatarWidth / 2;
-        float minY = (-canvasHeight / 2 + avatarHeight / 2) + yOffset;
-        float maxY = (canvasHeight / 2 - avatarHeight / 2) + yOffset;
-
-        // Check and reverse direction if hitting horizontal edges
-        if (currentPosition.x < minX)
-        {
-            currentPosition.x = minX;
-            avatarVelocity.x *= -1;  // Move right
-        }
-        else if (currentPosition.x > maxX)
-        {
-            currentPosition.x = maxX;
-            avatarVelocity.x *= -1;  // Move left
-        }
-
-        // Check and reverse direction if hitting vertical edges
-        if (currentPosition.y < minY)
-        {
-            currentPosition.y = minY;
-            avatarVelocity.y *= -1;   // Move up
-        }
-        else if (currentPosition.y > maxY)
-        {
-            currentPosition.y = maxY;
-            avatarVelocity.y *= -1;   // Move down
-        }
-
-        avatarRawImage.anchoredPosition = currentPosition;
+        #endregion
     }
 }

@@ -359,7 +359,7 @@ VideoPlayer:
   m_AudioOutputMode: 2
   m_TargetAudioSources: []
   m_DirectAudioVolumes: []
-  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/UI/Arrow.mp4
+  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/UI/Arrow.mov
   m_EnabledAudioTracks: 
   m_DirectAudioMutes: 
   m_ControlledAudioTrackCount: 0
@@ -1437,7 +1437,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 1
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
@@ -1445,7 +1445,7 @@ VideoPlayer:
   - {fileID: 1740468810}
   m_DirectAudioVolumes:
   - 1
-  m_Url: 
+  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Biohacker.mov
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
@@ -1765,7 +1765,7 @@ VideoPlayer:
   m_AudioOutputMode: 2
   m_TargetAudioSources: []
   m_DirectAudioVolumes: []
-  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/UI/Cursor.mp4
+  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/UI/Cursor.mov
   m_EnabledAudioTracks: 
   m_DirectAudioMutes: 
   m_ControlledAudioTrackCount: 0
@@ -1814,35 +1814,35 @@ MonoBehaviour:
   arrowVideoPlayer: {fileID: 280538092}
   arrowLeftRawImage: {fileID: 446284647}
   arrowRightRawImage: {fileID: 1963578883}
-  npcVideoClips:
-  - {fileID: 32900000, guid: 126a02da6a1d240e6ab418cb22dd82a6, type: 3}
-  - {fileID: 32900000, guid: b782ae5d4dff94ec7b7b383ef77e9d04, type: 3}
-  - {fileID: 32900000, guid: 8eca394794a1a49d7a116d5cc1700fd8, type: 3}
-  - {fileID: 32900000, guid: fb22a3bf85fc94e59bfb4d7a220bd8db, type: 3}
-  - {fileID: 32900000, guid: 1e2b1fb759f544c77b1711b8f08934c2, type: 3}
-  - {fileID: 32900000, guid: 6f7f961b24a324e4998ce67634e8ebca, type: 3}
-  - {fileID: 32900000, guid: f2581e2887680418396523c09db3a6d2, type: 3}
-  - {fileID: 32900000, guid: 7c2bfcadd07e341c78717a1075a6223c, type: 3}
-  - {fileID: 32900000, guid: 6c8f4a527eb8e43de874bd91ac1c7170, type: 3}
-  - {fileID: 32900000, guid: 41691a4f1ebc34faab089d3561d1cb4c, type: 3}
-  - {fileID: 32900000, guid: 653ba7176b8d245539528fb64fab12b9, type: 3}
-  avatarVideoClips:
-  - {fileID: 32900000, guid: 63941efebb918432185d1f8e5f32af15, type: 3}
-  - {fileID: 32900000, guid: 3a33654b31771418ca148c9f6a3d34c6, type: 3}
-  - {fileID: 32900000, guid: 44f31a510e5a0408cad613a29850cece, type: 3}
-  - {fileID: 32900000, guid: ed544de288eb74dae8ebd222cd5dbd3c, type: 3}
-  - {fileID: 32900000, guid: 185329649f42f47fcbc18df69fe75ca2, type: 3}
-  - {fileID: 32900000, guid: a3fb5cb9bc1f347c6b70f3b3a813f7b8, type: 3}
-  - {fileID: 32900000, guid: 3c982b41ee26d49b5bcd8b1a01ca6ce0, type: 3}
-  - {fileID: 32900000, guid: db31d66ab96e3472f90156398829649d, type: 3}
-  - {fileID: 32900000, guid: 43dc4d9b9a8104daba4db1430731431a, type: 3}
-  - {fileID: 32900000, guid: f8a6c4f5df4ad4cd5aed260164a33c22, type: 3}
-  - {fileID: 32900000, guid: 1b989eea3b3694c5491db7406d47030a, type: 3}
   canvas: {fileID: 476433019}
   middleSceneAudioClips:
   - {fileID: 8300000, guid: 889dbd5990f714171ae932a8719df50b, type: 3}
   - {fileID: 8300000, guid: cb1529f9255584a89b1dcea33e81b8a8, type: 3}
   - {fileID: 8300000, guid: e2396893e45b740f0aedd167a7ed8611, type: 3}
+  npcVideoURLs:
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Biohacker.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Acronymologist.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Hustleprenuer.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Wojak.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Zombie.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/NEET.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Fawncore.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Being_Baby.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Exopreneur.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Dream_Reader.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Overdoser.mov
+  avatarVideoURLs:
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Biohacker.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Acronymologist.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Hustleprenuer.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Wojak.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Zombie.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/NEET.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Fawncore.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Being_Baby.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Exopreneur.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Dream_Reader.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Overdoser.mov
 --- !u!4 &1740468809
 Transform:
   m_ObjectHideFlags: 0
@@ -2131,7 +2131,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
