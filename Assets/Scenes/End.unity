@@ -173,7 +173,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 0
-  m_TimeUpdateMode: 0
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources: []
@@ -1505,7 +1505,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 0
   m_DataSource: 0
-  m_TimeUpdateMode: 0
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources:
