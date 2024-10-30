@@ -476,7 +476,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 185}
-  m_SizeDelta: {x: 810, y: 720}
+  m_SizeDelta: {x: 540, y: 980}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &356140037
 MonoBehaviour:
@@ -1512,7 +1512,7 @@ VideoPlayer:
   - {fileID: 92192288}
   m_DirectAudioVolumes:
   - 1
-  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/End_small_web.mov
+  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/End.mp4
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
