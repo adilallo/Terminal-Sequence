@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ChromaKey
+  m_Name: NPCChromaKey
   m_Shader: {fileID: 4800000, guid: 03f0c39cc5bc74d5691399b3216e50bb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -29,8 +29,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Softness: 0.06
-    - _Threshold: 0.43
+    - _Softness: 0.007
+    - _Threshold: 0.208
     m_Colors:
-    - _ChromaKeyColor: {r: 0.20784314, g: 0.73333335, b: 0.14509805, a: 1}
+    - _ChromaKeyColor: {r: 0.3254902, g: 0.63529414, b: 0.22745098, a: 1}
   m_BuildTextureStacks: []
