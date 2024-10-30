@@ -1100,7 +1100,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 332.8}
-  m_SizeDelta: {x: 270, y: 480}
+  m_SizeDelta: {x: 480, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &969744845
 MonoBehaviour:
@@ -1114,7 +1114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1832,17 +1832,17 @@ MonoBehaviour:
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Dream_Reader.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Overdoser.mp4
   avatarVideoURLs:
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Biohacker.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Acronymologist.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Hustlepreneur.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Wojak.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Zombie.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/NEET.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Fawncore.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Being_Baby.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Exopreneur.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Dream_Reader.mov
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Overdoser.mov
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Biohacker.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Acronymologist.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Hustlepreneur.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Wojak.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Zombie.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/NEET.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Fawncore.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Being_Baby.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Exopreneur.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Dream_Reader.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Overdoser.mp4
 --- !u!4 &1740468809
 Transform:
   m_ObjectHideFlags: 0
