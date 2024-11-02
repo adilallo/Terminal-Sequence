@@ -1805,7 +1805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvasGroup: {fileID: 2141101135}
-  fadeDuration: 2
+  fadeDuration: 4
   avatarMaterial: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
   npcMaterial: {fileID: 2100000, guid: 90e00a4bd6b1e41b593f646b888a31cd, type: 2}
   uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
