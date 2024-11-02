@@ -9,6 +9,7 @@ namespace StartScene
     public class StartSceneManager : MonoBehaviour
     {
         [SerializeField] private CanvasGroup uiCanvasGroup;
+        [SerializeField] private Material avatarMaterial;
         [SerializeField] private float fadeDuration = 2f;
 
         [HeaderAttribute("Intro Assets")]
@@ -112,6 +113,7 @@ namespace StartScene
             if (uiCanvasGroup != null)
             {
                 uiCanvasGroup.alpha = 0;
+                avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
             }
             else
             {
@@ -290,14 +292,20 @@ namespace StartScene
         private IEnumerator FadeInUI()
         {
             float elapsedTime = 0f;
+
             while (elapsedTime < fadeDuration)
             {
-                uiCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+                float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+        
+                uiCanvasGroup.alpha = alpha;
+                avatarMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
             uiCanvasGroup.alpha = 1;
+            avatarMaterial.SetFloat("_CanvasGroupAlpha", 1);
         }
 
         private IEnumerator FadeInStockVideo()

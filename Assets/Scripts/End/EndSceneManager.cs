@@ -8,6 +8,8 @@ using UnityEngine.Video;
 public class EndSceneManager : MonoBehaviour
 {
     [SerializeField] private CanvasGroup uiCanvasGroup;
+    [SerializeField] private Material avatarMaterial;
+    [SerializeField] private Material uiMaterial;
     [SerializeField] private float fadeDuration = 2f;
 
     [Header("UI")]
@@ -161,11 +163,14 @@ public class EndSceneManager : MonoBehaviour
         // Fade in the avatar video
         float elapsedTime = 0f;
         avatarCanvasGroup.alpha = 0;
+        avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
         avatarVideoPlayer.Play();
 
         while (elapsedTime < fadeDuration)
         {
-            avatarCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            avatarCanvasGroup.alpha = alpha;
+            avatarMaterial.SetFloat("_CanvasGroupAlpha", alpha);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -182,12 +187,15 @@ public class EndSceneManager : MonoBehaviour
         elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
         {
-            avatarCanvasGroup.alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+            float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+            avatarCanvasGroup.alpha = alpha;
+            avatarMaterial.SetFloat("_CanvasGroupAlpha", alpha);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         avatarCanvasGroup.alpha = 0;
+        avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
 
         // After the avatar video is done, fade in the UI
         StartCoroutine(ScrollLeaderboardText());
@@ -195,17 +203,23 @@ public class EndSceneManager : MonoBehaviour
     }
 
     private IEnumerator FadeInUI()
-    {
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
         {
-            uiCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+            float elapsedTime = 0f;
 
-        uiCanvasGroup.alpha = 1;
-    }
+            while (elapsedTime < fadeDuration)
+            {
+                float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+        
+                uiCanvasGroup.alpha = alpha;
+                uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            uiCanvasGroup.alpha = 1;
+            uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        }
 
     private IEnumerator ScrollLeaderboardText()
     {

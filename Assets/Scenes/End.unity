@@ -266,6 +266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvasGroup: {fileID: 1211905725}
+  avatarMaterial: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
+  uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
   fadeDuration: 2
   leaderboardText: {fileID: 678131341}
   parentPanelRectTransform: {fileID: 837937287}

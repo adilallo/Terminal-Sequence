@@ -131,7 +131,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8054323}
-  - component: {fileID: 8054324}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -159,18 +158,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!225 &8054324
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8054322}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &54839011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1817,8 +1804,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4ab22af4636b044873d334c3a4e25c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiCanvasGroup: {fileID: 8054324}
+  uiCanvasGroup: {fileID: 2141101135}
   fadeDuration: 2
+  avatarMaterial: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
+  npcMaterial: {fileID: 2100000, guid: 90e00a4bd6b1e41b593f646b888a31cd, type: 2}
+  uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
   npcVideoPlayer: {fileID: 2118144298}
   avatarVideoPlayer: {fileID: 1560943320}
   npcRawImage: {fileID: 880178272}
@@ -2185,6 +2175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2141101134}
+  - component: {fileID: 2141101135}
   m_Layer: 0
   m_Name: Middle UI
   m_TagString: Untagged
@@ -2217,6 +2208,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &2141101135
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141101133}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

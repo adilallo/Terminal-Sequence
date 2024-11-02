@@ -6,6 +6,7 @@ Shader "UI/ChromaKey"
         _ChromaKeyColor ("Chroma Key Color", Color) = (0,1,0,1)
         _Threshold ("Threshold", Range(0,1)) = 0.3
         _Softness ("Softness", Range(0,1)) = 0.1
+        _CanvasGroupAlpha ("Canvas Group Alpha", Range(0,1)) = 1.0
     }
     SubShader
     {
@@ -49,6 +50,7 @@ Shader "UI/ChromaKey"
             float4 _ChromaKeyColor;
             float _Threshold;
             float _Softness;
+            float _CanvasGroupAlpha;
 
             v2f vert(appdata_t IN)
             {
@@ -70,7 +72,7 @@ Shader "UI/ChromaKey"
                 float alpha = smoothstep(_Threshold, _Threshold + _Softness, diff);
 
                 // Apply the computed alpha to the color
-                color.a *= alpha;
+                color.a *= alpha * _CanvasGroupAlpha;
 
                 return color;
             }

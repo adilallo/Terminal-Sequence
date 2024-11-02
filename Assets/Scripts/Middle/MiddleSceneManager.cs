@@ -11,6 +11,9 @@ namespace MiddleScene
 
         [SerializeField] private CanvasGroup uiCanvasGroup;
         [SerializeField] private float fadeDuration = 2f;
+        [SerializeField] private Material avatarMaterial;
+        [SerializeField] private Material npcMaterial;
+        [SerializeField] private Material uiMaterial;
 
         [Header("UI")]
         [SerializeField] private VideoPlayer npcVideoPlayer;
@@ -80,6 +83,9 @@ namespace MiddleScene
             if (uiCanvasGroup != null)
             {
                 uiCanvasGroup.alpha = 0;
+                SetMaterialAlpha(avatarMaterial, 0);
+                SetMaterialAlpha(npcMaterial, 0);
+                SetMaterialAlpha(uiMaterial, 0);
                 StartCoroutine(FadeInUI());
             }
 
@@ -211,14 +217,39 @@ namespace MiddleScene
         private IEnumerator FadeInUI()
         {
             float elapsedTime = 0f;
+
+            // While we haven't reached the fade duration, continue adjusting the alpha
             while (elapsedTime < fadeDuration)
             {
-                uiCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+                float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+        
+                // Set the alpha for the UI Canvas Group
+                uiCanvasGroup.alpha = alpha;
+
+                // Set the alpha value for the materials
+                SetMaterialAlpha(avatarMaterial, alpha);
+                SetMaterialAlpha(npcMaterial, alpha);
+                SetMaterialAlpha(uiMaterial, alpha);
+
+                // Update the elapsed time
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
+            // Ensure everything is fully visible at the end of the fade-in
             uiCanvasGroup.alpha = 1;
+            SetMaterialAlpha(avatarMaterial, 1);
+            SetMaterialAlpha(npcMaterial, 1);
+            SetMaterialAlpha(uiMaterial, 1);
+        }
+
+        // Helper method to set the alpha on the material
+        private void SetMaterialAlpha(Material material, float alpha)
+        {
+            if (material != null)
+            {
+                material.SetFloat("_CanvasGroupAlpha", alpha);
+            }
         }
 
         #endregion
