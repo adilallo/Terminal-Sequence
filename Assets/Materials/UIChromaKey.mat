@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Softness: 0.1
-    - _Threshold: 0.327
+    - _Threshold: 0.184
     m_Colors:
     - _ChromaKeyColor: {r: 0.32156864, g: 0.58431375, b: 0.21176471, a: 1}
   m_BuildTextureStacks: []

@@ -123,39 +123,25 @@ public class EndSceneManager : MonoBehaviour
         }
 
         Dictionary<int, int> videoSelections = LeaderboardManager.Instance.GetAllVideoSelections();
-        List<VideoClip> videoClips = LeaderboardManager.Instance.GetVideoClips();
 
-        if (videoSelections == null || videoClips == null)
+        if (videoSelections == null || videoSelections.Count == 0)
         {
             Debug.LogWarning("Leaderboard data is missing. Cannot display the leaderboard.");
             return;
         }
 
-        List<KeyValuePair<int, int>> videoSelectionList = new List<KeyValuePair<int, int>>();
-
-        foreach (var entry in videoSelections)
-        {
-            int videoIndex = entry.Key;
-            int selectionCount = entry.Value;
-            videoSelectionList.Add(new KeyValuePair<int, int>(videoIndex, selectionCount));
-        }
-
-        videoSelectionList.Sort((x, y) => y.Value.CompareTo(x.Value));
-
         System.Text.StringBuilder leaderboardBuilder = new System.Text.StringBuilder();
 
-        for (int i = 0; i < videoSelectionList.Count; i++)
-        {
-            int videoIndex = videoSelectionList[i].Key;
-            if (videoIndex >= videoClips.Count)
-            {
-                Debug.LogWarning($"Video index {videoIndex} is out of range.");
-                continue;
-            }
-            string videoName = videoClips[videoIndex].name;
-            int selectionCount = videoSelectionList[i].Value;
+        // Sort the selection list by value in descending order
+        List<KeyValuePair<int, int>> sortedSelections = new List<KeyValuePair<int, int>>(videoSelections);
+        sortedSelections.Sort((x, y) => y.Value.CompareTo(x.Value));
 
-            leaderboardBuilder.AppendLine($"{videoName}: {selectionCount}");
+        foreach (var entry in sortedSelections)
+        {
+            string videoName = LeaderboardManager.Instance.GetVideoName(entry.Key);
+            int selectionCount = entry.Value;
+
+            leaderboardBuilder.AppendLine($"{videoName} {selectionCount}\n");
         }
 
         leaderboardText.text = leaderboardBuilder.ToString();

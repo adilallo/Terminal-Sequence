@@ -268,6 +268,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d14523cd5ae4cf083119b666855249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  videoNames:
+  - Biohacker
+  - Acronymologist
+  - Hustlepreneur
+  - Fawncore
+  - NEET
+  - Zombie
+  - Wojak
+  - Being Baby
+  - Exopreneur
+  - Dream Reader
+  - Overdoser
 --- !u!4 &79796138
 Transform:
   m_ObjectHideFlags: 0
@@ -416,10 +428,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 476433020}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 1200, y: 1920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &319922931
 MonoBehaviour:
@@ -494,8 +506,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -300, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -350, y: 0}
+  m_SizeDelta: {x: 177.7, y: 177.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &446284649
 MonoBehaviour:
@@ -651,7 +663,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 1280}
+  m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -738,7 +750,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 48, y: 48}
+  m_SizeDelta: {x: 85.296, y: 85.296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &565552664
 MonoBehaviour:
@@ -948,7 +960,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 512, y: 512}
+  m_SizeDelta: {x: 614.4, y: 614.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &880178273
 MonoBehaviour:
@@ -1100,7 +1112,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 332.8}
-  m_SizeDelta: {x: 270, y: 480}
+  m_SizeDelta: {x: 479.79, y: 852.96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &969744845
 MonoBehaviour:
@@ -1489,7 +1501,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 398.9}
+  m_AnchoredPosition: {x: 0, y: 540}
   m_SizeDelta: {x: 722.7, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1604273949
@@ -1541,8 +1553,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 71.6
-  m_fontSizeBase: 71.6
+  m_fontSize: 127.2332
+  m_fontSizeBase: 127.2332
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1577,7 +1589,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -4.610718, y: -21.16333, z: -4.6777344, w: -1178.2524}
+  m_margin: {x: -174.03067, y: -21.16333, z: -177.26038, w: -73.30859}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1819,30 +1831,30 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 889dbd5990f714171ae932a8719df50b, type: 3}
   - {fileID: 8300000, guid: cb1529f9255584a89b1dcea33e81b8a8, type: 3}
   - {fileID: 8300000, guid: e2396893e45b740f0aedd167a7ed8611, type: 3}
-  npcVideoURLs:
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Biohacker.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Acronymologist.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Hustlepreneur.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Wojak.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Zombie.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/NEET.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Fawncore.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Being_Baby.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Exopreneur.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Dream_Reader.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/NPC/Overdoser.mp4
-  avatarVideoURLs:
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Biohacker.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Acronymologist.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Hustlepreneur.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Wojak.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Zombie.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/NEET.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Fawncore.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Being_Baby.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Exopreneur.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Dream_Reader.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Overdoser.mp4
+  npcVideoClips:
+  - {fileID: 32900000, guid: 6d13959046d1340cea2cffe94e229fe3, type: 3}
+  - {fileID: 32900000, guid: a2f449644388d4df4ae60f3223b93982, type: 3}
+  - {fileID: 32900000, guid: d64b94d1283db40a489abdc26521e04e, type: 3}
+  - {fileID: 32900000, guid: deebc5aad82a542b98f752f8117e989f, type: 3}
+  - {fileID: 32900000, guid: cf9d3fd549f3e4eb4af24179c57ae8c0, type: 3}
+  - {fileID: 32900000, guid: 400b52e7adbb44b659622377266260f7, type: 3}
+  - {fileID: 32900000, guid: 58dfdd4e9fda04b7fb6069a84d3ac02e, type: 3}
+  - {fileID: 32900000, guid: 707631bbf8d5647b4abc4f11e6dc916a, type: 3}
+  - {fileID: 32900000, guid: 59ff1440c12754e959d59dd5b45b4dd2, type: 3}
+  - {fileID: 32900000, guid: eb81ffb442dc94fc29fb893112e0ff72, type: 3}
+  - {fileID: 32900000, guid: 12b26ba35c1434b3a87e45ead2683d42, type: 3}
+  avatarVideoClips:
+  - {fileID: 32900000, guid: 2d63114395d694f6ab744f9e3bfe80d5, type: 3}
+  - {fileID: 32900000, guid: 448a5c941fdec46deba2c90cedeb1271, type: 3}
+  - {fileID: 32900000, guid: ff87fe9451d48498da1844e01aa9bbe7, type: 3}
+  - {fileID: 32900000, guid: 11920a4e8da9546f393a4376fd1b6661, type: 3}
+  - {fileID: 32900000, guid: 420b40cc47d804d2a953ce89b92987cd, type: 3}
+  - {fileID: 32900000, guid: 12f0f8708f07d4986b945e77d60a48fd, type: 3}
+  - {fileID: 32900000, guid: 6179b9f0846154585984e6edb19cfa2a, type: 3}
+  - {fileID: 32900000, guid: b4998f4c7a7eb4961b477ada7a359813, type: 3}
+  - {fileID: 32900000, guid: ebcdf70eebe964009964311c05c23790, type: 3}
+  - {fileID: 32900000, guid: d2996a6a97134491895cee0e7505eb93, type: 3}
+  - {fileID: 32900000, guid: 698c8ce2a6e5c4ecd87273fa2030cb62, type: 3}
 --- !u!4 &1740468809
 Transform:
   m_ObjectHideFlags: 0
@@ -1990,8 +2002,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 300, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 350, y: 0}
+  m_SizeDelta: {x: 177.7, y: 177.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1963578885
 MonoBehaviour:

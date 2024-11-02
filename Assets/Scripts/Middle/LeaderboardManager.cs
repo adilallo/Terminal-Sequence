@@ -1,16 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class LeaderboardManager : MonoBehaviour
 {
     public static LeaderboardManager Instance { get; private set; }
 
+    // Video names that can be set in the Unity Inspector
+    [SerializeField] private List<string> videoNames;
+
+    // Dictionary to track the number of times each video is selected
     private Dictionary<int, int> videoSelections = new Dictionary<int, int>();
-    private List<VideoClip> videoClips = new List<VideoClip>(); 
 
     void Awake()
     {
+        // Implementing singleton pattern
         if (Instance == null)
         {
             Instance = this;
@@ -22,18 +25,15 @@ public class LeaderboardManager : MonoBehaviour
         }
     }
 
-    public void SetVideoClips(List<VideoClip> clips)
-    {
-        videoClips = clips;
-    }
-
-    public List<VideoClip> GetVideoClips()
-    {
-        return videoClips;
-    }
-
+    // Method to record video selection based on the video index
     public void RecordVideoSelection(int videoIndex)
     {
+        if (videoIndex < 0 || videoIndex >= videoNames.Count)
+        {
+            Debug.LogWarning($"Invalid video index: {videoIndex}. Cannot record selection.");
+            return;
+        }
+
         if (videoSelections.ContainsKey(videoIndex))
         {
             videoSelections[videoIndex]++;
@@ -43,20 +43,22 @@ public class LeaderboardManager : MonoBehaviour
             videoSelections[videoIndex] = 1;
         }
 
-        Debug.Log("Video " + videoIndex + " selected. Total selections: " + videoSelections[videoIndex]);
+        Debug.Log($"Video \"{videoNames[videoIndex]}\" selected. Total selections: {videoSelections[videoIndex]}");
     }
 
-    public int GetVideoSelectionCount(int videoIndex)
-    {
-        if (videoSelections.ContainsKey(videoIndex))
-        {
-            return videoSelections[videoIndex];
-        }
-        return 0;
-    }
-
+    // Method to get all video selections (index -> selection count)
     public Dictionary<int, int> GetAllVideoSelections()
     {
-        return videoSelections;
+        return new Dictionary<int, int>(videoSelections);
+    }
+
+    // Method to get the name of a video based on its index
+    public string GetVideoName(int videoIndex)
+    {
+        if (videoIndex < 0 || videoIndex >= videoNames.Count)
+        {
+            return "Invalid Video Index";
+        }
+        return videoNames[videoIndex];
     }
 }

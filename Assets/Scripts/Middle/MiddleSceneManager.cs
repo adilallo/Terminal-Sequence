@@ -25,9 +25,9 @@ namespace MiddleScene
         [Header("Audio")]
         [SerializeField] private List<AudioClip> middleSceneAudioClips;
 
-        [Header("Video URLs")]
-        [SerializeField] private List<string> npcVideoURLs;
-        [SerializeField] private List<string> avatarVideoURLs;
+        [Header("Video Clips")]
+        [SerializeField] private List<VideoClip> npcVideoClips;
+        [SerializeField] private List<VideoClip> avatarVideoClips;
 
         #endregion
 
@@ -36,7 +36,6 @@ namespace MiddleScene
         private int currentVideoIndex = 0;
         private Vector2 avatarVelocity = new Vector2(100f, 100f);
         private RectTransform canvasRectTransform;
-        private bool clipsSet = false;
         private bool videoPlayersPrepared = false;
         private Vector2 cachedCanvasSize;
         private Vector2 cachedAvatarSize;
@@ -148,45 +147,52 @@ namespace MiddleScene
 
         public void NextVideo()
         {
-            currentVideoIndex = (currentVideoIndex + 1) % npcVideoURLs.Count;
+            currentVideoIndex = (currentVideoIndex + 1) % npcVideoClips.Count;
             PlayVideoAndAudio(currentVideoIndex);
         }
 
         public void PreviousVideo()
         {
-            currentVideoIndex = (currentVideoIndex - 1 + npcVideoURLs.Count) % npcVideoURLs.Count;
+            currentVideoIndex = (currentVideoIndex - 1 + npcVideoClips.Count) % npcVideoClips.Count;
             PlayVideoAndAudio(currentVideoIndex);
         }
 
         public void OnVideoSelected()
         {
-            LeaderboardManager.Instance.RecordVideoSelection(currentVideoIndex);
+            if (LeaderboardManager.Instance != null)
+            {
+                LeaderboardManager.Instance.RecordVideoSelection(currentVideoIndex);
+            }
+            else
+            {
+                Debug.LogWarning("LeaderboardManager instance is missing.");
+            }
         }
 
         private void PlayVideoAndAudio(int index)
         {
-            if (npcVideoPlayer != null && npcVideoURLs.Count > index && !string.IsNullOrEmpty(npcVideoURLs[index]))
+            if (npcVideoPlayer != null && npcVideoClips.Count > index && npcVideoClips[index] != null)
             {
-                npcVideoPlayer.source = VideoSource.Url;
-                npcVideoPlayer.url = npcVideoURLs[index];
+                npcVideoPlayer.source = VideoSource.VideoClip;
+                npcVideoPlayer.clip = npcVideoClips[index];
                 npcVideoPlayer.Prepare();
                 npcVideoPlayer.Play();
             }
             else
             {
-                Debug.LogWarning("NPC Video URL at index " + index + " is invalid.");
+                Debug.LogWarning($"NPC VideoClip at index {index} is invalid.");
             }
 
-            if (avatarVideoPlayer != null && avatarVideoURLs.Count > index && !string.IsNullOrEmpty(avatarVideoURLs[index]))
+            if (avatarVideoPlayer != null && avatarVideoClips.Count > index && avatarVideoClips[index] != null)
             {
-                avatarVideoPlayer.source = VideoSource.Url;
-                avatarVideoPlayer.url = avatarVideoURLs[index];
+                avatarVideoPlayer.source = VideoSource.VideoClip;
+                avatarVideoPlayer.clip = avatarVideoClips[index];
                 avatarVideoPlayer.Prepare();
                 avatarVideoPlayer.Play();
             }
             else
             {
-                Debug.LogWarning("Avatar Video URL at index " + index + " is invalid.");
+                Debug.LogWarning($"Avatar VideoClip at index {index} is invalid.");
             }
         }
 
