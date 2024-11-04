@@ -713,6 +713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvasGroup: {fileID: 2086674711}
+  avatarMaterial: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
   fadeDuration: 2
   introVideo: {fileID: 737578353}
   introImage: {fileID: 1941353634}

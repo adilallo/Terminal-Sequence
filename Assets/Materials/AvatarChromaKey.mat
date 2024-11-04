@@ -29,8 +29,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _CanvasGroupAlpha: 1
     - _Softness: 0.06
-    - _Threshold: 0.43
+    - _Threshold: 0.357
     m_Colors:
     - _ChromaKeyColor: {r: 0.20784314, g: 0.73333335, b: 0.14509805, a: 1}
   m_BuildTextureStacks: []

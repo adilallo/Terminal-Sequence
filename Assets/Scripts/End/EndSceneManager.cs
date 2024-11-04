@@ -8,6 +8,8 @@ using UnityEngine.Video;
 public class EndSceneManager : MonoBehaviour
 {
     [SerializeField] private CanvasGroup uiCanvasGroup;
+    [SerializeField] private Material avatarMaterial;
+    [SerializeField] private Material uiMaterial;
     [SerializeField] private float fadeDuration = 2f;
 
     [Header("UI")]
@@ -54,6 +56,8 @@ public class EndSceneManager : MonoBehaviour
         if (uiCanvasGroup != null)
         {
             uiCanvasGroup.alpha = 0;
+            uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
+            avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
         }
         else
         {
@@ -123,39 +127,25 @@ public class EndSceneManager : MonoBehaviour
         }
 
         Dictionary<int, int> videoSelections = LeaderboardManager.Instance.GetAllVideoSelections();
-        List<VideoClip> videoClips = LeaderboardManager.Instance.GetVideoClips();
 
-        if (videoSelections == null || videoClips == null)
+        if (videoSelections == null || videoSelections.Count == 0)
         {
             Debug.LogWarning("Leaderboard data is missing. Cannot display the leaderboard.");
             return;
         }
 
-        List<KeyValuePair<int, int>> videoSelectionList = new List<KeyValuePair<int, int>>();
-
-        foreach (var entry in videoSelections)
-        {
-            int videoIndex = entry.Key;
-            int selectionCount = entry.Value;
-            videoSelectionList.Add(new KeyValuePair<int, int>(videoIndex, selectionCount));
-        }
-
-        videoSelectionList.Sort((x, y) => y.Value.CompareTo(x.Value));
-
         System.Text.StringBuilder leaderboardBuilder = new System.Text.StringBuilder();
 
-        for (int i = 0; i < videoSelectionList.Count; i++)
-        {
-            int videoIndex = videoSelectionList[i].Key;
-            if (videoIndex >= videoClips.Count)
-            {
-                Debug.LogWarning($"Video index {videoIndex} is out of range.");
-                continue;
-            }
-            string videoName = videoClips[videoIndex].name;
-            int selectionCount = videoSelectionList[i].Value;
+        // Sort the selection list by value in descending order
+        List<KeyValuePair<int, int>> sortedSelections = new List<KeyValuePair<int, int>>(videoSelections);
+        sortedSelections.Sort((x, y) => y.Value.CompareTo(x.Value));
 
-            leaderboardBuilder.AppendLine($"{videoName}: {selectionCount}");
+        foreach (var entry in sortedSelections)
+        {
+            string videoName = LeaderboardManager.Instance.GetVideoName(entry.Key);
+            int selectionCount = entry.Value;
+
+            leaderboardBuilder.AppendLine($"{videoName} {selectionCount}\n");
         }
 
         leaderboardText.text = leaderboardBuilder.ToString();
@@ -175,16 +165,20 @@ public class EndSceneManager : MonoBehaviour
         // Fade in the avatar video
         float elapsedTime = 0f;
         avatarCanvasGroup.alpha = 0;
+        avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
         avatarVideoPlayer.Play();
 
         while (elapsedTime < fadeDuration)
         {
-            avatarCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            avatarCanvasGroup.alpha = alpha;
+            avatarMaterial.SetFloat("_CanvasGroupAlpha", alpha);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         avatarCanvasGroup.alpha = 1;
+         avatarMaterial.SetFloat("_CanvasGroupAlpha", 1);
 
         // Wait until the avatar video is done playing
         while (avatarVideoPlayer.isPlaying)
@@ -196,12 +190,15 @@ public class EndSceneManager : MonoBehaviour
         elapsedTime = 0f;
         while (elapsedTime < fadeDuration)
         {
-            avatarCanvasGroup.alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+            float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+            avatarCanvasGroup.alpha = alpha;
+            avatarMaterial.SetFloat("_CanvasGroupAlpha", alpha);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         avatarCanvasGroup.alpha = 0;
+        avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
 
         // After the avatar video is done, fade in the UI
         StartCoroutine(ScrollLeaderboardText());
@@ -211,14 +208,20 @@ public class EndSceneManager : MonoBehaviour
     private IEnumerator FadeInUI()
     {
         float elapsedTime = 0f;
+
         while (elapsedTime < fadeDuration)
         {
-            uiCanvasGroup.alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+            float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+        
+            uiCanvasGroup.alpha = alpha;
+            uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         uiCanvasGroup.alpha = 1;
+        uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
     }
 
     private IEnumerator ScrollLeaderboardText()
