@@ -10,14 +10,14 @@ namespace Utility
         [SerializeField] private string secondSceneName;
         [SerializeField] private string thirdSceneName;
 
-        private readonly int targetWidth = 800;
-        private readonly int targetHeight = 1280;
+        private readonly int targetWidth = 1080;
+        private readonly int targetHeight = 1920;
 
         void Start()
         {
             if (Screen.width != targetWidth || Screen.height != targetHeight || !Screen.fullScreen)
             {
-               // SetResolution(targetWidth, targetHeight, true);
+               SetResolution(targetWidth, targetHeight, true);
             }
         }
 
