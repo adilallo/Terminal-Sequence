@@ -6,6 +6,7 @@ namespace Utility
 {
     public class SceneChanger : MonoBehaviour
     {
+        [SerializeField] private string lobbySceneName;
         [SerializeField] private string firstSceneName;
         [SerializeField] private string secondSceneName;
         [SerializeField] private string thirdSceneName;
@@ -26,6 +27,18 @@ namespace Utility
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 ExitGame();
+            }
+        }
+
+        public void LoadLobbyScene()
+        {
+            if (!string.IsNullOrEmpty(lobbySceneName))
+            {
+                StartCoroutine(FadeOutAndLoadScene(lobbySceneName));
+            }
+            else
+            {
+                Debug.LogWarning("Lobby scene name is not assigned.");
             }
         }
 

@@ -14,7 +14,6 @@ namespace StartScene
 
         [HeaderAttribute("Intro Assets")]
         [SerializeField] private RawImage introVideo;
-        [SerializeField] private GameObject introImage;
         [SerializeField] private VideoPlayer introVideoPlayer;
 
         [HeaderAttribute("UI")]
@@ -28,7 +27,6 @@ namespace StartScene
         [HeaderAttribute("Audio")]
         [SerializeField] private List<AudioClip> startSceneAudioClips;
 
-        private bool mouseClicked = false;
         private bool selectButtonVisible = false;
         private bool stockVideoStarted = false;
 
@@ -49,6 +47,7 @@ namespace StartScene
             InitializeAudio();
 
             StartCoroutine(PrepareVideos());
+            StartCoroutine(PlayIntroVideoWhenReady());
         }
 
         void OnEnable()
@@ -87,7 +86,6 @@ namespace StartScene
 
         void Update()
         {
-            HandleMouseClick();
             HandleAvatarVideoState();
         }
 
@@ -95,7 +93,6 @@ namespace StartScene
 
         private void InitializeFlags()
         {
-            mouseClicked = false;
             selectButtonVisible = false;
             stockVideoStarted = false;
             videosPrepared = false;
@@ -105,7 +102,6 @@ namespace StartScene
         private void InitializeUIElements()
         {
             // Activate introImage and deactivate UI elements
-            introImage.SetActive(true);
             UI.SetActive(false);
             selectButton.SetActive(false);
 
@@ -239,15 +235,6 @@ namespace StartScene
 
         #region Update Methods
 
-        private void HandleMouseClick()
-        {
-            if (Input.GetMouseButtonDown(0) && !mouseClicked)
-            {
-                mouseClicked = true;
-                StartCoroutine(PlayIntroVideoWhenReady());
-            }
-        }
-
         private void HandleAvatarVideoState()
         {
             if (avatarVideoPlayer == null)
@@ -285,8 +272,6 @@ namespace StartScene
                 yield return null;
             }
 
-            // Deactivate intro image and play the intro video
-            introImage.SetActive(false);
             introVideoPlayer.Play();
         }
 
