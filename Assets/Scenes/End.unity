@@ -173,7 +173,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 1
-  m_TimeUpdateMode: 1
+  m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources: []
@@ -274,6 +274,7 @@ MonoBehaviour:
   endSceneAudioClips:
   - {fileID: 8300000, guid: 01a4bb9f90184483bacaa0a4ddcbc6f5, type: 3}
   scrollSpeed: 50
+  googleSheetsHandler: {fileID: 625474106}
 --- !u!82 &92192288
 AudioSource:
   m_ObjectHideFlags: 0
@@ -663,6 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cd948ed013ff343ba0741e7f45b8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lobbySceneName: 
   firstSceneName: Start
   secondSceneName: Middle
   thirdSceneName: End
@@ -732,6 +734,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &625474105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 625474107}
+  - component: {fileID: 625474106}
+  m_Layer: 0
+  m_Name: GoogleSheet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &625474106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625474105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23540ceb2602c584c895d98cb655f679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  webAppUrl: https://script.google.com/macros/s/AKfycbwgty4GsgJ1WubDogn9jJjNTjj2WZI6LJiw3ZchtKF-gZf1t2uJLoXHTaJ6VVsQx3K5/exec
+--- !u!4 &625474107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625474105}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 453.91837, y: 730.78406, z: -117.34812}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &659337525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,7 +1554,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 1
   m_DataSource: 1
-  m_TimeUpdateMode: 1
+  m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources:
@@ -1747,3 +1794,4 @@ SceneRoots:
   - {fileID: 92192286}
   - {fileID: 2112130697}
   - {fileID: 466713856}
+  - {fileID: 625474107}

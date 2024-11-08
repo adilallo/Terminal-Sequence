@@ -239,63 +239,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &79796136
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 79796138}
-  - component: {fileID: 79796137}
-  m_Layer: 0
-  m_Name: Leaderboard
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &79796137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 79796136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1d14523cd5ae4cf083119b666855249, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  videoNames:
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
-  - Biohacker
---- !u!4 &79796138
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 79796136}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &214183866
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +310,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 1
-  m_TimeUpdateMode: 1
+  m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
   m_TargetAudioSources: []
@@ -1256,6 +1199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cd948ed013ff343ba0741e7f45b8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lobbySceneName: Lobby
   firstSceneName: Start
   secondSceneName: Middle
   thirdSceneName: End
@@ -1451,7 +1395,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 1
   m_DataSource: 1
-  m_TimeUpdateMode: 1
+  m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources:
@@ -1773,7 +1717,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 1
-  m_TimeUpdateMode: 1
+  m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
   m_TargetAudioSources: []
@@ -1859,6 +1803,7 @@ MonoBehaviour:
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Exopreneur.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Dream_Reader.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Art/Video/Avatar/Overdoser.mp4
+  googleSheetsHandler: {fileID: 1904902609}
 --- !u!4 &1740468809
 Transform:
   m_ObjectHideFlags: 0
@@ -1971,6 +1916,51 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1904902608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1904902610}
+  - component: {fileID: 1904902609}
+  m_Layer: 0
+  m_Name: GoogleSheet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1904902609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904902608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23540ceb2602c584c895d98cb655f679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  webAppUrl: https://script.google.com/macros/s/AKfycbwgty4GsgJ1WubDogn9jJjNTjj2WZI6LJiw3ZchtKF-gZf1t2uJLoXHTaJ6VVsQx3K5/exec
+--- !u!4 &1904902610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904902608}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 453.91837, y: 730.78406, z: -117.34812}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1963578883
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,7 +2138,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 1
-  m_TimeUpdateMode: 1
+  m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources:
@@ -2233,4 +2223,4 @@ SceneRoots:
   - {fileID: 1740468809}
   - {fileID: 1523213509}
   - {fileID: 1422243621}
-  - {fileID: 79796138}
+  - {fileID: 1904902610}

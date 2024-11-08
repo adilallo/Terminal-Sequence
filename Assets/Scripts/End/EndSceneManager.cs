@@ -25,6 +25,10 @@ public class EndSceneManager : MonoBehaviour
 
     [Header("Scrolling")]
     [SerializeField] private float scrollSpeed = 50f;
+
+    [SerializeField] private GoogleSheetsHandler googleSheetsHandler;
+
+
     private RectTransform leaderboardRectTransform;
 
     private bool videosPrepared = false;
@@ -37,9 +41,19 @@ public class EndSceneManager : MonoBehaviour
     {
         leaderboardText.text = "";
 
+        if (googleSheetsHandler != null)
+        {
+            // Subscribe to the event
+            googleSheetsHandler.OnDataRetrieved += DisplayLeaderboard;
+            googleSheetsHandler.GetAllVideoSelections();
+        }
+        else
+        {
+            Debug.LogError("GoogleSheetsHandler is not assigned in the Inspector.");
+        }
+
         if (!leaderboardDisplayed)
         {
-            DisplayLeaderboard();
             leaderboardDisplayed = true;
         }
 
@@ -109,6 +123,15 @@ public class EndSceneManager : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        if (googleSheetsHandler != null)
+        {
+            googleSheetsHandler.OnDataRetrieved -= DisplayLeaderboard;
+        }
+    }
+
+
     private void OnAvatarVideoPrepared(VideoPlayer vp)
     {
         // Set the flag indicating videos are prepared
@@ -118,34 +141,20 @@ public class EndSceneManager : MonoBehaviour
     }
 
 
-    private void DisplayLeaderboard()
+    private void DisplayLeaderboard(List<GoogleSheetsHandler.VideoSelection> videoSelections)
     {
-        if (LeaderboardManager.Instance == null)
-        {
-            Debug.LogWarning("LeaderboardManager instance is missing.");
-            return;
-        }
-
-        Dictionary<int, int> videoSelections = LeaderboardManager.Instance.GetAllVideoSelections();
-
-        if (videoSelections == null || videoSelections.Count == 0)
-        {
-            Debug.LogWarning("Leaderboard data is missing. Cannot display the leaderboard.");
-            return;
-        }
-
         System.Text.StringBuilder leaderboardBuilder = new System.Text.StringBuilder();
 
         // Sort the selection list by value in descending order
-        List<KeyValuePair<int, int>> sortedSelections = new List<KeyValuePair<int, int>>(videoSelections);
-        sortedSelections.Sort((x, y) => y.Value.CompareTo(x.Value));
+        List<GoogleSheetsHandler.VideoSelection> sortedSelections = new List<GoogleSheetsHandler.VideoSelection>(videoSelections);
+        sortedSelections.Sort((x, y) => int.Parse(y.SelectionCount).CompareTo(int.Parse(x.SelectionCount)));
 
         foreach (var entry in sortedSelections)
         {
-            string videoName = LeaderboardManager.Instance.GetVideoName(entry.Key);
-            int selectionCount = entry.Value;
+            string npcName = entry.NPCName;
+            int selectionCount = int.Parse(entry.SelectionCount);
 
-            leaderboardBuilder.AppendLine($"{videoName} {selectionCount}\n");
+            leaderboardBuilder.AppendLine($"{npcName}: {selectionCount}");
         }
 
         leaderboardText.text = leaderboardBuilder.ToString();
@@ -153,7 +162,7 @@ public class EndSceneManager : MonoBehaviour
 
     private void LoadFirstScene()
     {
-        SceneManager.LoadScene("Start");
+        SceneManager.LoadScene("Lobby");
     }
 
     private IEnumerator PlayAvatarVideo()

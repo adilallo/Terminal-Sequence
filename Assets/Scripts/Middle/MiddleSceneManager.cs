@@ -32,6 +32,8 @@ namespace MiddleScene
         [SerializeField] private List<string> npcVideoURLs;
         [SerializeField] private List<string> avatarVideoURLs;
 
+        [SerializeField] private GoogleSheetsHandler googleSheetsHandler;
+
         #endregion
 
         #region Private Fields
@@ -166,7 +168,14 @@ namespace MiddleScene
 
         public void OnVideoSelected()
         {
-            LeaderboardManager.Instance.RecordVideoSelection(currentVideoIndex);
+            if (googleSheetsHandler != null)
+            {
+                googleSheetsHandler.RecordVideoSelection(currentVideoIndex);
+            }
+            else
+            {
+                Debug.LogError("GoogleSheetsHandler is not assigned in the Inspector.");
+            }
         }
 
         private void PlayVideoAndAudio(int index)
