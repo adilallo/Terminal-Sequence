@@ -664,7 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20cd948ed013ff343ba0741e7f45b8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbySceneName: 
+  lobbySceneName: Lobby
   firstSceneName: Start
   secondSceneName: Middle
   thirdSceneName: End
