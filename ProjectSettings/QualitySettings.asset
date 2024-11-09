@@ -7,7 +7,7 @@ QualitySettings:
   m_CurrentQuality: 0
   m_QualitySettings:
   - serializedVersion: 3
-    name: Performant
+    name: Level 0
     pixelLightCount: 0
     shadows: 0
     shadowResolution: 0
