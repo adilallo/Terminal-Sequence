@@ -41,6 +41,7 @@ namespace MiddleScene
         private int currentVideoIndex = 0;
         private Vector2 avatarVelocity = new Vector2(100f, 100f);
         private RectTransform canvasRectTransform;
+        private bool videoPlayersPrepared = false;
         private Vector2 cachedCanvasSize;
         private Vector2 cachedAvatarSize;
 
@@ -51,6 +52,11 @@ namespace MiddleScene
         void Start()
         {
             Initialize();
+        }
+
+        void OnEnable()
+        {
+            PrepareVideoPlayers();
         }
 
         void Update()
@@ -82,7 +88,6 @@ namespace MiddleScene
                 SetMaterialAlpha(avatarMaterial, 0);
                 SetMaterialAlpha(npcMaterial, 0);
                 SetMaterialAlpha(uiMaterial, 0);
-                ActivateVideoUI();
                 StartCoroutine(FadeInUI());
             }
 
@@ -107,18 +112,35 @@ namespace MiddleScene
             {
                 Debug.LogError("avatarRawImage is not assigned! Please check the Inspector.");
             }
+        }
 
-            PlayVideoAndAudio(currentVideoIndex);
+        private void PrepareVideoPlayers()
+        {
+            if (!videoPlayersPrepared)
+            {
+                if (npcVideoPlayer != null)
+                {
+                    npcVideoPlayer.prepareCompleted += OnVideosPrepared;
+                }
+                if (arrowVideoPlayer != null)
+                {
+                    arrowVideoPlayer.prepareCompleted += OnVideosPrepared;
+                }
+                videoPlayersPrepared = true;
+                PlayVideoAndAudio(currentVideoIndex);
+            }
         }
 
         private void CleanupVideoPlayers()
         {
             if (npcVideoPlayer != null)
             {
-                //npcVideoPlayer.Stop();
+                npcVideoPlayer.prepareCompleted -= OnVideosPrepared;
+                npcVideoPlayer.Stop();
             }
             if (arrowVideoPlayer != null)
             {
+                arrowVideoPlayer.prepareCompleted -= OnVideosPrepared;
                 arrowVideoPlayer.Stop();
             }
             if (avatarVideoPlayer != null)
@@ -161,6 +183,7 @@ namespace MiddleScene
             {
                 npcVideoPlayer.source = VideoSource.Url;
                 npcVideoPlayer.url = npcVideoURLs[index];
+                npcVideoPlayer.Prepare();
                 npcVideoPlayer.Play();
             }
             else
@@ -172,6 +195,7 @@ namespace MiddleScene
             {
                 avatarVideoPlayer.source = VideoSource.Url;
                 avatarVideoPlayer.url = avatarVideoURLs[index];
+                avatarVideoPlayer.Prepare();
                 avatarVideoPlayer.Play();
             }
             else
@@ -180,7 +204,7 @@ namespace MiddleScene
             }
         }
 
-        private void ActivateVideoUI()
+        private void OnVideosPrepared(VideoPlayer vp)
         {
             avatarRawImage.gameObject.SetActive(true);
             npcRawImage.gameObject.SetActive(true);
@@ -200,11 +224,11 @@ namespace MiddleScene
             while (elapsedTime < fadeDuration)
             {
                 float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-        
-                //Set the alpha for the UI Canvas Group
+
+                // Set the alpha for the UI Canvas Group
                 uiCanvasGroup.alpha = alpha;
 
-                //Set the alpha value for the materials
+                // Set the alpha value for the materials
                 SetMaterialAlpha(avatarMaterial, alpha);
                 SetMaterialAlpha(npcMaterial, alpha);
                 SetMaterialAlpha(uiMaterial, alpha);
@@ -214,13 +238,14 @@ namespace MiddleScene
                 yield return null;
             }
 
-            //Ensure everything is fully visible at the end of the fade-in
+            // Ensure everything is fully visible at the end of the fade-in
             uiCanvasGroup.alpha = 1;
             SetMaterialAlpha(avatarMaterial, 1);
             SetMaterialAlpha(npcMaterial, 1);
             SetMaterialAlpha(uiMaterial, 1);
         }
 
+        // Helper method to set the alpha on the material
         private void SetMaterialAlpha(Material material, float alpha)
         {
             if (material != null)
