@@ -16,6 +16,11 @@ public class AudioManager : MonoBehaviour
 
     public event Action OnPlaylistFinished;
 
+    public AudioSource CurrentAudioSource
+    {
+        get { return audioSource; }
+    }
+
     void Awake()
     {
         if (Instance == null)
@@ -41,6 +46,15 @@ public class AudioManager : MonoBehaviour
         }
 
         StopAllCoroutines();
+    }
+
+    public float GetCurrentTrackProgress()
+    {
+        if (audioSource != null && audioSource.clip != null)
+        {
+            return audioSource.time / audioSource.clip.length;
+        }
+        return 0f;
     }
 
 

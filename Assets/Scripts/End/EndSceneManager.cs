@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using System.Collections.Generic;
 
 public class EndSceneManager : MonoBehaviour
 {
@@ -16,8 +15,8 @@ public class EndSceneManager : MonoBehaviour
     [Header("UI")]
 
     [Header("Video")]
-    [SerializeField] private VideoPlayer avatarVideoPlayer;  // Avatar Video Player
-    [SerializeField] private CanvasGroup avatarCanvasGroup;  // CanvasGroup to control avatar video fade
+    [SerializeField] private VideoPlayer avatarVideoPlayer;
+    [SerializeField] private CanvasGroup avatarCanvasGroup;
     [SerializeField] private VideoPlayer endVideoPlayer;
     [SerializeField] private RawImage endVideo;
 
@@ -25,6 +24,7 @@ public class EndSceneManager : MonoBehaviour
     [SerializeField] private List<AudioClip> endSceneAudioClips;
 
     private bool videosPrepared = false;
+    private bool hasTriggeredEndVideo = false;
 
     void Start()
     {
@@ -43,7 +43,7 @@ public class EndSceneManager : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayPlaylist(endSceneAudioClips, true);
-            AudioManager.Instance.OnPlaylistFinished += PlayEndVideo;
+            AudioManager.Instance.OnPlaylistFinished += LoadFirstScene;
         }
 
         // Start the avatar video fade-in and play process
@@ -55,6 +55,35 @@ public class EndSceneManager : MonoBehaviour
         {
             Debug.LogError("Avatar VideoPlayer or Avatar CanvasGroup is not assigned!");
         }
+
+        // Prepare the end video player and set it inactive
+        if (endVideoPlayer != null)
+        {
+            endVideoPlayer.gameObject.SetActive(false);
+            endVideoPlayer.prepareCompleted += OnEndVideoPrepared;
+            endVideoPlayer.Prepare();
+        }
+        else
+        {
+            Debug.LogError("End VideoPlayer is not assigned!");
+        }
+    }
+
+    void Update()
+    {
+        if (!hasTriggeredEndVideo && AudioManager.Instance != null)
+        {
+            AudioSource audioSource = AudioManager.Instance.CurrentAudioSource;
+            if (audioSource != null && audioSource.clip != null && audioSource.isPlaying)
+            {
+                float progress = audioSource.time / audioSource.clip.length;
+                if (progress >= 0.85f)
+                {
+                    hasTriggeredEndVideo = true;
+                    StartCoroutine(FadeOutUIAndPlayEndVideo());
+                }
+            }
+        }
     }
 
     void OnEnable()
@@ -64,11 +93,6 @@ public class EndSceneManager : MonoBehaviour
         {
             avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
             avatarVideoPlayer.Prepare();
-        }
-
-        if (endVideoPlayer != null)
-        {
-            endVideoPlayer.Prepare();
         }
     }
 
@@ -81,6 +105,12 @@ public class EndSceneManager : MonoBehaviour
             avatarVideoPlayer.Stop();
         }
 
+        if (endVideoPlayer != null)
+        {
+            endVideoPlayer.prepareCompleted -= OnEndVideoPrepared;
+            endVideoPlayer.Stop();
+        }
+
         // Unsubscribe from AudioManager event
         if (AudioManager.Instance != null)
         {
@@ -88,13 +118,17 @@ public class EndSceneManager : MonoBehaviour
         }
     }
 
-
     private void OnAvatarVideoPrepared(VideoPlayer vp)
     {
         // Set the flag indicating videos are prepared
         videosPrepared = true;
 
         avatarVideoPlayer.Play();
+    }
+
+    private void OnEndVideoPrepared(VideoPlayer vp)
+    {
+        // You can set a flag here if needed or leave it empty
     }
 
     private void LoadFirstScene()
@@ -124,7 +158,7 @@ public class EndSceneManager : MonoBehaviour
         }
 
         avatarCanvasGroup.alpha = 1;
-         avatarMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        avatarMaterial.SetFloat("_CanvasGroupAlpha", 1);
 
         // Wait until the avatar video is done playing
         while (avatarVideoPlayer.isPlaying)
@@ -150,11 +184,35 @@ public class EndSceneManager : MonoBehaviour
         StartCoroutine(FadeInUI());
     }
 
-    private void PlayEndVideo()
+    private IEnumerator FadeOutUIAndPlayEndVideo()
     {
+        // Fade out the UI
+        float elapsedTime = 0f;
+        while (elapsedTime < fadeDuration)
+        {
+            float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+            uiCanvasGroup.alpha = alpha;
+            uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        uiCanvasGroup.alpha = 0;
+        uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
+
+        // Activate and play the end video
         if (endVideoPlayer != null)
         {
+            endVideoPlayer.gameObject.SetActive(true);
             endVideoPlayer.Play();
+
+            // Wait for the end video to finish playing
+            while (endVideoPlayer.isPlaying)
+            {
+                yield return null;
+            }
+
+            // After the end video finishes, load the next scene
+            LoadFirstScene();
         }
         else
         {
@@ -169,7 +227,7 @@ public class EndSceneManager : MonoBehaviour
         while (elapsedTime < fadeDuration)
         {
             float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-        
+
             uiCanvasGroup.alpha = alpha;
             uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
 
