@@ -315,7 +315,7 @@ VideoPlayer:
   m_AudioOutputMode: 2
   m_TargetAudioSources: []
   m_DirectAudioVolumes: []
-  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/UI/Arrow.mp4
+  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Video/UI/Arrow.mp4
   m_EnabledAudioTracks: 
   m_DirectAudioMutes: 
   m_ControlledAudioTrackCount: 0
@@ -1653,7 +1653,7 @@ VideoPlayer:
   m_AudioOutputMode: 2
   m_TargetAudioSources: []
   m_DirectAudioVolumes: []
-  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/UI/Cursor.mp4
+  m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Video/UI/Cursor.mp4
   m_EnabledAudioTracks: 
   m_DirectAudioMutes: 
   m_ControlledAudioTrackCount: 0
@@ -1711,8 +1711,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cb1529f9255584a89b1dcea33e81b8a8, type: 3}
   - {fileID: 8300000, guid: e2396893e45b740f0aedd167a7ed8611, type: 3}
   npcVideoURLs:
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Biohacker.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Acronymologist.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Video/NPC/Biohacker.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Video/NPC/Acronymologist.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Hustlepreneur.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Wojak.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Zombie.mp4
@@ -1723,8 +1723,8 @@ MonoBehaviour:
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Dream_Reader.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Overdoser.mp4
   avatarVideoURLs:
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Biohacker.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Acronymologist.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Video/Avatar/Biohacker.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Video/Avatar/Acronymologist.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Hustlepreneur.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Wojak.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Zombie.mp4
