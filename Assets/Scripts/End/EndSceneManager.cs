@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
@@ -13,59 +14,20 @@ public class EndSceneManager : MonoBehaviour
     [SerializeField] private float fadeDuration = 2f;
 
     [Header("UI")]
-    [SerializeField] private TMP_Text leaderboardText;
-    [SerializeField] private RectTransform parentPanelRectTransform;
 
     [Header("Video")]
     [SerializeField] private VideoPlayer avatarVideoPlayer;  // Avatar Video Player
     [SerializeField] private CanvasGroup avatarCanvasGroup;  // CanvasGroup to control avatar video fade
+    [SerializeField] private VideoPlayer endVideoPlayer;
+    [SerializeField] private RawImage endVideo;
 
     [Header("Audio")]
     [SerializeField] private List<AudioClip> endSceneAudioClips;
 
-    [Header("Scrolling")]
-    [SerializeField] private float scrollSpeed = 50f;
-
-    [SerializeField] private GoogleSheetsHandler googleSheetsHandler;
-
-
-    private RectTransform leaderboardRectTransform;
-
     private bool videosPrepared = false;
-    private bool leaderboardDisplayed = false;
-
-    private Vector2 cachedParentPanelSize;
-    private float textHeight;
 
     void Start()
     {
-        leaderboardText.text = "";
-
-        if (googleSheetsHandler != null)
-        {
-            // Subscribe to the event
-            googleSheetsHandler.OnDataRetrieved += DisplayLeaderboard;
-            googleSheetsHandler.GetAllVideoSelections();
-        }
-        else
-        {
-            Debug.LogError("GoogleSheetsHandler is not assigned in the Inspector.");
-        }
-
-        if (!leaderboardDisplayed)
-        {
-            leaderboardDisplayed = true;
-        }
-
-        if (leaderboardText != null)
-        {
-            leaderboardRectTransform = leaderboardText.GetComponent<RectTransform>();
-        }
-        else
-        {
-            Debug.LogError("LeaderboardText is not assigned! Please check the Inspector.");
-        }
-
         // Ensure the UI is invisible initially
         if (uiCanvasGroup != null)
         {
@@ -81,7 +43,7 @@ public class EndSceneManager : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayPlaylist(endSceneAudioClips, true);
-            AudioManager.Instance.OnPlaylistFinished += LoadFirstScene;
+            AudioManager.Instance.OnPlaylistFinished += PlayEndVideo;
         }
 
         // Start the avatar video fade-in and play process
@@ -93,8 +55,6 @@ public class EndSceneManager : MonoBehaviour
         {
             Debug.LogError("Avatar VideoPlayer or Avatar CanvasGroup is not assigned!");
         }
-
-        CacheParentPanelDimensions();
     }
 
     void OnEnable()
@@ -104,6 +64,11 @@ public class EndSceneManager : MonoBehaviour
         {
             avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
             avatarVideoPlayer.Prepare();
+        }
+
+        if (endVideoPlayer != null)
+        {
+            endVideoPlayer.Prepare();
         }
     }
 
@@ -123,14 +88,6 @@ public class EndSceneManager : MonoBehaviour
         }
     }
 
-    void OnDestroy()
-    {
-        if (googleSheetsHandler != null)
-        {
-            googleSheetsHandler.OnDataRetrieved -= DisplayLeaderboard;
-        }
-    }
-
 
     private void OnAvatarVideoPrepared(VideoPlayer vp)
     {
@@ -138,26 +95,6 @@ public class EndSceneManager : MonoBehaviour
         videosPrepared = true;
 
         avatarVideoPlayer.Play();
-    }
-
-
-    private void DisplayLeaderboard(List<GoogleSheetsHandler.VideoSelection> videoSelections)
-    {
-        System.Text.StringBuilder leaderboardBuilder = new System.Text.StringBuilder();
-
-        // Sort the selection list by value in descending order
-        List<GoogleSheetsHandler.VideoSelection> sortedSelections = new List<GoogleSheetsHandler.VideoSelection>(videoSelections);
-        sortedSelections.Sort((x, y) => int.Parse(y.SelectionCount).CompareTo(int.Parse(x.SelectionCount)));
-
-        foreach (var entry in sortedSelections)
-        {
-            string npcName = entry.NPCName;
-            int selectionCount = int.Parse(entry.SelectionCount);
-
-            leaderboardBuilder.AppendLine($"{npcName}: {selectionCount}");
-        }
-
-        leaderboardText.text = leaderboardBuilder.ToString();
     }
 
     private void LoadFirstScene()
@@ -210,8 +147,19 @@ public class EndSceneManager : MonoBehaviour
         avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
 
         // After the avatar video is done, fade in the UI
-        StartCoroutine(ScrollLeaderboardText());
         StartCoroutine(FadeInUI());
+    }
+
+    private void PlayEndVideo()
+    {
+        if (endVideoPlayer != null)
+        {
+            endVideoPlayer.Play();
+        }
+        else
+        {
+            Debug.LogError("End VideoPlayer is not assigned!");
+        }
     }
 
     private IEnumerator FadeInUI()
@@ -231,53 +179,5 @@ public class EndSceneManager : MonoBehaviour
 
         uiCanvasGroup.alpha = 1;
         uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
-    }
-
-    private IEnumerator ScrollLeaderboardText()
-    {
-        if (leaderboardRectTransform == null || parentPanelRectTransform == null)
-        {
-            yield break;
-        }
-
-        leaderboardRectTransform.ForceUpdateRectTransforms();
-
-        float textHeight = leaderboardRectTransform.rect.height;
-        float parentHeight = parentPanelRectTransform.rect.height;
-
-        if (cachedParentPanelSize == Vector2.zero)
-        {
-            cachedParentPanelSize = new Vector2(parentPanelRectTransform.rect.width, parentPanelRectTransform.rect.height);
-        }
-
-        Vector2 startPosition = new Vector2(leaderboardRectTransform.anchoredPosition.x, -textHeight);
-        // Ending position above the parent panel
-        Vector2 endPosition = new Vector2(leaderboardRectTransform.anchoredPosition.x, parentHeight + textHeight);
-
-        leaderboardRectTransform.anchoredPosition = startPosition;
-
-        while (true)
-        {
-            while (leaderboardRectTransform.anchoredPosition.y < endPosition.y)
-            {
-                leaderboardRectTransform.anchoredPosition += new Vector2(0, scrollSpeed * Time.deltaTime);
-                yield return null;
-            }
-
-            // Reset to start position
-            leaderboardRectTransform.anchoredPosition = startPosition;
-        }
-    }
-
-    private void CacheParentPanelDimensions()
-    {
-        if (parentPanelRectTransform != null)
-        {
-            cachedParentPanelSize = new Vector2(parentPanelRectTransform.rect.width, parentPanelRectTransform.rect.height);
-        }
-        else
-        {
-            Debug.LogError("Parent Panel RectTransform is not assigned!");
-        }
     }
 }
