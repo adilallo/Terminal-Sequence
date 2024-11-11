@@ -41,8 +41,6 @@ namespace MiddleScene
         private int currentVideoIndex = 0;
         private Vector2 avatarVelocity = new Vector2(100f, 100f);
         private RectTransform canvasRectTransform;
-        private bool clipsSet = false;
-        private bool videoPlayersPrepared = false;
         private Vector2 cachedCanvasSize;
         private Vector2 cachedAvatarSize;
 
@@ -53,11 +51,6 @@ namespace MiddleScene
         void Start()
         {
             Initialize();
-        }
-
-        void OnEnable()
-        {
-            PrepareVideoPlayers();
         }
 
         void Update()
@@ -89,6 +82,7 @@ namespace MiddleScene
                 SetMaterialAlpha(avatarMaterial, 0);
                 SetMaterialAlpha(npcMaterial, 0);
                 SetMaterialAlpha(uiMaterial, 0);
+                ActivateVideoUI();
                 StartCoroutine(FadeInUI());
             }
 
@@ -113,35 +107,18 @@ namespace MiddleScene
             {
                 Debug.LogError("avatarRawImage is not assigned! Please check the Inspector.");
             }
-        }
 
-        private void PrepareVideoPlayers()
-        {
-            if (!videoPlayersPrepared)
-            {
-                if (npcVideoPlayer != null)
-                {
-                    npcVideoPlayer.prepareCompleted += OnVideosPrepared;
-                }
-                if (arrowVideoPlayer != null)
-                {
-                    arrowVideoPlayer.prepareCompleted += OnVideosPrepared;
-                }
-                videoPlayersPrepared = true;
-                PlayVideoAndAudio(currentVideoIndex);
-            }
+            PlayVideoAndAudio(currentVideoIndex);
         }
 
         private void CleanupVideoPlayers()
         {
             if (npcVideoPlayer != null)
             {
-                npcVideoPlayer.prepareCompleted -= OnVideosPrepared;
                 npcVideoPlayer.Stop();
             }
             if (arrowVideoPlayer != null)
             {
-                arrowVideoPlayer.prepareCompleted -= OnVideosPrepared;
                 arrowVideoPlayer.Stop();
             }
             if (avatarVideoPlayer != null)
@@ -184,7 +161,6 @@ namespace MiddleScene
             {
                 npcVideoPlayer.source = VideoSource.Url;
                 npcVideoPlayer.url = npcVideoURLs[index];
-                npcVideoPlayer.Prepare();
                 npcVideoPlayer.Play();
             }
             else
@@ -196,7 +172,6 @@ namespace MiddleScene
             {
                 avatarVideoPlayer.source = VideoSource.Url;
                 avatarVideoPlayer.url = avatarVideoURLs[index];
-                avatarVideoPlayer.Prepare();
                 avatarVideoPlayer.Play();
             }
             else
@@ -205,7 +180,7 @@ namespace MiddleScene
             }
         }
 
-        private void OnVideosPrepared(VideoPlayer vp)
+        private void ActivateVideoUI()
         {
             avatarRawImage.gameObject.SetActive(true);
             npcRawImage.gameObject.SetActive(true);

@@ -31,7 +31,6 @@ namespace StartScene
         private bool stockVideoStarted = false;
 
         private bool videosPrepared = false;
-        private bool isAvatarVideoPrepared = false;
 
         private Color initialStockRawImageColor;
         private Color initialFrameImageColor;
@@ -96,7 +95,6 @@ namespace StartScene
             selectButtonVisible = false;
             stockVideoStarted = false;
             videosPrepared = false;
-            isAvatarVideoPrepared = false;
         }
 
         private void InitializeUIElements()
@@ -202,7 +200,6 @@ namespace StartScene
 
         private void OnAvatarVideoPrepared(VideoPlayer vp)
         {
-            isAvatarVideoPrepared = true;
             Debug.Log("Avatar Video Prepared.");
         }
 
