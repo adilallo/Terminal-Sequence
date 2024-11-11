@@ -45,6 +45,9 @@ namespace MiddleScene
         private Vector2 cachedCanvasSize;
         private Vector2 cachedAvatarSize;
 
+        private bool avatarVideoStarted = false;
+        private bool npcVideoStarted = false;
+
         #endregion
 
         #region Unity Methods
@@ -52,11 +55,6 @@ namespace MiddleScene
         void Start()
         {
             Initialize();
-        }
-
-        void OnEnable()
-        {
-            PrepareVideoPlayers();
         }
 
         void Update()
@@ -112,39 +110,21 @@ namespace MiddleScene
             {
                 Debug.LogError("avatarRawImage is not assigned! Please check the Inspector.");
             }
-        }
 
-        private void PrepareVideoPlayers()
-        {
-            if (!videoPlayersPrepared)
-            {
-                if (npcVideoPlayer != null)
-                {
-                    npcVideoPlayer.prepareCompleted += OnVideosPrepared;
-                }
-                if (arrowVideoPlayer != null)
-                {
-                    arrowVideoPlayer.prepareCompleted += OnVideosPrepared;
-                }
-                videoPlayersPrepared = true;
-                PlayVideoAndAudio(currentVideoIndex);
-            }
+            // Start playing the initial videos
+            PlayVideoAndAudio(currentVideoIndex);
         }
 
         private void CleanupVideoPlayers()
         {
             if (npcVideoPlayer != null)
             {
-                npcVideoPlayer.prepareCompleted -= OnVideosPrepared;
+                npcVideoPlayer.prepareCompleted -= OnNPCVideoPrepared;
                 npcVideoPlayer.Stop();
-            }
-            if (arrowVideoPlayer != null)
-            {
-                arrowVideoPlayer.prepareCompleted -= OnVideosPrepared;
-                arrowVideoPlayer.Stop();
             }
             if (avatarVideoPlayer != null)
             {
+                avatarVideoPlayer.prepareCompleted -= OnAvatarVideoPrepared;
                 avatarVideoPlayer.Stop();
             }
         }
@@ -155,14 +135,14 @@ namespace MiddleScene
 
         public void NextVideo()
         {
-            currentVideoIndex = (currentVideoIndex + 1) % npcVideoURLs.Count;
-            PlayVideoAndAudio(currentVideoIndex);
+            int nextIndex = (currentVideoIndex + 1) % npcVideoURLs.Count;
+            StartCoroutine(FadeOutAndChangeVideo(nextIndex));
         }
 
         public void PreviousVideo()
         {
-            currentVideoIndex = (currentVideoIndex - 1 + npcVideoURLs.Count) % npcVideoURLs.Count;
-            PlayVideoAndAudio(currentVideoIndex);
+            int prevIndex = (currentVideoIndex - 1 + npcVideoURLs.Count) % npcVideoURLs.Count;
+            StartCoroutine(FadeOutAndChangeVideo(prevIndex));
         }
 
         public void OnVideoSelected()
@@ -177,26 +157,102 @@ namespace MiddleScene
             }
         }
 
+        private IEnumerator FadeOutAndChangeVideo(int newVideoIndex)
+        {
+            // Fade out over 0.5 seconds
+            float fadeOutDuration = 0.75f;
+            float elapsedTime = 0f;
+
+            // Get the current alpha of the materials
+            float startAlpha = avatarMaterial.GetFloat("_CanvasGroupAlpha");
+
+            while (elapsedTime < fadeOutDuration)
+            {
+                float alpha = Mathf.Lerp(startAlpha, 0f, elapsedTime / fadeOutDuration);
+
+                SetMaterialAlpha(avatarMaterial, alpha);
+                SetMaterialAlpha(npcMaterial, alpha);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // Ensure materials are fully transparent
+            SetMaterialAlpha(avatarMaterial, 0f);
+            SetMaterialAlpha(npcMaterial, 0f);
+
+            // Deactivate the RawImages
+            avatarRawImage.gameObject.SetActive(false);
+            npcRawImage.gameObject.SetActive(false);
+
+            // Stop current videos
+            if (avatarVideoPlayer != null)
+            {
+                avatarVideoPlayer.Stop();
+            }
+            if (npcVideoPlayer != null)
+            {
+                npcVideoPlayer.Stop();
+            }
+
+            // Change the video index
+            currentVideoIndex = newVideoIndex;
+
+            // Prepare and play the new videos
+            PlayVideoAndAudio(currentVideoIndex);
+
+            // Wait until both videos have started playing
+            while (!avatarVideoStarted || !npcVideoStarted)
+            {
+                yield return null;
+            }
+
+            // Fade in over 0.5 seconds
+            float fadeInDuration = 0.75f;
+            elapsedTime = 0f;
+
+            while (elapsedTime < fadeInDuration)
+            {
+                float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeInDuration);
+
+                SetMaterialAlpha(avatarMaterial, alpha);
+                SetMaterialAlpha(npcMaterial, alpha);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            // Ensure materials are fully opaque
+            SetMaterialAlpha(avatarMaterial, 1f);
+            SetMaterialAlpha(npcMaterial, 1f);
+        }
+
         private void PlayVideoAndAudio(int index)
         {
+            // Reset started flags
+            avatarVideoStarted = false;
+            npcVideoStarted = false;
+
+            // Prepare and play NPC Video
             if (npcVideoPlayer != null && npcVideoURLs.Count > index && !string.IsNullOrEmpty(npcVideoURLs[index]))
             {
                 npcVideoPlayer.source = VideoSource.Url;
                 npcVideoPlayer.url = npcVideoURLs[index];
+                npcVideoPlayer.prepareCompleted += OnNPCVideoPrepared;
                 npcVideoPlayer.Prepare();
-                npcVideoPlayer.Play();
             }
             else
             {
                 Debug.LogWarning("NPC Video URL at index " + index + " is invalid.");
             }
 
+            // Prepare and play Avatar Video
             if (avatarVideoPlayer != null && avatarVideoURLs.Count > index && !string.IsNullOrEmpty(avatarVideoURLs[index]))
             {
                 avatarVideoPlayer.source = VideoSource.Url;
                 avatarVideoPlayer.url = avatarVideoURLs[index];
+                avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
                 avatarVideoPlayer.Prepare();
-                avatarVideoPlayer.Play();
             }
             else
             {
@@ -204,12 +260,43 @@ namespace MiddleScene
             }
         }
 
-        private void OnVideosPrepared(VideoPlayer vp)
+        private void OnNPCVideoPrepared(VideoPlayer source)
         {
-            avatarRawImage.gameObject.SetActive(true);
+            source.prepareCompleted -= OnNPCVideoPrepared;
+            npcVideoPlayer.started += OnNPCVideoStarted;
+            npcVideoPlayer.Play();
+        }
+
+        private void OnNPCVideoStarted(VideoPlayer source)
+        {
+            source.started -= OnNPCVideoStarted;
             npcRawImage.gameObject.SetActive(true);
-            arrowLeftRawImage.SetActive(true);
-            arrowRightRawImage.SetActive(true);
+            npcVideoStarted = true;
+            CheckIfBothVideosStarted();
+        }
+
+        private void OnAvatarVideoPrepared(VideoPlayer source)
+        {
+            source.prepareCompleted -= OnAvatarVideoPrepared;
+            avatarVideoPlayer.started += OnAvatarVideoStarted;
+            avatarVideoPlayer.Play();
+        }
+
+        private void OnAvatarVideoStarted(VideoPlayer source)
+        {
+            source.started -= OnAvatarVideoStarted;
+            avatarRawImage.gameObject.SetActive(true);
+            avatarVideoStarted = true;
+            CheckIfBothVideosStarted();
+        }
+
+        private void CheckIfBothVideosStarted()
+        {
+            if (npcVideoStarted && avatarVideoStarted)
+            {
+                arrowLeftRawImage.SetActive(true);
+                arrowRightRawImage.SetActive(true);
+            }
         }
 
         #endregion

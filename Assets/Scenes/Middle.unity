@@ -1700,7 +1700,7 @@ MonoBehaviour:
   avatarMaterial: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
   npcMaterial: {fileID: 2100000, guid: 90e00a4bd6b1e41b593f646b888a31cd, type: 2}
   uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
-  fadeDuration: 2
+  fadeDuration: 3
   npcVideoPlayer: {fileID: 2118144298}
   avatarVideoPlayer: {fileID: 1560943320}
   npcRawImage: {fileID: 880178272}
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Hustlepreneur.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Wojak.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Zombie.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/NEET.mp4
+  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Neet.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Fawncore.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Being_Baby.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Exopreneur.mp4
