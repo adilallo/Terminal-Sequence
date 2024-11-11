@@ -1,0 +1,4001 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1521398425 &-8582247721689703824
+VideoBuildInfo:
+  m_VideoClipCount: 1
+  m_IsVideoModuleDisabled: 0
+--- !u!1126 &-8394495093675710947
+PackedAssets:
+  m_ShortPath: sharedassets2.resource
+  m_Overhead: 15
+  m_Contents:
+  - fileID: 0
+    classID: 83
+    packedSize: 893048
+    offset: 0
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 0
+    classID: 83
+    packedSize: 443241
+    offset: 893056
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 0
+    classID: 83
+    packedSize: 1209260
+    offset: 1336304
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+--- !u!1126 &-7845732183417993374
+PackedAssets:
+  m_ShortPath: sharedassets0.resource
+  m_Overhead: 26
+  m_Contents:
+  - fileID: 0
+    classID: 83
+    packedSize: 18515
+    offset: 0
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 0
+    classID: 83
+    packedSize: 18515
+    offset: 18528
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 0
+    classID: 83
+    packedSize: 1918098
+    offset: 37056
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+--- !u!114 &-7540521652872437646
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13805, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1126 &-6795471230353666518
+PackedAssets:
+  m_ShortPath: sharedassets1.resource
+  m_Overhead: 12
+  m_Contents:
+  - fileID: 0
+    classID: 83
+    packedSize: 955428
+    offset: 0
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 0
+    classID: 329
+    packedSize: 264767
+    offset: 955440
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+--- !u!114 &-6214143549038854048
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 13800, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedDependencies:
+  - key: Required by Scripts
+    value: []
+    icon: class/MonoScript
+    size: 0
+  - key: Animation Module
+    value:
+    - Animator
+    - AnimatorController
+    - AnimatorOverrideController
+    - RuntimeAnimatorController
+    icon: package/com.unity.modules.animation
+    size: 0
+  - key: Animator
+    value: []
+    icon: class/Animator
+    size: 0
+  - key: AnimatorController
+    value: []
+    icon: class/AnimatorController
+    size: 0
+  - key: AnimatorOverrideController
+    value: []
+    icon: class/AnimatorOverrideController
+    size: 0
+  - key: RuntimeAnimatorController
+    value: []
+    icon: class/RuntimeAnimatorController
+    size: 0
+  - key: Audio Module
+    value:
+    - AudioBehaviour
+    - AudioClip
+    - AudioListener
+    - AudioManager
+    - AudioMixer
+    - AudioMixerGroup
+    - AudioMixerSnapshot
+    - AudioResource
+    - AudioSource
+    - SampleClip
+    - Required by Video Module
+    icon: package/com.unity.modules.audio
+    size: 0
+  - key: AudioBehaviour
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/AudioBehaviour
+    size: 0
+  - key: Assets/Scenes/End.unity
+    value: []
+    icon: class/SceneAsset
+    size: 0
+  - key: Assets/Scenes/Lobby.unity
+    value: []
+    icon: class/SceneAsset
+    size: 0
+  - key: Assets/Scenes/Middle.unity
+    value: []
+    icon: class/SceneAsset
+    size: 0
+  - key: Assets/Scenes/Start.unity
+    value: []
+    icon: class/SceneAsset
+    size: 0
+  - key: AudioClip
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/AudioClip
+    size: 0
+  - key: AudioListener
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/AudioListener
+    size: 0
+  - key: AudioManager
+    value: []
+    icon: class/AudioManager
+    size: 0
+  - key: AudioMixer
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/AudioMixer
+    size: 0
+  - key: AudioMixerGroup
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/AudioMixerGroup
+    size: 0
+  - key: AudioMixerSnapshot
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/AudioMixerSnapshot
+    size: 0
+  - key: AudioResource
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/AudioResource
+    size: 0
+  - key: AudioSource
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/AudioSource
+    size: 0
+  - key: SampleClip
+    value: []
+    icon: class/SampleClip
+    size: 0
+  - key: Required by Video Module
+    value: []
+    icon: package/com.unity.modules.video
+    size: 0
+  - key: Core Module
+    value:
+    - Behaviour
+    - BuildSettings
+    - Camera
+    - Component
+    - ComputeShader
+    - Cubemap
+    - CubemapArray
+    - DelayedCallManager
+    - EditorExtension
+    - GameManager
+    - GameObject
+    - GlobalGameManager
+    - GraphicsSettings
+    - InputManager
+    - LevelGameManager
+    - Light
+    - LightProbes
+    - LightingSettings
+    - LightmapSettings
+    - LowerResBlitTexture
+    - Material
+    - Mesh
+    - MeshFilter
+    - MeshRenderer
+    - MonoBehaviour
+    - MonoManager
+    - MonoScript
+    - NamedObject
+    - Object
+    - PlayerSettings
+    - PreloadData
+    - QualitySettings
+    - RectTransform
+    - ReflectionProbe
+    - RenderSettings
+    - RenderTexture
+    - Renderer
+    - ResourceManager
+    - RuntimeInitializeOnLoadManager
+    - Shader
+    - ShaderNameRegistry
+    - SortingGroup
+    - Sprite
+    - SpriteAtlas
+    - SpriteRenderer
+    - TagManager
+    - TextAsset
+    - Texture
+    - Texture2D
+    - Texture2DArray
+    - Texture3D
+    - TimeManager
+    - TrailRenderer
+    - Transform
+    - Required by Animation Module
+    - Required by Audio Module
+    - Required by GraphicsStateCollectionSerializer Module
+    - Required by HierarchyCore Module
+    - Required by IMGUI Module
+    - Required by InputForUI Module
+    - Required by InputLegacy Module
+    - Required by JSONSerialize Module
+    - Required by Physics Module
+    - Required by Properties Module
+    - Required by RuntimeInitializeOnLoadManagerInitializer Module
+    - Required by TLS Module
+    - Required by TextCoreFontEngine Module
+    - Required by TextCoreTextEngine Module
+    - Required by TextRendering Module
+    - Required by UI Module
+    - Required by UIElements Module
+    - Required by UnityWebRequest Module
+    - Required by Video Module
+    - Required by WebGL Module
+    icon: package/com.unity.modules.core
+    size: 0
+  - key: Behaviour
+    value: []
+    icon: class/Behaviour
+    size: 0
+  - key: BuildSettings
+    value: []
+    icon: class/BuildSettings
+    size: 0
+  - key: Camera
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/Camera
+    size: 0
+  - key: Component
+    value: []
+    icon: class/Component
+    size: 0
+  - key: ComputeShader
+    value: []
+    icon: class/ComputeShader
+    size: 0
+  - key: Cubemap
+    value:
+    - Assets/Scenes/Middle.unity
+    icon: class/Cubemap
+    size: 0
+  - key: CubemapArray
+    value: []
+    icon: class/CubemapArray
+    size: 0
+  - key: DelayedCallManager
+    value: []
+    icon: class/DelayedCallManager
+    size: 0
+  - key: EditorExtension
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/EditorExtension
+    size: 0
+  - key: GameManager
+    value: []
+    icon: class/GameManager
+    size: 0
+  - key: GameObject
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/GameObject
+    size: 0
+  - key: GlobalGameManager
+    value: []
+    icon: class/GlobalGameManager
+    size: 0
+  - key: GraphicsSettings
+    value: []
+    icon: class/GraphicsSettings
+    size: 0
+  - key: InputManager
+    value: []
+    icon: class/InputManager
+    size: 0
+  - key: LevelGameManager
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/LevelGameManager
+    size: 0
+  - key: Light
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/Light
+    size: 0
+  - key: LightProbes
+    value: []
+    icon: class/LightProbes
+    size: 0
+  - key: LightingSettings
+    value: []
+    icon: class/LightingSettings
+    size: 0
+  - key: LightmapSettings
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/LightmapSettings
+    size: 0
+  - key: LowerResBlitTexture
+    value: []
+    icon: class/LowerResBlitTexture
+    size: 0
+  - key: Material
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/Material
+    size: 0
+  - key: Mesh
+    value:
+    - Assets/Scenes/End.unity
+    icon: class/Mesh
+    size: 0
+  - key: MeshFilter
+    value:
+    - Assets/Scenes/End.unity
+    icon: class/MeshFilter
+    size: 0
+  - key: MeshRenderer
+    value:
+    - Assets/Scenes/End.unity
+    icon: class/MeshRenderer
+    size: 0
+  - key: MonoBehaviour
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/MonoBehaviour
+    size: 0
+  - key: MonoManager
+    value: []
+    icon: class/MonoManager
+    size: 0
+  - key: MonoScript
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/MonoScript
+    size: 0
+  - key: NamedObject
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/NamedObject
+    size: 0
+  - key: Object
+    value: []
+    icon: class/Object
+    size: 0
+  - key: PlayerSettings
+    value: []
+    icon: class/PlayerSettings
+    size: 0
+  - key: PreloadData
+    value: []
+    icon: class/PreloadData
+    size: 0
+  - key: QualitySettings
+    value: []
+    icon: class/QualitySettings
+    size: 0
+  - key: RectTransform
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/RectTransform
+    size: 0
+  - key: ReflectionProbe
+    value: []
+    icon: class/ReflectionProbe
+    size: 0
+  - key: RenderSettings
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/RenderSettings
+    size: 0
+  - key: RenderTexture
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/RenderTexture
+    size: 0
+  - key: Renderer
+    value: []
+    icon: class/Renderer
+    size: 0
+  - key: ResourceManager
+    value: []
+    icon: class/ResourceManager
+    size: 0
+  - key: RuntimeInitializeOnLoadManager
+    value: []
+    icon: class/RuntimeInitializeOnLoadManager
+    size: 0
+  - key: Shader
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/Shader
+    size: 0
+  - key: ShaderNameRegistry
+    value: []
+    icon: class/ShaderNameRegistry
+    size: 0
+  - key: SortingGroup
+    value: []
+    icon: class/SortingGroup
+    size: 0
+  - key: Sprite
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/Sprite
+    size: 0
+  - key: SpriteAtlas
+    value: []
+    icon: class/SpriteAtlas
+    size: 0
+  - key: SpriteRenderer
+    value: []
+    icon: class/SpriteRenderer
+    size: 0
+  - key: TagManager
+    value: []
+    icon: class/TagManager
+    size: 0
+  - key: TextAsset
+    value: []
+    icon: class/TextAsset
+    size: 0
+  - key: Texture
+    value: []
+    icon: class/Texture
+    size: 0
+  - key: Texture2D
+    value: []
+    icon: class/Texture2D
+    size: 0
+  - key: Texture2DArray
+    value: []
+    icon: class/Texture2DArray
+    size: 0
+  - key: Texture3D
+    value: []
+    icon: class/Texture3D
+    size: 0
+  - key: TimeManager
+    value: []
+    icon: class/TimeManager
+    size: 0
+  - key: TrailRenderer
+    value:
+    - Assets/Scenes/End.unity
+    icon: class/TrailRenderer
+    size: 0
+  - key: Transform
+    value: []
+    icon: class/Transform
+    size: 0
+  - key: Required by Animation Module
+    value: []
+    icon: package/com.unity.modules.animation
+    size: 0
+  - key: Required by Audio Module
+    value: []
+    icon: package/com.unity.modules.audio
+    size: 0
+  - key: Required by GraphicsStateCollectionSerializer Module
+    value: []
+    icon: package/com.unity.modules.graphicsstatecollectionserializer
+    size: 0
+  - key: Required by HierarchyCore Module
+    value: []
+    icon: package/com.unity.modules.hierarchycore
+    size: 0
+  - key: Required by IMGUI Module
+    value: []
+    icon: package/com.unity.modules.imgui
+    size: 0
+  - key: Required by InputForUI Module
+    value: []
+    icon: package/com.unity.modules.inputforui
+    size: 0
+  - key: Required by InputLegacy Module
+    value: []
+    icon: package/com.unity.modules.inputlegacy
+    size: 0
+  - key: Required by JSONSerialize Module
+    value: []
+    icon: package/com.unity.modules.jsonserialize
+    size: 0
+  - key: Required by Physics Module
+    value: []
+    icon: package/com.unity.modules.physics
+    size: 0
+  - key: Required by Properties Module
+    value: []
+    icon: package/com.unity.modules.properties
+    size: 0
+  - key: Required by RuntimeInitializeOnLoadManagerInitializer Module
+    value: []
+    icon: package/com.unity.modules.runtimeinitializeonloadmanagerinitializer
+    size: 0
+  - key: Required by TLS Module
+    value: []
+    icon: package/com.unity.modules.tls
+    size: 0
+  - key: Required by TextCoreFontEngine Module
+    value: []
+    icon: package/com.unity.modules.textcorefontengine
+    size: 0
+  - key: Required by TextCoreTextEngine Module
+    value: []
+    icon: package/com.unity.modules.textcoretextengine
+    size: 0
+  - key: Required by TextRendering Module
+    value: []
+    icon: package/com.unity.modules.textrendering
+    size: 0
+  - key: Required by UI Module
+    value: []
+    icon: package/com.unity.modules.ui
+    size: 0
+  - key: Required by UIElements Module
+    value: []
+    icon: package/com.unity.modules.uielements
+    size: 0
+  - key: Required by UnityWebRequest Module
+    value: []
+    icon: package/com.unity.modules.unitywebrequest
+    size: 0
+  - key: Required by WebGL Module
+    value: []
+    icon: package/com.unity.modules.webgl
+    size: 0
+  - key: GraphicsStateCollectionSerializer Module
+    value:
+    - GraphicsStateCollectionSerializer is always required
+    icon: package/com.unity.modules.graphicsstatecollectionserializer
+    size: 0
+  - key: GraphicsStateCollectionSerializer is always required
+    value: []
+    icon: class/DefaultAsset
+    size: 0
+  - key: HierarchyCore Module
+    value:
+    - Required by UIElements Module
+    icon: package/com.unity.modules.hierarchycore
+    size: 0
+  - key: IMGUI Module
+    value:
+    - Required by InputForUI Module
+    - Required by UIElements Module
+    icon: package/com.unity.modules.imgui
+    size: 0
+  - key: InputForUI Module
+    value:
+    - Required by UIElements Module
+    icon: package/com.unity.modules.inputforui
+    size: 0
+  - key: InputLegacy Module
+    value:
+    - Required by IMGUI Module
+    - Required by InputForUI Module
+    - Required by UIElements Module
+    icon: package/com.unity.modules.inputlegacy
+    size: 0
+  - key: JSONSerialize Module
+    value:
+    - Required by GraphicsStateCollectionSerializer Module
+    - Required by RuntimeInitializeOnLoadManagerInitializer Module
+    - Required by UIElements Module
+    icon: package/com.unity.modules.jsonserialize
+    size: 0
+  - key: Physics Module
+    value:
+    - Collider
+    - PhysicsManager
+    - Rigidbody
+    icon: package/com.unity.modules.physics
+    size: 0
+  - key: Collider
+    value: []
+    icon: class/Collider
+    size: 0
+  - key: PhysicsManager
+    value: []
+    icon: class/PhysicsManager
+    size: 0
+  - key: Rigidbody
+    value: []
+    icon: class/Rigidbody
+    size: 0
+  - key: Properties Module
+    value:
+    - Required by UIElements Module
+    icon: package/com.unity.modules.properties
+    size: 0
+  - key: RuntimeInitializeOnLoadManagerInitializer Module
+    value:
+    - RuntimeInitializeOnLoadManagerInitializer is always required
+    icon: package/com.unity.modules.runtimeinitializeonloadmanagerinitializer
+    size: 0
+  - key: RuntimeInitializeOnLoadManagerInitializer is always required
+    value: []
+    icon: class/DefaultAsset
+    size: 0
+  - key: SharedInternals Module
+    value:
+    - Required by Animation Module
+    - Required by Audio Module
+    - Required by Core Module
+    - Required by GraphicsStateCollectionSerializer Module
+    - Required by HierarchyCore Module
+    - Required by IMGUI Module
+    - Required by InputForUI Module
+    - Required by InputLegacy Module
+    - Required by JSONSerialize Module
+    - Required by Physics Module
+    - Required by Properties Module
+    - Required by RuntimeInitializeOnLoadManagerInitializer Module
+    - Required by TLS Module
+    - Required by TextCoreFontEngine Module
+    - Required by TextCoreTextEngine Module
+    - Required by TextRendering Module
+    - Required by UI Module
+    - Required by UIElements Module
+    - Required by UnityWebRequest Module
+    - Required by Video Module
+    - Required by WebGL Module
+    icon: package/com.unity.modules.sharedinternals
+    size: 0
+  - key: Required by Core Module
+    value: []
+    icon: package/com.unity.modules.core
+    size: 0
+  - key: TLS Module
+    value:
+    - Required by UnityWebRequest Module
+    - Required by Video Module
+    icon: package/com.unity.modules.tls
+    size: 0
+  - key: TextCoreFontEngine Module
+    value:
+    - Required by TextCoreTextEngine Module
+    - Required by UIElements Module
+    icon: package/com.unity.modules.textcorefontengine
+    size: 0
+  - key: TextCoreTextEngine Module
+    value:
+    - Required by IMGUI Module
+    - Required by UIElements Module
+    icon: package/com.unity.modules.textcoretextengine
+    size: 0
+  - key: TextRendering Module
+    value:
+    - Font
+    - TextMesh
+    - Required by IMGUI Module
+    - Required by TextCoreFontEngine Module
+    - Required by TextCoreTextEngine Module
+    - Required by UI Module
+    - Required by UIElements Module
+    icon: package/com.unity.modules.textrendering
+    size: 0
+  - key: Font
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    icon: class/Font
+    size: 0
+  - key: TextMesh
+    value: []
+    icon: class/TextMesh
+    size: 0
+  - key: UI Module
+    value:
+    - Canvas
+    - CanvasGroup
+    - CanvasRenderer
+    - Required by UIElements Module
+    - Required by Video Module
+    icon: package/com.unity.modules.ui
+    size: 0
+  - key: Canvas
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/Canvas
+    size: 0
+  - key: CanvasGroup
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/CanvasGroup
+    size: 0
+  - key: CanvasRenderer
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/CanvasRenderer
+    size: 0
+  - key: UIElements Module
+    value:
+    - UIRenderer
+    icon: package/com.unity.modules.uielements
+    size: 0
+  - key: UIRenderer
+    value: []
+    icon: class/UIRenderer
+    size: 0
+  - key: UnityWebRequest Module
+    value:
+    - Required by Video Module
+    icon: package/com.unity.modules.unitywebrequest
+    size: 0
+  - key: Video Module
+    value:
+    - VideoClip
+    - VideoPlayer
+    icon: package/com.unity.modules.video
+    size: 0
+  - key: VideoClip
+    value:
+    - Assets/Scenes/Start.unity
+    icon: class/VideoClip
+    size: 0
+  - key: VideoPlayer
+    value:
+    - Assets/Scenes/End.unity
+    - Assets/Scenes/Lobby.unity
+    - Assets/Scenes/Middle.unity
+    - Assets/Scenes/Start.unity
+    icon: class/VideoPlayer
+    size: 0
+  - key: WebGL Module
+    value:
+    - WebGL is always required
+    icon: package/com.unity.modules.webgl
+    size: 0
+  - key: WebGL is always required
+    value: []
+    icon: class/DefaultAsset
+    size: 0
+  modules:
+  - Animation Module
+  - Audio Module
+  - Core Module
+  - GraphicsStateCollectionSerializer Module
+  - HierarchyCore Module
+  - IMGUI Module
+  - InputForUI Module
+  - InputLegacy Module
+  - JSONSerialize Module
+  - Physics Module
+  - Properties Module
+  - RuntimeInitializeOnLoadManagerInitializer Module
+  - SharedInternals Module
+  - TLS Module
+  - TextCoreFontEngine Module
+  - TextCoreTextEngine Module
+  - TextRendering Module
+  - UI Module
+  - UIElements Module
+  - UnityWebRequest Module
+  - Video Module
+  - WebGL Module
+  serializedSizes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  totalSize: 0
+  builtCodePath: C:/Users/Andy/Desktop/Art Projects/No Vacancy/Terminal_Sequence/Build/Terminal_Sequence.wasm
+  developmentBuild: 1
+--- !u!1126 &-6006929370341891096
+PackedAssets:
+  m_ShortPath: resources.assets
+  m_Overhead: 3256
+  m_Contents:
+  - fileID: 1
+    classID: 21
+    packedSize: 344
+    offset: 2720
+    sourceAssetGUID: c9adb1f542a93ae489bacfeae21e8394
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Unity
+      SDF.asset
+  - fileID: 2
+    classID: 21
+    packedSize: 1620
+    offset: 3072
+    sourceAssetGUID: 749b9069dc4742c5bfa5c74644049926
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+      SDF - Drop Shadow.mat
+  - fileID: 3
+    classID: 21
+    packedSize: 1600
+    offset: 4704
+    sourceAssetGUID: a00013af81304728b2be1f4309ee2433
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+      SDF - Outline.mat
+  - fileID: 4
+    classID: 21
+    packedSize: 1780
+    offset: 6304
+    sourceAssetGUID: 6522f30e342599e4e9dd4cc2cc03c830
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+      SDF - Sunny Days.mat
+  - fileID: 5
+    classID: 21
+    packedSize: 1676
+    offset: 8096
+    sourceAssetGUID: 947a44964e53bf0448ff698b2a2219c0
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+      SDF - Drop Shadow - 2 Pass.mat
+  - fileID: 6
+    classID: 21
+    packedSize: 1668
+    offset: 9776
+    sourceAssetGUID: f2dcf029949142e28b974630369c8b4e
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+      SDF - Drop Shadow.mat
+  - fileID: 7
+    classID: 21
+    packedSize: 1648
+    offset: 11456
+    sourceAssetGUID: f629c6e43dba4bf38cb74d8860150664
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+      SDF - Outline.mat
+  - fileID: 8
+    classID: 21
+    packedSize: 1892
+    offset: 13104
+    sourceAssetGUID: d75b8f41e959450c84ac6e967084d3e1
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+      SDF Glow.mat
+  - fileID: 9
+    classID: 21
+    packedSize: 1696
+    offset: 15008
+    sourceAssetGUID: f4e195ac1e204eff960149d1cb34e18c
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+      SDF Logo.mat
+  - fileID: 10
+    classID: 21
+    packedSize: 1748
+    offset: 16704
+    sourceAssetGUID: 125cb55b44b24c4393181402bc6200e6
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+      SDF.asset
+  - fileID: 11
+    classID: 21
+    packedSize: 1820
+    offset: 18464
+    sourceAssetGUID: 8b29aaa3eec7468097ff07adfcf29ac9
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/LiberationSans
+      SDF - Metalic Green.mat
+  - fileID: 12
+    classID: 21
+    packedSize: 956
+    offset: 20288
+    sourceAssetGUID: 9ad269c99dcf42b7aedefd83dd5a7b9d
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/LiberationSans
+      SDF - Overlay.mat
+  - fileID: 13
+    classID: 21
+    packedSize: 1744
+    offset: 21248
+    sourceAssetGUID: 42df1c7856584b6b8db9a509b6b10074
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/LiberationSans
+      SDF - Soft Mask.mat
+  - fileID: 14
+    classID: 21
+    packedSize: 1628
+    offset: 22992
+    sourceAssetGUID: b246c4190f4e46ec9352fe15a7b09ce0
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+      SDF - Drop Shadow.mat
+  - fileID: 15
+    classID: 21
+    packedSize: 332
+    offset: 24624
+    sourceAssetGUID: 2ddca8f46aa0838419d568affb0ca6b4
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+      SDF - HDRP Unlit.mat
+  - fileID: 16
+    classID: 21
+    packedSize: 1776
+    offset: 24960
+    sourceAssetGUID: e6b276ec991f467aa14ef1f3cc665993
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+      SDF - Surface.mat
+  - fileID: 17
+    classID: 21
+    packedSize: 404
+    offset: 26736
+    sourceAssetGUID: 8d176c01131de8f46ad61094e29d79b2
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Unity
+      SDF - HDRP LIT - Bloom.mat
+  - fileID: 18
+    classID: 21
+    packedSize: 428
+    offset: 27152
+    sourceAssetGUID: 967f61bb1e3e28645a39e0cb647cc79e
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Unity
+      SDF - HDRP LIT - Outline.mat
+  - fileID: 19
+    classID: 21
+    packedSize: 1680
+    offset: 27584
+    sourceAssetGUID: e73a58f6e2794ae7b1b7e50b7fb811b0
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+      SDF - Drop Shadow.mat
+  - fileID: 20
+    classID: 21
+    packedSize: 1608
+    offset: 29264
+    sourceAssetGUID: 79459efec17a4d00a321bdcc27bbc385
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+      SDF - Outline.mat
+  - fileID: 21
+    classID: 21
+    packedSize: 148
+    offset: 30880
+    sourceAssetGUID: 355c353f536374f758446e97f2a931a4
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/Deutsch.ttf
+  - fileID: 22
+    classID: 21
+    packedSize: 148
+    offset: 31040
+    sourceAssetGUID: 4beb055f07aaff244873dec698d0363e
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Roboto-Bold.ttf
+  - fileID: 23
+    classID: 21
+    packedSize: 148
+    offset: 31200
+    sourceAssetGUID: 5dd49b3eacc540408c98eee0de38e0f1
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Bangers.ttf
+  - fileID: 24
+    classID: 21
+    packedSize: 148
+    offset: 31360
+    sourceAssetGUID: 8a2b9e2a607dd2143b58c44bc32410b4
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Electronic Highway
+      Sign.TTF
+  - fileID: 25
+    classID: 21
+    packedSize: 148
+    offset: 31520
+    sourceAssetGUID: 997a43b767814dd0a7642ec9b78cba41
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Anton.ttf
+  - fileID: 26
+    classID: 21
+    packedSize: 148
+    offset: 31680
+    sourceAssetGUID: c9f6d0e7bc8541498c9a4799ba184ede
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Oswald-Bold.ttf
+  - fileID: 27
+    classID: 21
+    packedSize: 348
+    offset: 31840
+    sourceAssetGUID: fbef3c704dce48f08a44612d6c856c8d
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Sprite Assets/Default
+      Sprite Asset.asset
+  - fileID: 28
+    classID: 21
+    packedSize: 380
+    offset: 32192
+    sourceAssetGUID: c41005c129ba4d66911b75229fd70b45
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset
+  - fileID: 29
+    classID: 21
+    packedSize: 1600
+    offset: 32576
+    sourceAssetGUID: dc36b3fdc14f47ebb36fd484a67e268a
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Electronic
+      Highway Sign SDF.asset
+  - fileID: 30
+    classID: 21
+    packedSize: 1584
+    offset: 34176
+    sourceAssetGUID: 8a89fa14b10d46a99122fd4f73fca9a2
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+      SDF.asset
+  - fileID: 31
+    classID: 21
+    packedSize: 1752
+    offset: 35760
+    sourceAssetGUID: 0161d805a3764c089bef00bfe00793f5
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Oswald
+      Bold SDF.asset
+  - fileID: 32
+    classID: 21
+    packedSize: 1588
+    offset: 37520
+    sourceAssetGUID: 5302535af1044152a457ed104f1f4b91
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+      SDF.asset
+  - fileID: 33
+    classID: 21
+    packedSize: 356
+    offset: 39120
+    sourceAssetGUID: 14aa93acbb234d16aaef0e8b46814db6
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Sprite Assets/DropCap
+      Numbers.asset
+  - fileID: 34
+    classID: 21
+    packedSize: 1752
+    offset: 39488
+    sourceAssetGUID: 675eb9ad938a443c9ad55ea7b4f01e54
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/Deutsch SDF.asset
+  - fileID: 35
+    classID: 28
+    packedSize: 1048704
+    offset: 41248
+    sourceAssetGUID: 675eb9ad938a443c9ad55ea7b4f01e54
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/Deutsch SDF.asset
+  - fileID: 36
+    classID: 28
+    packedSize: 4232
+    offset: 1089952
+    sourceAssetGUID: 10c49fcd9c64421db7c0133e61e55f97
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Textures/Wipe Pattern
+      - Circle.psd
+  - fileID: 37
+    classID: 28
+    packedSize: 65672
+    offset: 1094192
+    sourceAssetGUID: 17c350171f7a3ca479f830547c66d187
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Textures/Sunny Days
+      - Seamless.jpg
+  - fileID: 38
+    classID: 28
+    packedSize: 174908
+    offset: 1159872
+    sourceAssetGUID: 1cdc5b506b1a4a33a53c30669ced1f51
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Textures/Fruit Jelly
+      (B&W).jpg
+  - fileID: 39
+    classID: 28
+    packedSize: 174900
+    offset: 1334784
+    sourceAssetGUID: 283f897e4925411ebbaa758b4cb13fc2
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Textures/Floor Cement.jpg
+  - fileID: 40
+    classID: 28
+    packedSize: 324
+    offset: 1509696
+    sourceAssetGUID: 2ce5c55e85304b819a1826ecbc839aa5
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Textures/Gradient Diagonal
+      (Color).jpg
+  - fileID: 41
+    classID: 28
+    packedSize: 124
+    offset: 1510032
+    sourceAssetGUID: 355c353f536374f758446e97f2a931a4
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/Deutsch.ttf
+  - fileID: 42
+    classID: 28
+    packedSize: 124
+    offset: 1510160
+    sourceAssetGUID: 4beb055f07aaff244873dec698d0363e
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Roboto-Bold.ttf
+  - fileID: 43
+    classID: 28
+    packedSize: 124
+    offset: 1510288
+    sourceAssetGUID: 5dd49b3eacc540408c98eee0de38e0f1
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Bangers.ttf
+  - fileID: 44
+    classID: 28
+    packedSize: 124
+    offset: 1510416
+    sourceAssetGUID: 8a2b9e2a607dd2143b58c44bc32410b4
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Electronic Highway
+      Sign.TTF
+  - fileID: 45
+    classID: 28
+    packedSize: 124
+    offset: 1510544
+    sourceAssetGUID: 997a43b767814dd0a7642ec9b78cba41
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Anton.ttf
+  - fileID: 46
+    classID: 28
+    packedSize: 349680
+    offset: 1510672
+    sourceAssetGUID: a0fc465d6cf04254a2938578735e2383
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Sprites/Default Sprites.png
+  - fileID: 47
+    classID: 28
+    packedSize: 124
+    offset: 1860352
+    sourceAssetGUID: c9f6d0e7bc8541498c9a4799ba184ede
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Oswald-Bold.ttf
+  - fileID: 48
+    classID: 28
+    packedSize: 349672
+    offset: 1860480
+    sourceAssetGUID: dffef66376be4fa480fb02b19edbe903
+    buildTimeAssetPath: Assets/TextMesh Pro/Sprites/EmojiOne.png
+  - fileID: 49
+    classID: 28
+    packedSize: 87528
+    offset: 2210160
+    sourceAssetGUID: f88677df267a41d6be1e7a6133e7d227
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Textures/Brushed Metal
+      3.jpg
+  - fileID: 50
+    classID: 28
+    packedSize: 349680
+    offset: 2297696
+    sourceAssetGUID: fd09957580ac4326916010f1f260975b
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Sprites/DropCap Numbers.psd
+  - fileID: 51
+    classID: 28
+    packedSize: 136
+    offset: 2647376
+    sourceAssetGUID: 5302535af1044152a457ed104f1f4b91
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+      SDF.asset
+  - fileID: 52
+    classID: 28
+    packedSize: 136
+    offset: 2647520
+    sourceAssetGUID: 0161d805a3764c089bef00bfe00793f5
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Oswald
+      Bold SDF.asset
+  - fileID: 53
+    classID: 28
+    packedSize: 132
+    offset: 2647664
+    sourceAssetGUID: 125cb55b44b24c4393181402bc6200e6
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+      SDF.asset
+  - fileID: 54
+    classID: 28
+    packedSize: 128
+    offset: 2647808
+    sourceAssetGUID: 8a89fa14b10d46a99122fd4f73fca9a2
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+      SDF.asset
+  - fileID: 55
+    classID: 28
+    packedSize: 148
+    offset: 2647936
+    sourceAssetGUID: dc36b3fdc14f47ebb36fd484a67e268a
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Electronic
+      Highway Sign SDF.asset
+  - fileID: 56
+    classID: 28
+    packedSize: 1048700
+    offset: 2648096
+    sourceAssetGUID: c9adb1f542a93ae489bacfeae21e8394
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Unity
+      SDF.asset
+  - fileID: 57
+    classID: 48
+    packedSize: 13832
+    offset: 3696800
+    sourceAssetGUID: 0178fcb869bafef4690d177d31d17db8
+    buildTimeAssetPath: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader
+  - fileID: 58
+    classID: 48
+    packedSize: 24044
+    offset: 3710640
+    sourceAssetGUID: 68e6db2ebdc24f95958faec2be5558d6
+    buildTimeAssetPath: Assets/TextMesh Pro/Shaders/TMP_SDF.shader
+  - fileID: 59
+    classID: 48
+    packedSize: 14444
+    offset: 3734688
+    sourceAssetGUID: 85187c2149c549c5b33f0cdb02836b17
+    buildTimeAssetPath: Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader
+  - fileID: 60
+    classID: 48
+    packedSize: 9340
+    offset: 3749136
+    sourceAssetGUID: a02a7d8c237544f1962732b55a9aebf1
+    buildTimeAssetPath: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader
+  - fileID: 61
+    classID: 48
+    packedSize: 10124
+    offset: 3758480
+    sourceAssetGUID: bc1ede39bf3643ee8e493720e4259791
+    buildTimeAssetPath: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader
+  - fileID: 62
+    classID: 48
+    packedSize: 5856
+    offset: 3768608
+    sourceAssetGUID: cf81c85f95fe47e1a27f6ae460cf182c
+    buildTimeAssetPath: Assets/TextMesh Pro/Shaders/TMP_Sprite.shader
+  - fileID: 63
+    classID: 48
+    packedSize: 33304
+    offset: 3774464
+    sourceAssetGUID: f7ada0af4f174f0694ca6a487b8f543d
+    buildTimeAssetPath: Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader
+  - fileID: 64
+    classID: 49
+    packedSize: 136
+    offset: 3807776
+    sourceAssetGUID: d82c1b31c7e74239bff1220585707d2b
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/LineBreaking Leading Characters.txt
+  - fileID: 65
+    classID: 49
+    packedSize: 316
+    offset: 3807920
+    sourceAssetGUID: fade42e8bc714b018fac513c043d323b
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt
+  - fileID: 66
+    classID: 128
+    packedSize: 30538
+    offset: 3808240
+    sourceAssetGUID: 355c353f536374f758446e97f2a931a4
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/Deutsch.ttf
+  - fileID: 67
+    classID: 128
+    packedSize: 170882
+    offset: 3838784
+    sourceAssetGUID: 4beb055f07aaff244873dec698d0363e
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Roboto-Bold.ttf
+  - fileID: 68
+    classID: 128
+    packedSize: 39794
+    offset: 4009680
+    sourceAssetGUID: 5dd49b3eacc540408c98eee0de38e0f1
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Bangers.ttf
+  - fileID: 69
+    classID: 128
+    packedSize: 73210
+    offset: 4049488
+    sourceAssetGUID: 8a2b9e2a607dd2143b58c44bc32410b4
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Electronic Highway
+      Sign.TTF
+  - fileID: 70
+    classID: 128
+    packedSize: 42494
+    offset: 4122704
+    sourceAssetGUID: 997a43b767814dd0a7642ec9b78cba41
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Anton.ttf
+  - fileID: 71
+    classID: 128
+    packedSize: 53178
+    offset: 4165200
+    sourceAssetGUID: c9f6d0e7bc8541498c9a4799ba184ede
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Fonts/Oswald-Bold.ttf
+  - fileID: 72
+    classID: 114
+    packedSize: 128
+    offset: 4218384
+    sourceAssetGUID: 479a66fa4b094512a62b0a8e553ad95a
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Color Gradient
+      Presets/Blue to Purple - Vertical.asset
+  - fileID: 73
+    classID: 114
+    packedSize: 132
+    offset: 4218512
+    sourceAssetGUID: 4c86a3366cd840348ebe8dc438570ee4
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Color Gradient
+      Presets/Dark to Light Green - Vertical.asset
+  - fileID: 74
+    classID: 114
+    packedSize: 132
+    offset: 4218656
+    sourceAssetGUID: 5cf8ae092ca54931b443bec5148f3c59
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Color Gradient
+      Presets/Light to Dark Green - Vertical.asset
+  - fileID: 75
+    classID: 114
+    packedSize: 128
+    offset: 4218800
+    sourceAssetGUID: 69a525efa7e6472eab268f6ea605f06e
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Color Gradient
+      Presets/Yellow to Orange - Vertical.asset
+  - fileID: 76
+    classID: 114
+    packedSize: 1100
+    offset: 4218928
+    sourceAssetGUID: 8a89fa14b10d46a99122fd4f73fca9a2
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Anton
+      SDF.asset
+  - fileID: 77
+    classID: 114
+    packedSize: 1100
+    offset: 4220032
+    sourceAssetGUID: 125cb55b44b24c4393181402bc6200e6
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Bangers
+      SDF.asset
+  - fileID: 78
+    classID: 114
+    packedSize: 1148
+    offset: 4221136
+    sourceAssetGUID: dc36b3fdc14f47ebb36fd484a67e268a
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Electronic
+      Highway Sign SDF.asset
+  - fileID: 79
+    classID: 114
+    packedSize: 1116
+    offset: 4222288
+    sourceAssetGUID: 0161d805a3764c089bef00bfe00793f5
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Oswald
+      Bold SDF.asset
+  - fileID: 80
+    classID: 114
+    packedSize: 1120
+    offset: 4223408
+    sourceAssetGUID: 5302535af1044152a457ed104f1f4b91
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Roboto-Bold
+      SDF.asset
+  - fileID: 81
+    classID: 114
+    packedSize: 920
+    offset: 4224528
+    sourceAssetGUID: c9adb1f542a93ae489bacfeae21e8394
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Fonts & Materials/Unity
+      SDF.asset
+  - fileID: 82
+    classID: 114
+    packedSize: 1636
+    offset: 4225456
+    sourceAssetGUID: fbef3c704dce48f08a44612d6c856c8d
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Sprite Assets/Default
+      Sprite Asset.asset
+  - fileID: 83
+    classID: 114
+    packedSize: 1444
+    offset: 4227104
+    sourceAssetGUID: 14aa93acbb234d16aaef0e8b46814db6
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Resources/Sprite Assets/DropCap
+      Numbers.asset
+  - fileID: 84
+    classID: 114
+    packedSize: 27024
+    offset: 4228560
+    sourceAssetGUID: 675eb9ad938a443c9ad55ea7b4f01e54
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/Deutsch SDF.asset
+  - fileID: 85
+    classID: 114
+    packedSize: 124
+    offset: 4255584
+    sourceAssetGUID: 9ad97e1e4250247eaa66a691372d0c02
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/New TMP Color
+      Gradient.asset
+  - fileID: 86
+    classID: 114
+    packedSize: 2944
+    offset: 4255712
+    sourceAssetGUID: c41005c129ba4d66911b75229fd70b45
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset
+  - fileID: 87
+    classID: 114
+    packedSize: 2392
+    offset: 4258656
+    sourceAssetGUID: f952c082cb03451daed3ee968ac6c63e
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Style Sheets/Default Style
+      Sheet.asset
+  - fileID: 88
+    classID: 114
+    packedSize: 300
+    offset: 4261056
+    sourceAssetGUID: 3f5b5dff67a942289a9defa416b206f3
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/TMP Settings.asset
+--- !u!1126 &-5948360283308178931
+PackedAssets:
+  m_ShortPath: sharedassets3.assets
+  m_Overhead: 4556
+  m_Contents:
+  - fileID: 1
+    classID: 150
+    packedSize: 553
+    offset: 3792
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 2
+    classID: 21
+    packedSize: 908
+    offset: 4352
+    sourceAssetGUID: 0d558358a88cf4159b51357555efc16c
+    buildTimeAssetPath: Assets/Models/Wojack_decimated.obj
+  - fileID: 3
+    classID: 21
+    packedSize: 908
+    offset: 5264
+    sourceAssetGUID: 1cce86d673cc2405fb3c55b88a21020d
+    buildTimeAssetPath: Assets/Models/exopreneur_decimated.obj
+  - fileID: 4
+    classID: 21
+    packedSize: 908
+    offset: 6176
+    sourceAssetGUID: 4949e5be0e00d4059a7b610483e69744
+    buildTimeAssetPath: Assets/Models/NEET_decimated.obj
+  - fileID: 5
+    classID: 21
+    packedSize: 908
+    offset: 7088
+    sourceAssetGUID: 5eaa88bc37fa14c7a96b8805eb103843
+    buildTimeAssetPath: Assets/Models/Acronymologist_decimated.obj
+  - fileID: 6
+    classID: 21
+    packedSize: 908
+    offset: 8000
+    sourceAssetGUID: 654fe88f51c95466f9ce2139d7976ea4
+    buildTimeAssetPath: Assets/Models/Fawncore_decimated.obj
+  - fileID: 7
+    classID: 21
+    packedSize: 908
+    offset: 8912
+    sourceAssetGUID: 691079beb832e4e6fb58e05251a42543
+    buildTimeAssetPath: Assets/Models/Zombie_decimated.obj
+  - fileID: 8
+    classID: 21
+    packedSize: 908
+    offset: 9824
+    sourceAssetGUID: 6d37962413eeb4dad851dca521bc0e56
+    buildTimeAssetPath: Assets/Models/Hustlepreneur_decimated.obj
+  - fileID: 9
+    classID: 21
+    packedSize: 908
+    offset: 10736
+    sourceAssetGUID: b549c345c6f71480099ca9a83a10f2f3
+    buildTimeAssetPath: Assets/Models/Dream_Reader_decimated.obj
+  - fileID: 10
+    classID: 21
+    packedSize: 908
+    offset: 11648
+    sourceAssetGUID: d01f8390bcc834bd0bc8ad51faf46490
+    buildTimeAssetPath: Assets/Models/being_baby_decimated.obj
+  - fileID: 11
+    classID: 21
+    packedSize: 908
+    offset: 12560
+    sourceAssetGUID: d5ccee9e75cd14200b56e63f5a3f2e3d
+    buildTimeAssetPath: Assets/Models/Overdoser_decimated.obj
+  - fileID: 12
+    classID: 21
+    packedSize: 908
+    offset: 13472
+    sourceAssetGUID: e121a35ff25cc4cf1bb05a7aedb9fcdd
+    buildTimeAssetPath: Assets/Models/biohacker_decimated.obj
+  - fileID: 13
+    classID: 21
+    packedSize: 1436
+    offset: 14384
+    sourceAssetGUID: f2d383aff50fc034591e73439831f5ad
+    buildTimeAssetPath: Assets/Materials/TrailMaterial.mat
+  - fileID: 14
+    classID: 28
+    packedSize: 163964
+    offset: 15824
+    sourceAssetGUID: 71e031936fe304683a4e5b8290319ee4
+    buildTimeAssetPath: Assets/Art/Images/End/Swarm_Frame.png
+  - fileID: 15
+    classID: 43
+    packedSize: 120452
+    offset: 179792
+    sourceAssetGUID: 0d558358a88cf4159b51357555efc16c
+    buildTimeAssetPath: Assets/Models/Wojack_decimated.obj
+  - fileID: 16
+    classID: 43
+    packedSize: 459176
+    offset: 300256
+    sourceAssetGUID: 1cce86d673cc2405fb3c55b88a21020d
+    buildTimeAssetPath: Assets/Models/exopreneur_decimated.obj
+  - fileID: 17
+    classID: 43
+    packedSize: 175876
+    offset: 759440
+    sourceAssetGUID: 4949e5be0e00d4059a7b610483e69744
+    buildTimeAssetPath: Assets/Models/NEET_decimated.obj
+  - fileID: 18
+    classID: 43
+    packedSize: 109908
+    offset: 935328
+    sourceAssetGUID: 5eaa88bc37fa14c7a96b8805eb103843
+    buildTimeAssetPath: Assets/Models/Acronymologist_decimated.obj
+  - fileID: 19
+    classID: 43
+    packedSize: 131936
+    offset: 1045248
+    sourceAssetGUID: 654fe88f51c95466f9ce2139d7976ea4
+    buildTimeAssetPath: Assets/Models/Fawncore_decimated.obj
+  - fileID: 20
+    classID: 43
+    packedSize: 139368
+    offset: 1177184
+    sourceAssetGUID: 691079beb832e4e6fb58e05251a42543
+    buildTimeAssetPath: Assets/Models/Zombie_decimated.obj
+  - fileID: 21
+    classID: 43
+    packedSize: 170824
+    offset: 1316560
+    sourceAssetGUID: 6d37962413eeb4dad851dca521bc0e56
+    buildTimeAssetPath: Assets/Models/Hustlepreneur_decimated.obj
+  - fileID: 22
+    classID: 43
+    packedSize: 69936
+    offset: 1487392
+    sourceAssetGUID: b549c345c6f71480099ca9a83a10f2f3
+    buildTimeAssetPath: Assets/Models/Dream_Reader_decimated.obj
+  - fileID: 23
+    classID: 43
+    packedSize: 139376
+    offset: 1557328
+    sourceAssetGUID: d01f8390bcc834bd0bc8ad51faf46490
+    buildTimeAssetPath: Assets/Models/being_baby_decimated.obj
+  - fileID: 24
+    classID: 43
+    packedSize: 140240
+    offset: 1696704
+    sourceAssetGUID: d5ccee9e75cd14200b56e63f5a3f2e3d
+    buildTimeAssetPath: Assets/Models/Overdoser_decimated.obj
+  - fileID: 25
+    classID: 43
+    packedSize: 169228
+    offset: 1836944
+    sourceAssetGUID: e121a35ff25cc4cf1bb05a7aedb9fcdd
+    buildTimeAssetPath: Assets/Models/biohacker_decimated.obj
+  - fileID: 26
+    classID: 48
+    packedSize: 51100
+    offset: 2006176
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 27
+    classID: 83
+    packedSize: 116
+    offset: 2057280
+    sourceAssetGUID: 01a4bb9f90184483bacaa0a4ddcbc6f5
+    buildTimeAssetPath: Assets/Audio/Tracks/To Kill or Climax (final draft).mp3
+  - fileID: 28
+    classID: 84
+    packedSize: 84
+    offset: 2057408
+    sourceAssetGUID: aede9462b8f42614795f79e7a9abdc54
+    buildTimeAssetPath: Assets/Textures/Render Textures/End/Swarm.renderTexture
+  - fileID: 29
+    classID: 213
+    packedSize: 18916
+    offset: 2057504
+    sourceAssetGUID: 71e031936fe304683a4e5b8290319ee4
+    buildTimeAssetPath: Assets/Art/Images/End/Swarm_Frame.png
+  - fileID: 30
+    classID: 1
+    packedSize: 59
+    offset: 2076432
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+  - fileID: 31
+    classID: 1
+    packedSize: 59
+    offset: 2076496
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 32
+    classID: 1
+    packedSize: 59
+    offset: 2076560
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 33
+    classID: 1
+    packedSize: 59
+    offset: 2076624
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 34
+    classID: 1
+    packedSize: 83
+    offset: 2076688
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 35
+    classID: 1
+    packedSize: 59
+    offset: 2076784
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 36
+    classID: 1
+    packedSize: 59
+    offset: 2076848
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 37
+    classID: 1
+    packedSize: 59
+    offset: 2076912
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 38
+    classID: 1
+    packedSize: 87
+    offset: 2076976
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 39
+    classID: 1
+    packedSize: 59
+    offset: 2077072
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 40
+    classID: 1
+    packedSize: 59
+    offset: 2077136
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 41
+    classID: 1
+    packedSize: 79
+    offset: 2077200
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 42
+    classID: 1
+    packedSize: 83
+    offset: 2077280
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 43
+    classID: 1
+    packedSize: 59
+    offset: 2077376
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 44
+    classID: 1
+    packedSize: 87
+    offset: 2077440
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 45
+    classID: 1
+    packedSize: 59
+    offset: 2077536
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 46
+    classID: 1
+    packedSize: 87
+    offset: 2077600
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 47
+    classID: 1
+    packedSize: 83
+    offset: 2077696
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 48
+    classID: 1
+    packedSize: 79
+    offset: 2077792
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 49
+    classID: 1
+    packedSize: 83
+    offset: 2077872
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 50
+    classID: 1
+    packedSize: 79
+    offset: 2077968
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 51
+    classID: 1
+    packedSize: 83
+    offset: 2078048
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+  - fileID: 52
+    classID: 4
+    packedSize: 80
+    offset: 2078144
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 53
+    classID: 4
+    packedSize: 68
+    offset: 2078224
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 54
+    classID: 4
+    packedSize: 80
+    offset: 2078304
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 55
+    classID: 4
+    packedSize: 68
+    offset: 2078384
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 56
+    classID: 4
+    packedSize: 68
+    offset: 2078464
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 57
+    classID: 4
+    packedSize: 80
+    offset: 2078544
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 58
+    classID: 4
+    packedSize: 80
+    offset: 2078624
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 59
+    classID: 4
+    packedSize: 68
+    offset: 2078704
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 60
+    classID: 4
+    packedSize: 80
+    offset: 2078784
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 61
+    classID: 4
+    packedSize: 68
+    offset: 2078864
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 62
+    classID: 4
+    packedSize: 68
+    offset: 2078944
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 63
+    classID: 4
+    packedSize: 68
+    offset: 2079024
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 64
+    classID: 4
+    packedSize: 80
+    offset: 2079104
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 65
+    classID: 4
+    packedSize: 80
+    offset: 2079184
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 66
+    classID: 4
+    packedSize: 80
+    offset: 2079264
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 67
+    classID: 4
+    packedSize: 68
+    offset: 2079344
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 68
+    classID: 4
+    packedSize: 68
+    offset: 2079424
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 69
+    classID: 4
+    packedSize: 68
+    offset: 2079504
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 70
+    classID: 4
+    packedSize: 80
+    offset: 2079584
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+  - fileID: 71
+    classID: 4
+    packedSize: 80
+    offset: 2079664
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 72
+    classID: 4
+    packedSize: 80
+    offset: 2079744
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 73
+    classID: 4
+    packedSize: 68
+    offset: 2079824
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+  - fileID: 74
+    classID: 23
+    packedSize: 148
+    offset: 2079904
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 75
+    classID: 23
+    packedSize: 148
+    offset: 2080064
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 76
+    classID: 23
+    packedSize: 160
+    offset: 2080224
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 77
+    classID: 23
+    packedSize: 148
+    offset: 2080384
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 78
+    classID: 23
+    packedSize: 148
+    offset: 2080544
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 79
+    classID: 23
+    packedSize: 160
+    offset: 2080704
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 80
+    classID: 23
+    packedSize: 148
+    offset: 2080864
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 81
+    classID: 23
+    packedSize: 160
+    offset: 2081024
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 82
+    classID: 23
+    packedSize: 148
+    offset: 2081184
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 83
+    classID: 23
+    packedSize: 148
+    offset: 2081344
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 84
+    classID: 23
+    packedSize: 160
+    offset: 2081504
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 85
+    classID: 23
+    packedSize: 160
+    offset: 2081664
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 86
+    classID: 23
+    packedSize: 160
+    offset: 2081824
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+  - fileID: 87
+    classID: 23
+    packedSize: 148
+    offset: 2081984
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 88
+    classID: 23
+    packedSize: 148
+    offset: 2082144
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 89
+    classID: 23
+    packedSize: 160
+    offset: 2082304
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 90
+    classID: 23
+    packedSize: 160
+    offset: 2082464
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 91
+    classID: 23
+    packedSize: 148
+    offset: 2082624
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+  - fileID: 92
+    classID: 23
+    packedSize: 160
+    offset: 2082784
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 93
+    classID: 23
+    packedSize: 148
+    offset: 2082944
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 94
+    classID: 23
+    packedSize: 160
+    offset: 2083104
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 95
+    classID: 23
+    packedSize: 160
+    offset: 2083264
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 96
+    classID: 33
+    packedSize: 24
+    offset: 2083424
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 97
+    classID: 33
+    packedSize: 24
+    offset: 2083456
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 98
+    classID: 33
+    packedSize: 24
+    offset: 2083488
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 99
+    classID: 33
+    packedSize: 24
+    offset: 2083520
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 100
+    classID: 33
+    packedSize: 24
+    offset: 2083552
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 101
+    classID: 33
+    packedSize: 24
+    offset: 2083584
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+  - fileID: 102
+    classID: 33
+    packedSize: 24
+    offset: 2083616
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 103
+    classID: 33
+    packedSize: 24
+    offset: 2083648
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 104
+    classID: 33
+    packedSize: 24
+    offset: 2083680
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 105
+    classID: 33
+    packedSize: 24
+    offset: 2083712
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 106
+    classID: 33
+    packedSize: 24
+    offset: 2083744
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 107
+    classID: 96
+    packedSize: 423
+    offset: 2083776
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 108
+    classID: 96
+    packedSize: 423
+    offset: 2084208
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 109
+    classID: 96
+    packedSize: 423
+    offset: 2084640
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 110
+    classID: 96
+    packedSize: 423
+    offset: 2085072
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 111
+    classID: 96
+    packedSize: 423
+    offset: 2085504
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 112
+    classID: 96
+    packedSize: 423
+    offset: 2085936
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+  - fileID: 113
+    classID: 96
+    packedSize: 423
+    offset: 2086368
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 114
+    classID: 96
+    packedSize: 423
+    offset: 2086800
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 115
+    classID: 96
+    packedSize: 423
+    offset: 2087232
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 116
+    classID: 96
+    packedSize: 423
+    offset: 2087664
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 117
+    classID: 96
+    packedSize: 423
+    offset: 2088096
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 118
+    classID: 114
+    packedSize: 64
+    offset: 2088528
+    sourceAssetGUID: cde867feb6c974791b23181b4f09a532
+    buildTimeAssetPath: Assets/Prefabs/Characters/Dream_Reader_decimated.prefab
+  - fileID: 119
+    classID: 114
+    packedSize: 64
+    offset: 2088592
+    sourceAssetGUID: fcf01120827fd44279f76737709fd97d
+    buildTimeAssetPath: Assets/Prefabs/Characters/Wojack_decimated.prefab
+  - fileID: 120
+    classID: 114
+    packedSize: 64
+    offset: 2088656
+    sourceAssetGUID: a51deebedcb214e27853c4c1c2121b90
+    buildTimeAssetPath: Assets/Prefabs/Characters/Acronymologist_decimated.prefab
+  - fileID: 121
+    classID: 114
+    packedSize: 64
+    offset: 2088720
+    sourceAssetGUID: 9c9e80de6150f406cb6e1b946e1c14b2
+    buildTimeAssetPath: Assets/Prefabs/Characters/Overdoser_decimated.prefab
+  - fileID: 122
+    classID: 114
+    packedSize: 64
+    offset: 2088784
+    sourceAssetGUID: 395bcb220d6e14046bff743ac9b79d03
+    buildTimeAssetPath: Assets/Prefabs/Characters/being_baby_decimated.prefab
+  - fileID: 123
+    classID: 114
+    packedSize: 64
+    offset: 2088848
+    sourceAssetGUID: 8edd50d8188b642a39f5992470145bfc
+    buildTimeAssetPath: Assets/Prefabs/Characters/Fawncore_decimated.prefab
+  - fileID: 124
+    classID: 114
+    packedSize: 64
+    offset: 2088912
+    sourceAssetGUID: 69ce02cd0b8144b7fbdac8e3de1ca88c
+    buildTimeAssetPath: Assets/Prefabs/Characters/Zombie_decimated.prefab
+  - fileID: 125
+    classID: 114
+    packedSize: 64
+    offset: 2088976
+    sourceAssetGUID: 326c8281fb8b74df4ac48846a032990a
+    buildTimeAssetPath: Assets/Prefabs/Characters/NEET_decimated.prefab
+  - fileID: 126
+    classID: 114
+    packedSize: 64
+    offset: 2089040
+    sourceAssetGUID: 002ca47b009c149168de9d1940eedadf
+    buildTimeAssetPath: Assets/Prefabs/Characters/Hustlepreneur_decimated.prefab
+  - fileID: 127
+    classID: 114
+    packedSize: 64
+    offset: 2089104
+    sourceAssetGUID: d15feaf4df90946d2945eafb947a6d68
+    buildTimeAssetPath: Assets/Prefabs/Characters/biohacker_decimated.prefab
+  - fileID: 128
+    classID: 114
+    packedSize: 64
+    offset: 2089168
+    sourceAssetGUID: 38d7503c298534db09f4b1a1cb9dc9a4
+    buildTimeAssetPath: Assets/Prefabs/Characters/exopreneur_decimated.prefab
+--- !u!1126 &-5754237035248750865
+PackedAssets:
+  m_ShortPath: sharedassets0.assets
+  m_Overhead: 1361
+  m_Contents:
+  - fileID: 1
+    classID: 150
+    packedSize: 205
+    offset: 1200
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 2
+    classID: 21
+    packedSize: 268
+    offset: 1408
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 3
+    classID: 21
+    packedSize: 220
+    offset: 1680
+    sourceAssetGUID: 03ddff9621a13431e81ae570a73f489f
+    buildTimeAssetPath: Assets/Materials/UIChromaKey.mat
+  - fileID: 4
+    classID: 21
+    packedSize: 148
+    offset: 1904
+    sourceAssetGUID: e3265ab4bf004d28a9537516768c1c75
+    buildTimeAssetPath: Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+  - fileID: 5
+    classID: 21
+    packedSize: 2016
+    offset: 2064
+    sourceAssetGUID: 2e498d1c8094910479dc3e1b768306a4
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+      SDF - Fallback.asset
+  - fileID: 6
+    classID: 21
+    packedSize: 956
+    offset: 4080
+    sourceAssetGUID: 8f586378b4e144a9851e7b34d9b748ee
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+      SDF.asset
+  - fileID: 7
+    classID: 28
+    packedSize: 5580
+    offset: 5040
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 8
+    classID: 28
+    packedSize: 393348
+    offset: 10624
+    sourceAssetGUID: 91da76d84baac46938765e5f35ecf3ac
+    buildTimeAssetPath: Assets/Art/Images/Lobby/Terminal Sequence 3.jpg
+  - fileID: 9
+    classID: 28
+    packedSize: 124
+    offset: 403984
+    sourceAssetGUID: e3265ab4bf004d28a9537516768c1c75
+    buildTimeAssetPath: Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+  - fileID: 10
+    classID: 28
+    packedSize: 136
+    offset: 404112
+    sourceAssetGUID: 2e498d1c8094910479dc3e1b768306a4
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+      SDF - Fallback.asset
+  - fileID: 11
+    classID: 28
+    packedSize: 1048712
+    offset: 404256
+    sourceAssetGUID: 8f586378b4e144a9851e7b34d9b748ee
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+      SDF.asset
+  - fileID: 12
+    classID: 48
+    packedSize: 7240
+    offset: 1452976
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 13
+    classID: 48
+    packedSize: 4308
+    offset: 1460224
+    sourceAssetGUID: 03f0c39cc5bc74d5691399b3216e50bb
+    buildTimeAssetPath: Assets/Materials/ChromaKey.shader
+  - fileID: 14
+    classID: 48
+    packedSize: 14220
+    offset: 1464544
+    sourceAssetGUID: fe393ace9b354375a9cb14cdbbc28be4
+    buildTimeAssetPath: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+  - fileID: 15
+    classID: 83
+    packedSize: 96
+    offset: 1478768
+    sourceAssetGUID: 08d9c3172e127459b8e5591be2aaa651
+    buildTimeAssetPath: Assets/Audio/Sounds/Acid Bleep.wav
+  - fileID: 16
+    classID: 83
+    packedSize: 92
+    offset: 1478864
+    sourceAssetGUID: 46738df92d8ad451384a2ddd69da89b8
+    buildTimeAssetPath: Assets/Audio/Sounds/Bleep.wav
+  - fileID: 17
+    classID: 83
+    packedSize: 108
+    offset: 1478960
+    sourceAssetGUID: 8b0df6079fb504348be4542ec1581939
+    buildTimeAssetPath: Assets/Audio/Tracks/Digitizing (final draft).mp3
+  - fileID: 18
+    classID: 84
+    packedSize: 84
+    offset: 1479072
+    sourceAssetGUID: 16bed3de4137144b3bba185a7be77d16
+    buildTimeAssetPath: Assets/Textures/Render Textures/Cursor.renderTexture
+  - fileID: 19
+    classID: 128
+    packedSize: 352462
+    offset: 1479168
+    sourceAssetGUID: e3265ab4bf004d28a9537516768c1c75
+    buildTimeAssetPath: Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+  - fileID: 20
+    classID: 213
+    packedSize: 572
+    offset: 1831632
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 21
+    classID: 213
+    packedSize: 476
+    offset: 1832208
+    sourceAssetGUID: 91da76d84baac46938765e5f35ecf3ac
+    buildTimeAssetPath: Assets/Art/Images/Lobby/Terminal Sequence 3.jpg
+  - fileID: 22
+    classID: 240
+    packedSize: 604
+    offset: 1832688
+    sourceAssetGUID: b31825bd972544370b6a2c4eae9afda7
+    buildTimeAssetPath: Assets/Audio/Master.mixer
+  - fileID: 23
+    classID: 273
+    packedSize: 44
+    offset: 1833296
+    sourceAssetGUID: b31825bd972544370b6a2c4eae9afda7
+    buildTimeAssetPath: Assets/Audio/Master.mixer
+  - fileID: 24
+    classID: 273
+    packedSize: 44
+    offset: 1833344
+    sourceAssetGUID: b31825bd972544370b6a2c4eae9afda7
+    buildTimeAssetPath: Assets/Audio/Master.mixer
+  - fileID: 25
+    classID: 273
+    packedSize: 52
+    offset: 1833392
+    sourceAssetGUID: b31825bd972544370b6a2c4eae9afda7
+    buildTimeAssetPath: Assets/Audio/Master.mixer
+  - fileID: 26
+    classID: 273
+    packedSize: 80
+    offset: 1833456
+    sourceAssetGUID: b31825bd972544370b6a2c4eae9afda7
+    buildTimeAssetPath: Assets/Audio/Master.mixer
+  - fileID: 27
+    classID: 272
+    packedSize: 40
+    offset: 1833536
+    sourceAssetGUID: b31825bd972544370b6a2c4eae9afda7
+    buildTimeAssetPath: Assets/Audio/Master.mixer
+  - fileID: 28
+    classID: 114
+    packedSize: 1188
+    offset: 1833584
+    sourceAssetGUID: 2e498d1c8094910479dc3e1b768306a4
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+      SDF - Fallback.asset
+  - fileID: 29
+    classID: 114
+    packedSize: 28796
+    offset: 1834784
+    sourceAssetGUID: 8f586378b4e144a9851e7b34d9b748ee
+    buildTimeAssetPath: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans
+      SDF.asset
+--- !u!1126 &-4514976954976733910
+PackedAssets:
+  m_ShortPath: globalgamemanagers.assets
+  m_Overhead: 6523
+  m_Contents:
+  - fileID: 1
+    classID: 150
+    packedSize: 229
+    offset: 25392
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 2
+    classID: 21
+    packedSize: 304
+    offset: 25632
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 3
+    classID: 28
+    packedSize: 2796376
+    offset: 25936
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 'Built-in Texture2D: Splash Screen Unity Logo'
+  - fileID: 4
+    classID: 28
+    packedSize: 2172
+    offset: 2822320
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 5
+    classID: 115
+    packedSize: 100
+    offset: 5136
+    sourceAssetGUID: 006633c8a6f4ae94aa9babf72234e1a2
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/LayoutRebuilder.cs
+  - fileID: 6
+    classID: 115
+    packedSize: 100
+    offset: 5248
+    sourceAssetGUID: 020ee4c1798a3d243a4b8cbfee6cac2d
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/VertexModifiers/PositionAsUV1.cs
+  - fileID: 7
+    classID: 115
+    packedSize: 96
+    offset: 5360
+    sourceAssetGUID: 058cba836c1846c3aa1c5fd2e28aea77
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_SubMeshUI.cs
+  - fileID: 8
+    classID: 115
+    packedSize: 88
+    offset: 5456
+    sourceAssetGUID: 07994bfe8b0e4adb97d706de5dea48d5
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_SubMesh.cs
+  - fileID: 9
+    classID: 115
+    packedSize: 112
+    offset: 5552
+    sourceAssetGUID: 0a017569bfe174e4890797b4d64cbabc
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_FontAssetUtilities.cs
+  - fileID: 10
+    classID: 115
+    packedSize: 100
+    offset: 5664
+    sourceAssetGUID: 0aaa057ce5566e940b18a0ccd0344693
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/UIBehaviour.cs
+  - fileID: 11
+    classID: 115
+    packedSize: 92
+    offset: 5776
+    sourceAssetGUID: 0cd44c1031e13a943bb63640046fad76
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/CanvasScaler.cs
+  - fileID: 12
+    classID: 115
+    packedSize: 84
+    offset: 5872
+    sourceAssetGUID: 0d0b652f32a2cc243917e4028fa0f046
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Dropdown.cs
+  - fileID: 13
+    classID: 115
+    packedSize: 108
+    offset: 5968
+    sourceAssetGUID: 103e0a6a1d404693b9fb1a5173e0e979
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextSelector_A.cs
+  - fileID: 14
+    classID: 115
+    packedSize: 112
+    offset: 6080
+    sourceAssetGUID: 11a6a034ab84493cbed6af5ae7aae78b
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/MaterialReferenceManager.cs
+  - fileID: 15
+    classID: 115
+    packedSize: 100
+    offset: 6192
+    sourceAssetGUID: 1312ae25639a4bae8e25ae223209cc50
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextEventHandler.cs
+  - fileID: 16
+    classID: 115
+    packedSize: 84
+    offset: 6304
+    sourceAssetGUID: 1344c3c82d62a2a41a3576d8abb8e3ea
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/RawImage.cs
+  - fileID: 17
+    classID: 115
+    packedSize: 84
+    offset: 6400
+    sourceAssetGUID: 13cd966480ec3354bb318ee1aeccff6f
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/FontData.cs
+  - fileID: 18
+    classID: 115
+    packedSize: 100
+    offset: 6496
+    sourceAssetGUID: 1511ccae7919cfc46b603b9b337fdc94
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/InputModules/BaseInput.cs
+  - fileID: 19
+    classID: 115
+    packedSize: 100
+    offset: 6608
+    sourceAssetGUID: 1a7eb92a01ed499a987bde9def05fbce
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_DigitValidator.cs
+  - fileID: 20
+    classID: 115
+    packedSize: 92
+    offset: 6720
+    sourceAssetGUID: 1aa08ab6e0800fa44ae55d278d1423e3
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/ScrollRect.cs
+  - fileID: 21
+    classID: 115
+    packedSize: 140
+    offset: 6816
+    sourceAssetGUID: 1bd8e2f47a6c4478ab8f0ade7687e79b
+    buildTimeAssetPath: Packages/com.unity.multiplayer.center/Common/IOnboardingSection.cs
+  - fileID: 22
+    classID: 115
+    packedSize: 76
+    offset: 6960
+    sourceAssetGUID: 1c5b5d3ec868d4ace90486cb6b556a3f
+    buildTimeAssetPath: Assets/Scripts/Utility/CustomCursor.cs
+  - fileID: 23
+    classID: 115
+    packedSize: 108
+    offset: 7040
+    sourceAssetGUID: 1ea10891dd782154ca0fb67bce9e6f72
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/InputModules/BaseInputModule.cs
+  - fileID: 24
+    classID: 115
+    packedSize: 104
+    offset: 7152
+    sourceAssetGUID: 202d758d102b6854a9710c8b93db742c
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_SpriteCharacter.cs
+  - fileID: 25
+    classID: 115
+    packedSize: 108
+    offset: 7264
+    sourceAssetGUID: 20a9b557a46149dfbfa04a3a7080f5aa
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_TextProcessingStack.cs
+  - fileID: 26
+    classID: 115
+    packedSize: 84
+    offset: 7376
+    sourceAssetGUID: 20cd948ed013ff343ba0741e7f45b8ff
+    buildTimeAssetPath: Assets/Scripts/Utility/SceneChanger.cs
+  - fileID: 27
+    classID: 115
+    packedSize: 108
+    offset: 7472
+    sourceAssetGUID: 20ff4283f687e044087714f82c4d6d3f
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/MaterialModifiers/IMaterialModifier.cs
+  - fileID: 28
+    classID: 115
+    packedSize: 116
+    offset: 7584
+    sourceAssetGUID: 21256c5b62f346f18640dad779911e20
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextInfoDebugTool.cs
+  - fileID: 29
+    classID: 115
+    packedSize: 104
+    offset: 7712
+    sourceAssetGUID: 21364f754cf9b9b47a60742332d4af56
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_Compatibility.cs
+  - fileID: 30
+    classID: 115
+    packedSize: 92
+    offset: 7824
+    sourceAssetGUID: 23540ceb2602c584c895d98cb655f679
+    buildTimeAssetPath: Assets/Scripts/Utility/GoogleSheetsHandler.cs
+  - fileID: 31
+    classID: 115
+    packedSize: 112
+    offset: 7920
+    sourceAssetGUID: 2359c66dee10c454c97f6aea84e3fe22
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/EventInterfaces.cs
+  - fileID: 32
+    classID: 115
+    packedSize: 84
+    offset: 8032
+    sourceAssetGUID: 238a29061ad3a4d15b72e88ca723f416
+    buildTimeAssetPath: Assets/Scripts/End/EndSceneManager.cs
+  - fileID: 33
+    classID: 115
+    packedSize: 116
+    offset: 8128
+    sourceAssetGUID: 24b0dc2d1d494adbbec1f4db26b4cf83
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_UiFrameRateCounter.cs
+  - fileID: 34
+    classID: 115
+    packedSize: 104
+    offset: 8256
+    sourceAssetGUID: 256ee9dd27077eb4b884800adfd8b7ea
+    buildTimeAssetPath: Assets/Scripts/Start/StartSceneManager.cs
+  - fileID: 35
+    classID: 115
+    packedSize: 92
+    offset: 8368
+    sourceAssetGUID: 25b01819c6e1649428db2a9b274cf364
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/SpriteState.cs
+  - fileID: 36
+    classID: 115
+    packedSize: 108
+    offset: 8464
+    sourceAssetGUID: 26570be2af04195458e6f1ac1f5c48e0
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/RaycasterManager.cs
+  - fileID: 37
+    classID: 115
+    packedSize: 88
+    offset: 8576
+    sourceAssetGUID: 2705215ac5b84b70bacc50632be6e391
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_Settings.cs
+  - fileID: 38
+    classID: 115
+    packedSize: 108
+    offset: 8672
+    sourceAssetGUID: 2787a46a4dc848c1b4b7b9307b614bfd
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/ShaderPropAnimator.cs
+  - fileID: 39
+    classID: 115
+    packedSize: 108
+    offset: 8784
+    sourceAssetGUID: 27df3b12f30d0b74a9b10a3968c402ff
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_FontFeaturesCommon.cs
+  - fileID: 40
+    classID: 115
+    packedSize: 92
+    offset: 8896
+    sourceAssetGUID: 2a4db7a114972834c8e4117be1d82ba3
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Scrollbar.cs
+  - fileID: 41
+    classID: 115
+    packedSize: 108
+    offset: 8992
+    sourceAssetGUID: 2d49b7c1bcd2e07499844da127be038d
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/InputModules/TouchInputModule.cs
+  - fileID: 42
+    classID: 115
+    packedSize: 100
+    offset: 9104
+    sourceAssetGUID: 2d687537154440a3913a9a3c7977978c
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/CameraController.cs
+  - fileID: 43
+    classID: 115
+    packedSize: 96
+    offset: 9216
+    sourceAssetGUID: 2da0c512f12947e489f739169773d7ca
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_InputField.cs
+  - fileID: 44
+    classID: 115
+    packedSize: 92
+    offset: 9312
+    sourceAssetGUID: 2ed57967c52645d390a89dcf8f61ba73
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/VertexJitter.cs
+  - fileID: 45
+    classID: 115
+    packedSize: 92
+    offset: 9408
+    sourceAssetGUID: 2fafe2cfe61f6974895a912c3755e8f1
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/ToggleGroup.cs
+  - fileID: 46
+    classID: 115
+    packedSize: 116
+    offset: 9504
+    sourceAssetGUID: 30649d3a9faa99c48a7b1166b86bf2a0
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/HorizontalLayoutGroup.cs
+  - fileID: 47
+    classID: 115
+    packedSize: 100
+    offset: 9632
+    sourceAssetGUID: 306cc8c2b49d7114eaa3623786fc2126
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/LayoutElement.cs
+  - fileID: 48
+    classID: 115
+    packedSize: 88
+    offset: 9744
+    sourceAssetGUID: 30bed781e402439ab8ce4e3357708115
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_Style.cs
+  - fileID: 49
+    classID: 115
+    packedSize: 76
+    offset: 9840
+    sourceAssetGUID: 31a19414c41e5ae4aae2af33fee712f6
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Mask.cs
+  - fileID: 50
+    classID: 115
+    packedSize: 104
+    offset: 9920
+    sourceAssetGUID: 322392995be44d23a3c86cfd972f838f
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_DefaultControls.cs
+  - fileID: 51
+    classID: 115
+    packedSize: 108
+    offset: 10032
+    sourceAssetGUID: 3245ec927659c4140ac4f8d17403cc18
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/ContentSizeFitter.cs
+  - fileID: 52
+    classID: 115
+    packedSize: 96
+    offset: 10144
+    sourceAssetGUID: 32d40088a6124c578ad6b428df586e2e
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TextContainer.cs
+  - fileID: 53
+    classID: 115
+    packedSize: 92
+    offset: 10240
+    sourceAssetGUID: 3312d7739989d2b4e91e6319e9a96d76
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/RectMask2D.cs
+  - fileID: 54
+    classID: 115
+    packedSize: 120
+    offset: 10336
+    sourceAssetGUID: 34e150112c1c42ac83170b52d898e322
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_ScrollbarEventHandler.cs
+  - fileID: 55
+    classID: 115
+    packedSize: 108
+    offset: 10464
+    sourceAssetGUID: 3550d8ec6f29ab34d895ae9a43d560c2
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/RaycastResult.cs
+  - fileID: 56
+    classID: 115
+    packedSize: 100
+    offset: 10576
+    sourceAssetGUID: 368d3a0498e78014da578aa5f45e2797
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/ILayoutElement.cs
+  - fileID: 57
+    classID: 115
+    packedSize: 88
+    offset: 10688
+    sourceAssetGUID: 371b6b9c8adc50745ace66a6fdf67481
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Culling/IClipRegion.cs
+  - fileID: 58
+    classID: 115
+    packedSize: 108
+    offset: 10784
+    sourceAssetGUID: 39ab466162988eb4f83443f911bbf5c8
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/FontUpdateTracker.cs
+  - fileID: 59
+    classID: 115
+    packedSize: 68
+    offset: 10896
+    sourceAssetGUID: 3bad849ec6e6ecf409ddca10cd8d950b
+    buildTimeAssetPath: Assets/Scripts/End/Agent.cs
+  - fileID: 60
+    classID: 115
+    packedSize: 88
+    offset: 10976
+    sourceAssetGUID: 3bda1886f58f4e0ab1139400b160c3ee
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_Asset.cs
+  - fileID: 61
+    classID: 115
+    packedSize: 108
+    offset: 11072
+    sourceAssetGUID: 426106349a0ff964fa4e7178c1d3a4f5
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/Raycasters/BaseRaycaster.cs
+  - fileID: 62
+    classID: 115
+    packedSize: 108
+    offset: 11184
+    sourceAssetGUID: 43bcd35a1c0c40ccb6d472893fe2093f
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TextConsoleSimulator.cs
+  - fileID: 63
+    classID: 115
+    packedSize: 116
+    offset: 11296
+    sourceAssetGUID: 445cdcfc747eba94288b97f5869aa2fb
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/GraphicRebuildTracker.cs
+  - fileID: 64
+    classID: 115
+    packedSize: 104
+    offset: 11424
+    sourceAssetGUID: 4877f87131635e6408f8c44e5d86791e
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_ResourcesManager.cs
+  - fileID: 65
+    classID: 115
+    packedSize: 96
+    offset: 11536
+    sourceAssetGUID: 4ac5b6a65aaeb59478e3b78660e9f134
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_Character.cs
+  - fileID: 66
+    classID: 115
+    packedSize: 88
+    offset: 11632
+    sourceAssetGUID: 4ae64f3f72004807a9f919f9c27af0db
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_TextInfo.cs
+  - fileID: 67
+    classID: 115
+    packedSize: 84
+    offset: 11728
+    sourceAssetGUID: 4e29b1a8efbd4b44bb3f3716e73f07ff
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Button.cs
+  - fileID: 68
+    classID: 115
+    packedSize: 104
+    offset: 11824
+    sourceAssetGUID: 4f0ca6874aa74540bb3d4fe5a0f86bcc
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_TextUtilities.cs
+  - fileID: 69
+    classID: 115
+    packedSize: 92
+    offset: 11936
+    sourceAssetGUID: 4f19c7f94c794c5097d8bd11e39c750d
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/ObjectSpin.cs
+  - fileID: 70
+    classID: 115
+    packedSize: 124
+    offset: 12032
+    sourceAssetGUID: 4f231c4fb786f3946a6b90b886c48677
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/InputModules/StandaloneInputModule.cs
+  - fileID: 71
+    classID: 115
+    packedSize: 136
+    offset: 12160
+    sourceAssetGUID: 50d5ff9fe4ab4477b7ea648da183e9d1
+    buildTimeAssetPath: Packages/com.unity.multiplayer.center/Common/StyleConstants.cs
+  - fileID: 72
+    classID: 115
+    packedSize: 80
+    offset: 12304
+    sourceAssetGUID: 5143f58107604835ab1a5efa2d8818fd
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_Text.cs
+  - fileID: 73
+    classID: 115
+    packedSize: 92
+    offset: 12384
+    sourceAssetGUID: 52ec835d14bd486f900952b77698b7eb
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/VertexZoom.cs
+  - fileID: 74
+    classID: 115
+    packedSize: 84
+    offset: 12480
+    sourceAssetGUID: 53d91f98a2664f5cb9af11de72ac54ec
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/ChatController.cs
+  - fileID: 75
+    classID: 115
+    packedSize: 96
+    offset: 12576
+    sourceAssetGUID: 543674eec776b1442a192c932e6cd9b3
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_TextElement.cs
+  - fileID: 76
+    classID: 115
+    packedSize: 104
+    offset: 12672
+    sourceAssetGUID: 54d21f6ece3b46479f0c328f8c6007e0
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_ColorGradient.cs
+  - fileID: 77
+    classID: 115
+    packedSize: 116
+    offset: 12784
+    sourceAssetGUID: 56666c5a40171f54783dd416a44f42bf
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/Raycasters/Physics2DRaycaster.cs
+  - fileID: 78
+    classID: 115
+    packedSize: 108
+    offset: 12912
+    sourceAssetGUID: 59f8146938fff824cb5fd77236b75775
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/VerticalLayoutGroup.cs
+  - fileID: 79
+    classID: 115
+    packedSize: 96
+    offset: 13024
+    sourceAssetGUID: 5b5c6a576605b3c4aab7d27193785f27
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_SpriteGlyph.cs
+  - fileID: 80
+    classID: 115
+    packedSize: 104
+    offset: 13120
+    sourceAssetGUID: 5ea9f573d4b800a49b9d83a1f61c0a88
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_FontFeatureTable.cs
+  - fileID: 81
+    classID: 115
+    packedSize: 116
+    offset: 13232
+    sourceAssetGUID: 5ebeb75bd91642048bb3f6c1939fde66
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/MultipleDisplayUtilities.cs
+  - fileID: 82
+    classID: 115
+    packedSize: 76
+    offset: 13360
+    sourceAssetGUID: 5f7201a12d95ffc409449d95f23cf332
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Text.cs
+  - fileID: 83
+    classID: 115
+    packedSize: 92
+    offset: 13440
+    sourceAssetGUID: 61a20120cddc53849bbc10fc805ffe3e
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/IMaskable.cs
+  - fileID: 84
+    classID: 115
+    packedSize: 92
+    offset: 13536
+    sourceAssetGUID: 61d491d99e9292c4a81d7d01a74781ea
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Navigation.cs
+  - fileID: 85
+    classID: 115
+    packedSize: 108
+    offset: 13632
+    sourceAssetGUID: 623c79a1e113b4941afdbfc88d19e8fd
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/ExecuteEvents.cs
+  - fileID: 86
+    classID: 115
+    packedSize: 104
+    offset: 13744
+    sourceAssetGUID: 6366ee97f6b541449155028b9487355a
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_SpriteAnimator.cs
+  - fileID: 87
+    classID: 115
+    packedSize: 76
+    offset: 13856
+    sourceAssetGUID: 655662544276a417080d3c123d6ab208
+    buildTimeAssetPath: Assets/Scripts/Utility/AudioManager.cs
+  - fileID: 88
+    classID: 115
+    packedSize: 96
+    offset: 13936
+    sourceAssetGUID: 658c1fb149e7498aa072b0c0f3bf13f0
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_CoroutineTween.cs
+  - fileID: 89
+    classID: 115
+    packedSize: 84
+    offset: 14032
+    sourceAssetGUID: 67db9e8f0e2ae9c40bc1e2b64352a6b4
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Slider.cs
+  - fileID: 90
+    classID: 115
+    packedSize: 84
+    offset: 14128
+    sourceAssetGUID: 67e3583b91179094094c6a188b232262
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Culling/Clipping.cs
+  - fileID: 91
+    classID: 115
+    packedSize: 108
+    offset: 14224
+    sourceAssetGUID: 686ec78b56aa445795335fbadafcfaa4
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_FrameRateCounter.cs
+  - fileID: 92
+    classID: 115
+    packedSize: 104
+    offset: 14336
+    sourceAssetGUID: 691db8cb70c4426a8ae718465c21345f
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_UpdateManager.cs
+  - fileID: 93
+    classID: 115
+    packedSize: 100
+    offset: 14448
+    sourceAssetGUID: 69ae55f76840b2849ba56cfb53a17df0
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/StencilMaterial.cs
+  - fileID: 94
+    classID: 115
+    packedSize: 100
+    offset: 14560
+    sourceAssetGUID: 69e3979b7029e8a4da2d96b714ba5c3a
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/GraphicRegistry.cs
+  - fileID: 95
+    classID: 115
+    packedSize: 112
+    offset: 14672
+    sourceAssetGUID: 6ad632cbcc87f634d9b86006cdffdaf5
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_TextParsingUtilities.cs
+  - fileID: 96
+    classID: 115
+    packedSize: 104
+    offset: 14784
+    sourceAssetGUID: 6d9df2bc198c417db00037803568139c
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_MaterialManager.cs
+  - fileID: 97
+    classID: 115
+    packedSize: 108
+    offset: 14896
+    sourceAssetGUID: 6f2c5b59b6874405865e2616e4ec276a
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_ExampleScript_01.cs
+  - fileID: 98
+    classID: 115
+    packedSize: 100
+    offset: 15008
+    sourceAssetGUID: 718966f960cb50643986195e5fe953ca
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/VertexModifiers/BaseMeshEffect.cs
+  - fileID: 99
+    classID: 115
+    packedSize: 96
+    offset: 15120
+    sourceAssetGUID: 71c1514a6bd24e1e882cebbe1904ce04
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_FontAsset.cs
+  - fileID: 100
+    classID: 115
+    packedSize: 108
+    offset: 15216
+    sourceAssetGUID: 75df57ccb1e44c64085399277405e1ca
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/EventData/PointerEventData.cs
+  - fileID: 101
+    classID: 115
+    packedSize: 100
+    offset: 15328
+    sourceAssetGUID: 76c11bbcfddf44e0ba17d6c2751c8d84
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TextMeshSpawner.cs
+  - fileID: 102
+    classID: 115
+    packedSize: 100
+    offset: 15440
+    sourceAssetGUID: 76c392e42b5098c458856cdf6ecaaaa1
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/EventSystem.cs
+  - fileID: 103
+    classID: 115
+    packedSize: 112
+    offset: 15552
+    sourceAssetGUID: 77476292f9fa4905a787e6417853846b
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMPro_ExtensionMethods.cs
+  - fileID: 104
+    classID: 115
+    packedSize: 112
+    offset: 15664
+    sourceAssetGUID: 77b2d47bca9376f4a8ae69084a485957
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/FontFeatureCommonGSUB.cs
+  - fileID: 105
+    classID: 115
+    packedSize: 100
+    offset: 15776
+    sourceAssetGUID: 790744c462254b7ba8038e6ed28b3db2
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs
+  - fileID: 106
+    classID: 115
+    packedSize: 104
+    offset: 15888
+    sourceAssetGUID: 79ff392d1bde4ad78a3836a4a480392d
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_InputValidator.cs
+  - fileID: 107
+    classID: 115
+    packedSize: 108
+    offset: 16000
+    sourceAssetGUID: 7a79c4e23d4d4b64bfa5fa9e6671a460
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/UIElements/PanelRaycaster.cs
+  - fileID: 108
+    classID: 115
+    packedSize: 92
+    offset: 16112
+    sourceAssetGUID: 7a98125502f715b4b83cfb77b434e436
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Selectable.cs
+  - fileID: 109
+    classID: 115
+    packedSize: 88
+    offset: 16208
+    sourceAssetGUID: 7b743370ac3e4ec2a1668f5455a8ef8a
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_Dropdown.cs
+  - fileID: 110
+    classID: 115
+    packedSize: 100
+    offset: 16304
+    sourceAssetGUID: 7bd96d76711152648a736c4d28d865f2
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/MaskUtilities.cs
+  - fileID: 111
+    classID: 115
+    packedSize: 112
+    offset: 16416
+    sourceAssetGUID: 7be84a49bb2cd7e4a9ed097ba22794d0
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Animation/CoroutineTween.cs
+  - fileID: 112
+    classID: 115
+    packedSize: 76
+    offset: 16528
+    sourceAssetGUID: 828075bc53f2de84982a943870529b7b
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Misc.cs
+  - fileID: 113
+    classID: 115
+    packedSize: 100
+    offset: 16608
+    sourceAssetGUID: 82bf3f737dec0be43a60891958a8da87
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/LayoutUtility.cs
+  - fileID: 114
+    classID: 115
+    packedSize: 92
+    offset: 16720
+    sourceAssetGUID: 83088ba2132cbc940b7ca0c679a02b0d
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/ColorBlock.cs
+  - fileID: 115
+    classID: 115
+    packedSize: 184
+    offset: 16816
+    sourceAssetGUID: 833328f3bcf144cc94f92e286e86b427
+    buildTimeAssetPath: Packages/com.unity.multiplayer.center/Common/IOnboardingSectionAnalyticsProvider.cs
+  - fileID: 116
+    classID: 115
+    packedSize: 108
+    offset: 17008
+    sourceAssetGUID: 83680ab1a69f4102ac67d1459fe76e1f
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_PhoneNumberValidator.cs
+  - fileID: 117
+    classID: 115
+    packedSize: 96
+    offset: 17120
+    sourceAssetGUID: 84a92b25f83d49b9bc132d206b370281
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_SpriteAsset.cs
+  - fileID: 118
+    classID: 115
+    packedSize: 100
+    offset: 17216
+    sourceAssetGUID: 85f3c3a3c2623cd4da1661b0479e2ef2
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/VertexModifiers/IMeshModifier.cs
+  - fileID: 119
+    classID: 115
+    packedSize: 108
+    offset: 17328
+    sourceAssetGUID: 86710e43de46f6f4bac7c8e50813a599
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/AspectRatioFitter.cs
+  - fileID: 120
+    classID: 115
+    packedSize: 88
+    offset: 17440
+    sourceAssetGUID: 871f8edd56e84b8fb295b10cc3c78f36
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/FastAction.cs
+  - fileID: 121
+    classID: 115
+    packedSize: 112
+    offset: 17536
+    sourceAssetGUID: 87ab1bebe13f41f89d5427e7d2c34d58
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_TextElement_Legacy.cs
+  - fileID: 122
+    classID: 115
+    packedSize: 124
+    offset: 17648
+    sourceAssetGUID: 89b6d933e4994d0980f6b48dc2b8779c
+    buildTimeAssetPath: Packages/com.unity.multiplayer.center/Common/AnswerData.cs
+  - fileID: 123
+    classID: 115
+    packedSize: 116
+    offset: 17776
+    sourceAssetGUID: 8a410b213209442fb15a69799f0240a5
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/UIElements/PanelEventHandler.cs
+  - fileID: 124
+    classID: 115
+    packedSize: 100
+    offset: 17904
+    sourceAssetGUID: 8a8695521f0d02e499659fee002a26c2
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/GridLayoutGroup.cs
+  - fileID: 125
+    classID: 115
+    packedSize: 100
+    offset: 18016
+    sourceAssetGUID: 8ef7be1c625941f7ba8ed7cc71718c0d
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs
+  - fileID: 126
+    classID: 115
+    packedSize: 84
+    offset: 18128
+    sourceAssetGUID: 9085046f02f69544eb97fd06b6048fe2
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Toggle.cs
+  - fileID: 127
+    classID: 115
+    packedSize: 104
+    offset: 18224
+    sourceAssetGUID: 90fe1c65e6bb3bc4e90862df7297719e
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_CharacterInfo.cs
+  - fileID: 128
+    classID: 115
+    packedSize: 108
+    offset: 18336
+    sourceAssetGUID: 91b8ba3d52e041fab2d0e0f169855539
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/VertexColorCycler.cs
+  - fileID: 129
+    classID: 115
+    packedSize: 108
+    offset: 18448
+    sourceAssetGUID: 91f495459b6e34f419ac123740d798b1
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/EventData/BaseEventData.cs
+  - fileID: 130
+    classID: 115
+    packedSize: 116
+    offset: 18560
+    sourceAssetGUID: 928dc55e2c8c3ee4dad33b6d561cb6ea
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/IGraphicEnabledDisabled.cs
+  - fileID: 131
+    classID: 115
+    packedSize: 88
+    offset: 18688
+    sourceAssetGUID: 9541d86e2fd84c1d9990edf0852d74ab
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TextMeshPro.cs
+  - fileID: 132
+    classID: 115
+    packedSize: 88
+    offset: 18784
+    sourceAssetGUID: 968a09f153574430a6e15ae975145768
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_Sprite.cs
+  - fileID: 133
+    classID: 115
+    packedSize: 104
+    offset: 18880
+    sourceAssetGUID: 96e9072453a441618754c478755b3028
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMPro_EventManager.cs
+  - fileID: 134
+    classID: 115
+    packedSize: 100
+    offset: 18992
+    sourceAssetGUID: 976acc75bfafe594cb01142ba21947be
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/MaskableGraphic.cs
+  - fileID: 135
+    classID: 115
+    packedSize: 92
+    offset: 19104
+    sourceAssetGUID: 9eff140b25d64601aabc6ba32245d099
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/SimpleScript.cs
+  - fileID: 136
+    classID: 115
+    packedSize: 100
+    offset: 19200
+    sourceAssetGUID: 9f1026265f8e3d54fb6e9f082c43debf
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Culling/ClipperRegistry.cs
+  - fileID: 137
+    classID: 115
+    packedSize: 108
+    offset: 19312
+    sourceAssetGUID: a05dcd8be7ec4ccbb35c26219884aa37
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextSelector_B.cs
+  - fileID: 138
+    classID: 115
+    packedSize: 84
+    offset: 19424
+    sourceAssetGUID: a4b6f99e8bc54541bbd149b014ff441c
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/EnvMapAnimator.cs
+  - fileID: 139
+    classID: 115
+    packedSize: 104
+    offset: 19520
+    sourceAssetGUID: a4bbbb1fed4e2b7448af9313d6d00536
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/FontFeatureCommonGPOS.cs
+  - fileID: 140
+    classID: 115
+    packedSize: 116
+    offset: 19632
+    sourceAssetGUID: a4d4c76e63944cba8c7d00f56334b98c
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TextMeshProFloatingText.cs
+  - fileID: 141
+    classID: 115
+    packedSize: 104
+    offset: 19760
+    sourceAssetGUID: a55fb7b4961a425381d1282fc424f966
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_UpdateRegistery.cs
+  - fileID: 142
+    classID: 115
+    packedSize: 132
+    offset: 19872
+    sourceAssetGUID: a5c214e5846a99242b348c37e49b2f59
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/HorizontalOrVerticalLayoutGroup.cs
+  - fileID: 143
+    classID: 115
+    packedSize: 84
+    offset: 20016
+    sourceAssetGUID: a6238e9452bfc704f82ff36791fe1a45
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Graphic.cs
+  - fileID: 144
+    classID: 115
+    packedSize: 92
+    offset: 20112
+    sourceAssetGUID: a73109742c8d47ac822895a473300c29
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark03.cs
+  - fileID: 145
+    classID: 115
+    packedSize: 128
+    offset: 20208
+    sourceAssetGUID: aaf9006568d76504f982305b517fb490
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_DynamicFontAssetUtilities.cs
+  - fileID: 146
+    classID: 115
+    packedSize: 96
+    offset: 20336
+    sourceAssetGUID: ab2114bdc8544297b417dfefe9f1e410
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_StyleSheet.cs
+  - fileID: 147
+    classID: 115
+    packedSize: 84
+    offset: 20432
+    sourceAssetGUID: ac1eb05af6d391b4eb0f4c070a99f1d0
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/DropdownSample.cs
+  - fileID: 148
+    classID: 115
+    packedSize: 104
+    offset: 20528
+    sourceAssetGUID: afc31ad767318c9488de260c166cd21d
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/ITextPreProcessor.cs
+  - fileID: 149
+    classID: 115
+    packedSize: 108
+    offset: 20640
+    sourceAssetGUID: b180fd8310805e44dbbef545d0231418
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/EventData/AxisEventData.cs
+  - fileID: 150
+    classID: 115
+    packedSize: 100
+    offset: 20752
+    sourceAssetGUID: b458b2c7f196bdc4581b2f9fd6a5d931
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_RichTextTagsCommon.cs
+  - fileID: 151
+    classID: 115
+    packedSize: 88
+    offset: 20864
+    sourceAssetGUID: b6e75d7f429a4e7e9e1ffb4f85cff49f
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_LineInfo.cs
+  - fileID: 152
+    classID: 115
+    packedSize: 108
+    offset: 20960
+    sourceAssetGUID: b9ba34e0b1884454fbc4257260e22b64
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/SetPropertyUtility.cs
+  - fileID: 153
+    classID: 115
+    packedSize: 76
+    offset: 21072
+    sourceAssetGUID: bae38074cfe8c9a4d80513cc6a85ecfb
+    buildTimeAssetPath: Assets/Scripts/End/ManageSwarm.cs
+  - fileID: 154
+    classID: 115
+    packedSize: 100
+    offset: 21152
+    sourceAssetGUID: bf87e20fb5440ec498f441167b5291f8
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/DefaultControls.cs
+  - fileID: 155
+    classID: 115
+    packedSize: 104
+    offset: 21264
+    sourceAssetGUID: bf9d6c43f190b4f68994b5683ca33f8a
+    buildTimeAssetPath: Assets/Scripts/Start/LobbySceneManager.cs
+  - fileID: 156
+    classID: 115
+    packedSize: 108
+    offset: 21376
+    sourceAssetGUID: bfb788a43e03363419155b8af77da971
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/CanvasUpdateRegistry.cs
+  - fileID: 157
+    classID: 115
+    packedSize: 116
+    offset: 21488
+    sourceAssetGUID: c3c1afeda5e545e0b19add5373896d2e
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMPro_InstructionOverlay.cs
+  - fileID: 158
+    classID: 115
+    packedSize: 92
+    offset: 21616
+    sourceAssetGUID: c459424081436584c8cec10767f9ac38
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Utility/VertexHelper.cs
+  - fileID: 159
+    classID: 115
+    packedSize: 108
+    offset: 21712
+    sourceAssetGUID: c49b4cc203aa6414fae5c798d1d0e7d6
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/Raycasters/PhysicsRaycaster.cs
+  - fileID: 160
+    classID: 115
+    packedSize: 116
+    offset: 21824
+    sourceAssetGUID: c606041f02fc7d542b1429806872292b
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Culling/RectangularVertexClipper.cs
+  - fileID: 161
+    classID: 115
+    packedSize: 108
+    offset: 21952
+    sourceAssetGUID: c67ac6e40bbb6fe47a095b949b609ce0
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/AnimationTriggers.cs
+  - fileID: 162
+    classID: 115
+    packedSize: 104
+    offset: 22064
+    sourceAssetGUID: c8f647c4cc6a64e4ba36c171768ab9a7
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_TextProcessingCommon.cs
+  - fileID: 163
+    classID: 115
+    packedSize: 104
+    offset: 22176
+    sourceAssetGUID: ca4ab22af4636b044873d334c3a4e25c
+    buildTimeAssetPath: Assets/Scripts/Middle/MiddleSceneManager.cs
+  - fileID: 164
+    classID: 115
+    packedSize: 104
+    offset: 22288
+    sourceAssetGUID: ca819640f53b48919bf7774744f7f15e
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_SelectionCaret.cs
+  - fileID: 165
+    classID: 115
+    packedSize: 92
+    offset: 22400
+    sourceAssetGUID: cb7c939a806f03341b682c180dc13f08
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Layout/LayoutGroup.cs
+  - fileID: 166
+    classID: 115
+    packedSize: 116
+    offset: 22496
+    sourceAssetGUID: cbab8835092323a4389f2dc7d8f6c781
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/InputModules/PointerInputModule.cs
+  - fileID: 167
+    classID: 115
+    packedSize: 84
+    offset: 22624
+    sourceAssetGUID: ceb629fc661813d40986b4abbefe72c6
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/IMask.cs
+  - fileID: 168
+    classID: 115
+    packedSize: 120
+    offset: 22720
+    sourceAssetGUID: cf1fe50a641faac4691bf49eb32ce333
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_PackageResourceImporter.cs
+  - fileID: 169
+    classID: 115
+    packedSize: 84
+    offset: 22848
+    sourceAssetGUID: cfabb0440166ab443bba8876756fdfa9
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/VertexModifiers/Shadow.cs
+  - fileID: 170
+    classID: 115
+    packedSize: 100
+    offset: 22944
+    sourceAssetGUID: d0b148fe25e99eb48b9724523833bab1
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/EventSystem/EventTrigger.cs
+  - fileID: 171
+    classID: 115
+    packedSize: 92
+    offset: 23056
+    sourceAssetGUID: d199490a83bb2b844b9695cbf13b01ef
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/InputField.cs
+  - fileID: 172
+    classID: 115
+    packedSize: 100
+    offset: 23152
+    sourceAssetGUID: d412675cfb3441efa3bf8dcd9b7624dc
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/SkewTextExample.cs
+  - fileID: 173
+    classID: 115
+    packedSize: 108
+    offset: 23264
+    sourceAssetGUID: d736ce056cf444ca96e424f4d9c42b76
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TMP_TextEventCheck.cs
+  - fileID: 174
+    classID: 115
+    packedSize: 92
+    offset: 23376
+    sourceAssetGUID: dc20866c0d5e413ab7559440e15333ae
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark04.cs
+  - fileID: 175
+    classID: 115
+    packedSize: 100
+    offset: 23472
+    sourceAssetGUID: dc42784cf147c0c48a680349fa168899
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/GraphicRaycaster.cs
+  - fileID: 176
+    classID: 115
+    packedSize: 84
+    offset: 23584
+    sourceAssetGUID: e19747de3f5aca642ab2be37e372fb86
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/VertexModifiers/Outline.cs
+  - fileID: 177
+    classID: 115
+    packedSize: 88
+    offset: 23680
+    sourceAssetGUID: e21bec35f48a44298911b25ead550ce3
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_MeshInfo.cs
+  - fileID: 178
+    classID: 115
+    packedSize: 84
+    offset: 23776
+    sourceAssetGUID: e32c266ee6204b21a427753cb0694c81
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/TeleType.cs
+  - fileID: 179
+    classID: 115
+    packedSize: 136
+    offset: 23872
+    sourceAssetGUID: e4e0b1de1aee400d81ed4273141e7823
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_SpriteAssetImportFormats.cs
+  - fileID: 180
+    classID: 115
+    packedSize: 92
+    offset: 24016
+    sourceAssetGUID: e4e0d9ccee5f4950be8979268c9014e0
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/VertexShakeB.cs
+  - fileID: 181
+    classID: 115
+    packedSize: 92
+    offset: 24112
+    sourceAssetGUID: e8538afcddc14efbb5d9e94b7ae50197
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs
+  - fileID: 182
+    classID: 115
+    packedSize: 148
+    offset: 24208
+    sourceAssetGUID: ec737041edec4a5b93f7953a6ffe9f06
+    buildTimeAssetPath: Packages/com.unity.multiplayer.center/Common/SelectedSolutionsData.cs
+  - fileID: 183
+    classID: 115
+    packedSize: 76
+    offset: 24368
+    sourceAssetGUID: eea2b165764e0493293e3b0067eb40e2
+    buildTimeAssetPath: Assets/Scripts/Utility/RandomSound.cs
+  - fileID: 184
+    classID: 115
+    packedSize: 100
+    offset: 24448
+    sourceAssetGUID: effb76e1937b45ff8adf45e51a4c08cf
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMPro_MeshUtilities.cs
+  - fileID: 185
+    classID: 115
+    packedSize: 92
+    offset: 24560
+    sourceAssetGUID: f1d14523cd5ae4cf083119b666855249
+    buildTimeAssetPath: Assets/Scripts/Middle/LeaderboardManager.cs
+  - fileID: 186
+    classID: 115
+    packedSize: 96
+    offset: 24656
+    sourceAssetGUID: f4688fdb7df04437aeb418b961361dc5
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TextMeshProUGUI.cs
+  - fileID: 187
+    classID: 115
+    packedSize: 100
+    offset: 24752
+    sourceAssetGUID: f695b5f9415c40b39ae877eaff41c96e
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_FontAssetCommon.cs
+  - fileID: 188
+    classID: 115
+    packedSize: 92
+    offset: 24864
+    sourceAssetGUID: f7cfa58e417a46ea8889989684c2522e
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/VertexShakeA.cs
+  - fileID: 189
+    classID: 115
+    packedSize: 92
+    offset: 24960
+    sourceAssetGUID: f970ea55f9f84bf79b05dab180b8c125
+    buildTimeAssetPath: Assets/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs
+  - fileID: 190
+    classID: 115
+    packedSize: 116
+    offset: 25056
+    sourceAssetGUID: fcae021c30eccf74790a4e816ba97c19
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Utility/ReflectionMethodsCache.cs
+  - fileID: 191
+    classID: 115
+    packedSize: 84
+    offset: 25184
+    sourceAssetGUID: fe87c0e1cc204ed48ad3b37840f39efc
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UGUI/UI/Core/Image.cs
+  - fileID: 192
+    classID: 115
+    packedSize: 100
+    offset: 25280
+    sourceAssetGUID: fea49a0730244a98bf1087f7ca9410a8
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/TMP/TMP_ShaderUtilities.cs
+  - fileID: 193
+    classID: 213
+    packedSize: 420
+    offset: 2824496
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 'Built-in Sprite: '
+  - fileID: 194
+    classID: 114
+    packedSize: 36
+    offset: 2824928
+    sourceAssetGUID: e634585d5c4544dd297acaee93dc2beb
+    buildTimeAssetPath: Assets/Settings/URP-Balanced-Renderer.asset
+  - fileID: 195
+    classID: 114
+    packedSize: 56
+    offset: 2824976
+    sourceAssetGUID: e634585d5c4544dd297acaee93dc2beb
+    buildTimeAssetPath: Assets/Settings/URP-Balanced-Renderer.asset
+  - fileID: 196
+    classID: 114
+    packedSize: 44
+    offset: 2825040
+    sourceAssetGUID: e1260c1148f6143b28bae5ace5e9c5d1
+    buildTimeAssetPath: Assets/Settings/URP-Balanced.asset
+--- !u!382020655 &-4019075723535817903
+PluginBuildInfo:
+  m_RuntimePlugins:
+  - nunit.framework
+  m_EditorPlugins:
+  - AppleEventIntegration
+--- !u!1125 &1
+BuildReport:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: New Report
+  m_Summary:
+    buildStartTime:
+      serializedVersion: 2
+      ticks: 638669440897145469
+    buildGUID: fb1f29d7e9c348ab9d55ef68052946b4
+    platformName: WebGL
+    platformGroupName: WebGL
+    subtarget: 0
+    options: 2097157
+    assetBundleOptions: 0
+    outputPath: C:/Users/Andy/Desktop/Art Projects/No Vacancy/Terminal_Sequence
+    crc: 0
+    totalSize: 48381404
+    totalTimeTicks: 285187608
+    totalErrors: 0
+    totalWarnings: 4
+    buildType: 1
+    buildResult: 1
+    multiProcessEnabled: 0
+  m_Files:
+  - path: C:/Users/Andy/Desktop/Art Projects/No Vacancy/Terminal_Sequence/Build/Terminal_Sequence.framework.js
+    role: js
+    id: 0
+    totalSize: 786820
+  - path: C:/Users/Andy/Desktop/Art Projects/No Vacancy/Terminal_Sequence/Build/Terminal_Sequence.wasm
+    role: wasm
+    id: 1
+    totalSize: 31762961
+  - path: C:/Users/Andy/Desktop/Art Projects/No Vacancy/Terminal_Sequence/Build/Terminal_Sequence.data
+    role: data
+    id: 2
+    totalSize: 15772176
+  - path: C:/Users/Andy/Desktop/Art Projects/No Vacancy/Terminal_Sequence/Build/Terminal_Sequence.loader.js
+    role: js
+    id: 3
+    totalSize: 57620
+  - path: C:/Users/Andy/Desktop/Art Projects/No Vacancy/Terminal_Sequence/index.html
+    role: html
+    id: 4
+    totalSize: 1827
+  m_BuildSteps:
+  - stepName: Build player
+    durationTicks: 285187608
+    depth: 0
+    messages: []
+  - stepName: Preprocess Player
+    durationTicks: 546015
+    depth: 1
+    messages: []
+  - stepName: Prepare For Build
+    durationTicks: 1488
+    depth: 1
+    messages: []
+  - stepName: ProducePlayerScriptAssemblies
+    durationTicks: 8996456
+    depth: 1
+    messages: []
+  - stepName: Prebuild Cleanup and Recompile
+    durationTicks: 6684231
+    depth: 2
+    messages: []
+  - stepName: Compile scripts
+    durationTicks: 6511300
+    depth: 3
+    messages: []
+  - stepName: Generate and validate platform script types
+    durationTicks: 79136
+    depth: 3
+    messages: []
+  - stepName: Verify Build setup
+    durationTicks: 135869
+    depth: 1
+    messages: []
+  - stepName: Check old data build
+    durationTicks: 56858
+    depth: 2
+    messages: []
+  - stepName: Prepare assets for target platform
+    durationTicks: 195558
+    depth: 1
+    messages: []
+  - stepName: Prepare splash screen
+    durationTicks: 39823
+    depth: 1
+    messages:
+    - type: 3
+      content: Including Unity Splash Screen logo because 'Show Unity Logo' is enabled.
+  - stepName: Building scenes
+    durationTicks: 9202836
+    depth: 1
+    messages: []
+  - stepName: Building scene Assets/Scenes/Lobby.unity
+    durationTicks: 3516761
+    depth: 2
+    messages: []
+  - stepName: Building scene Assets/Scenes/Start.unity
+    durationTicks: 1293747
+    depth: 2
+    messages: []
+  - stepName: Building scene Assets/Scenes/Middle.unity
+    durationTicks: 2455592
+    depth: 2
+    messages: []
+  - stepName: Building scene Assets/Scenes/End.unity
+    durationTicks: 1935886
+    depth: 2
+    messages: []
+  - stepName: Build scripts DLLs
+    durationTicks: 274049
+    depth: 1
+    messages: []
+  - stepName: GetSystemAssemblies
+    durationTicks: 7682
+    depth: 2
+    messages: []
+  - stepName: Build GlobalGameManagers file
+    durationTicks: 783176
+    depth: 1
+    messages: []
+  - stepName: Writing asset files
+    durationTicks: 6524415
+    depth: 1
+    messages: []
+  - stepName: Packaging assets - globalgamemanagers.assets
+    durationTicks: 132740
+    depth: 2
+    messages:
+    - type: 2
+      content: Script attached to 'SSAO' in asset 'Assets/Settings/URP-Balanced-Renderer.asset'
+        is missing or no valid script is attached.
+    - type: 2
+      content: Script attached to 'URP-Balanced-Renderer' in asset 'Assets/Settings/URP-Balanced-Renderer.asset'
+        is missing or no valid script is attached.
+    - type: 2
+      content: Script attached to 'URP-Balanced' in asset 'Assets/Settings/URP-Balanced.asset'
+        is missing or no valid script is attached.
+  - stepName: Packaging assets - resources.assets
+    durationTicks: 682699
+    depth: 2
+    messages: []
+  - stepName: 'Packaging assets - sharedassets0.assets = additional assets for scene
+      0: Assets/Scenes/Lobby.unity'
+    durationTicks: 1713260
+    depth: 2
+    messages: []
+  - stepName: 'Packaging assets - sharedassets1.assets = additional assets for scene
+      1: Assets/Scenes/Start.unity'
+    durationTicks: 762193
+    depth: 2
+    messages:
+    - type: 2
+      content: 'Embedded video clips are not supported by the WebGL player: Assets/Editor/Video/UI/Stock.mp4.
+
+        Use
+        the Video Player component''s URL option instead.'
+  - stepName: 'Packaging assets - sharedassets2.assets = additional assets for scene
+      2: Assets/Scenes/Middle.unity'
+    durationTicks: 1937029
+    depth: 2
+    messages: []
+  - stepName: 'Packaging assets - sharedassets3.assets = additional assets for scene
+      3: Assets/Scenes/End.unity'
+    durationTicks: 1242759
+    depth: 2
+    messages: []
+  - stepName: Building Resources/unity_builtin_extra
+    durationTicks: 2296555
+    depth: 1
+    messages: []
+  - stepName: Creating compressed player package
+    durationTicks: 4942590
+    depth: 1
+    messages: []
+  - stepName: Write data build dirty tracking information
+    durationTicks: 458507
+    depth: 1
+    messages: []
+  - stepName: Postprocess built player
+    durationTicks: 247131191
+    depth: 1
+    messages: []
+  - stepName: Setup incremental player build
+    durationTicks: 352526
+    depth: 2
+    messages: []
+  - stepName: Incremental player build
+    durationTicks: 246468019
+    depth: 2
+    messages: []
+  - stepName: Report output files
+    durationTicks: 64072
+    depth: 2
+    messages: []
+  m_Appendices:
+  - {fileID: -4514976954976733910}
+  - {fileID: -6006929370341891096}
+  - {fileID: -5754237035248750865}
+  - {fileID: 4824930360801478218}
+  - {fileID: 2238492027258958127}
+  - {fileID: -5948360283308178931}
+  - {fileID: -7845732183417993374}
+  - {fileID: -6795471230353666518}
+  - {fileID: -8394495093675710947}
+  - {fileID: 8769823495638960870}
+  - {fileID: -6214143549038854048}
+  - {fileID: -7540521652872437646}
+  - {fileID: -4019075723535817903}
+  - {fileID: 4794181475305430059}
+  - {fileID: -8582247721689703824}
+--- !u!1126 &2238492027258958127
+PackedAssets:
+  m_ShortPath: sharedassets2.assets
+  m_Overhead: 659
+  m_Contents:
+  - fileID: 1
+    classID: 150
+    packedSize: 541
+    offset: 624
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 2
+    classID: 21
+    packedSize: 220
+    offset: 1168
+    sourceAssetGUID: 90e00a4bd6b1e41b593f646b888a31cd
+    buildTimeAssetPath: Assets/Materials/NPCChromaKey.mat
+  - fileID: 3
+    classID: 83
+    packedSize: 112
+    offset: 1392
+    sourceAssetGUID: 889dbd5990f714171ae932a8719df50b
+    buildTimeAssetPath: Assets/Audio/Tracks/Meet Compute (final draft).mp3
+  - fileID: 4
+    classID: 83
+    packedSize: 124
+    offset: 1504
+    sourceAssetGUID: cb1529f9255584a89b1dcea33e81b8a8
+    buildTimeAssetPath: Assets/Audio/Tracks/Meet Compute the choice (final draft).mp3
+  - fileID: 5
+    classID: 83
+    packedSize: 108
+    offset: 1632
+    sourceAssetGUID: e2396893e45b740f0aedd167a7ed8611
+    buildTimeAssetPath: Assets/Audio/Tracks/Date Night (finaldraft).mp3
+  - fileID: 6
+    classID: 84
+    packedSize: 84
+    offset: 1744
+    sourceAssetGUID: d7803594fd79e4112a54fed5753e25d8
+    buildTimeAssetPath: Assets/Textures/Render Textures/Middle/Arrow.renderTexture
+  - fileID: 7
+    classID: 84
+    packedSize: 88
+    offset: 1840
+    sourceAssetGUID: 847f1b7bd55ec244f89c6b720f4e6b25
+    buildTimeAssetPath: Assets/Textures/Render Textures/Middle/NPC Model.renderTexture
+  - fileID: 8
+    classID: 89
+    packedSize: 524492
+    offset: 1936
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+--- !u!641289076 &4794181475305430059
+AudioBuildInfo:
+  m_IsAudioDisabled: 0
+  m_AudioClipCount: 8
+  m_AudioMixerCount: 1
+--- !u!1126 &4824930360801478218
+PackedAssets:
+  m_ShortPath: sharedassets1.assets
+  m_Overhead: 751
+  m_Contents:
+  - fileID: 1
+    classID: 150
+    packedSize: 325
+    offset: 688
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 2
+    classID: 21
+    packedSize: 224
+    offset: 1024
+    sourceAssetGUID: 818ebfa5adbe94284af9cc7ba0edba8b
+    buildTimeAssetPath: Assets/Materials/AvatarChromaKey.mat
+  - fileID: 3
+    classID: 28
+    packedSize: 196732
+    offset: 1248
+    sourceAssetGUID: ac84a8831967d0d4da1c9995e7cf8d34
+    buildTimeAssetPath: Assets/Art/Images/Start/UI_Element1.png
+  - fileID: 4
+    classID: 28
+    packedSize: 327804
+    offset: 197984
+    sourceAssetGUID: ae68ee4b197ff4724be6841fe1fd1023
+    buildTimeAssetPath: Assets/Art/Images/All/Final Frame.png
+  - fileID: 5
+    classID: 83
+    packedSize: 112
+    offset: 525792
+    sourceAssetGUID: c0299acbe61874a10b65aba625505640
+    buildTimeAssetPath: Assets/Audio/Tracks/Digitizing v2 (final draft).mp3
+  - fileID: 6
+    classID: 84
+    packedSize: 84
+    offset: 525904
+    sourceAssetGUID: ae7be2af2da66dd49bb3e0e72b667e63
+    buildTimeAssetPath: Assets/Textures/Render Textures/Start/Avatar.renderTexture
+  - fileID: 7
+    classID: 84
+    packedSize: 88
+    offset: 526000
+    sourceAssetGUID: b08baf57733ac1744b80804a8a497310
+    buildTimeAssetPath: Assets/Textures/Render Textures/Start/Intro Video.renderTexture
+  - fileID: 8
+    classID: 84
+    packedSize: 88
+    offset: 526096
+    sourceAssetGUID: 3a7544c34b3b6ba4192f097e193a2df7
+    buildTimeAssetPath: Assets/Textures/Render Textures/Start/Play Button.renderTexture
+  - fileID: 9
+    classID: 84
+    packedSize: 92
+    offset: 526192
+    sourceAssetGUID: d06d56f4b5bb0644faf73234e78deba2
+    buildTimeAssetPath: Assets/Textures/Render Textures/Start/Stock Graphic.renderTexture
+  - fileID: 10
+    classID: 213
+    packedSize: 4320
+    offset: 526288
+    sourceAssetGUID: ac84a8831967d0d4da1c9995e7cf8d34
+    buildTimeAssetPath: Assets/Art/Images/Start/UI_Element1.png
+  - fileID: 11
+    classID: 213
+    packedSize: 468
+    offset: 530608
+    sourceAssetGUID: ae68ee4b197ff4724be6841fe1fd1023
+    buildTimeAssetPath: Assets/Art/Images/All/Final Frame.png
+  - fileID: 12
+    classID: 329
+    packedSize: 154
+    offset: 531088
+    sourceAssetGUID: f9a0ebf46907c45c997b291e0e68eb6a
+    buildTimeAssetPath: Assets/Editor/Video/UI/Stock.mp4
+--- !u!1126 &8769823495638960870
+PackedAssets:
+  m_ShortPath: sharedassets3.resource
+  m_Overhead: 0
+  m_Contents:
+  - fileID: 0
+    classID: 83
+    packedSize: 1114825
+    offset: 0
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
