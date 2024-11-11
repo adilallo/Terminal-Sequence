@@ -115,7 +115,7 @@ namespace MiddleScene
         {
             if (npcVideoPlayer != null)
             {
-                npcVideoPlayer.Stop();
+                //npcVideoPlayer.Stop();
             }
             if (arrowVideoPlayer != null)
             {
@@ -201,10 +201,10 @@ namespace MiddleScene
             {
                 float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
         
-                // Set the alpha for the UI Canvas Group
+                //Set the alpha for the UI Canvas Group
                 uiCanvasGroup.alpha = alpha;
 
-                // Set the alpha value for the materials
+                //Set the alpha value for the materials
                 SetMaterialAlpha(avatarMaterial, alpha);
                 SetMaterialAlpha(npcMaterial, alpha);
                 SetMaterialAlpha(uiMaterial, alpha);
@@ -214,7 +214,7 @@ namespace MiddleScene
                 yield return null;
             }
 
-            // Ensure everything is fully visible at the end of the fade-in
+            //Ensure everything is fully visible at the end of the fade-in
             uiCanvasGroup.alpha = 1;
             SetMaterialAlpha(avatarMaterial, 1);
             SetMaterialAlpha(npcMaterial, 1);
