@@ -13,11 +13,15 @@ public class EndSceneManager : MonoBehaviour
     [SerializeField] private float fadeDuration = 2f;
 
     [Header("UI")]
+    [SerializeField] private GameObject backgroundImage;
 
     [Header("Video")]
     [SerializeField] private VideoPlayer avatarVideoPlayer;
     [SerializeField] private CanvasGroup avatarCanvasGroup;
     [SerializeField] private VideoPlayer endVideoPlayer;
+
+    [Header("Swarm Management")]
+    [SerializeField] private ManageSwarm manageSwarm;
 
     [Header("Audio")]
     [SerializeField] private List<AudioClip> endSceneAudioClips;
@@ -27,6 +31,8 @@ public class EndSceneManager : MonoBehaviour
 
     void Start()
     {
+        Camera.main.clearFlags = CameraClearFlags.Nothing;
+        backgroundImage.SetActive(true);
         // Ensure the UI is invisible initially
         if (uiCanvasGroup != null)
         {
@@ -144,12 +150,14 @@ public class EndSceneManager : MonoBehaviour
             float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
             avatarCanvasGroup.alpha = alpha;
             avatarMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+            uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         avatarCanvasGroup.alpha = 1;
         avatarMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
 
         // Wait until the avatar video is done playing
         while (avatarVideoPlayer.isPlaying)
@@ -193,6 +201,7 @@ public class EndSceneManager : MonoBehaviour
         // Activate and play the end video
         if (endVideoPlayer != null)
         {
+            backgroundImage.SetActive(false);
             endVideoPlayer.Play();
 
             // Wait for the end video to finish playing
@@ -212,6 +221,16 @@ public class EndSceneManager : MonoBehaviour
 
     private IEnumerator FadeInUI()
     {
+        // Initialize the swarm after the UI has fully faded in
+        if (manageSwarm != null)
+        {
+            manageSwarm.InitializeSwarm();
+        }
+        else
+        {
+            Debug.LogError("ManageSwarm reference is not assigned! Please check the Inspector.");
+        }
+
         float elapsedTime = 0f;
 
         while (elapsedTime < fadeDuration)
@@ -219,13 +238,11 @@ public class EndSceneManager : MonoBehaviour
             float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
 
             uiCanvasGroup.alpha = alpha;
-            uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         uiCanvasGroup.alpha = 1;
-        uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
     }
 }

@@ -235,9 +235,11 @@ MonoBehaviour:
   avatarMaterial: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
   uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
   fadeDuration: 2
+  backgroundImage: {fileID: 1874467832}
   avatarVideoPlayer: {fileID: 1415882648}
   avatarCanvasGroup: {fileID: 878701669}
   endVideoPlayer: {fileID: 2087576570}
+  manageSwarm: {fileID: 92192289}
   endSceneAudioClips:
   - {fileID: 8300000, guid: 01a4bb9f90184483bacaa0a4ddcbc6f5, type: 3}
 --- !u!82 &92192288
@@ -362,9 +364,9 @@ MonoBehaviour:
   - {fileID: 2109688841053343063, guid: 9c9e80de6150f406cb6e1b946e1c14b2, type: 3}
   - {fileID: 4885486871096227200, guid: fcf01120827fd44279f76737709fd97d, type: 3}
   - {fileID: 7967010216821551845, guid: 69ce02cd0b8144b7fbdac8e3de1ca88c, type: 3}
-  spread: 15
-  amount: 33
-  rotationSpeed: 30
+  spread: 25
+  amount: 22
+  rotationSpeed: 45
   camRig: {fileID: 1023854165}
   allAgents: []
 --- !u!1 &356140035
@@ -628,7 +630,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1579448060}
-  - {fileID: 1961638319}
   m_Father: {fileID: 1211905724}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -730,10 +731,11 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1479918025}
   - {fileID: 845247588}
+  - {fileID: 1479918025}
   - {fileID: 1211905724}
   - {fileID: 878701668}
+  - {fileID: 1961638319}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1012,7 +1014,7 @@ Camera:
   m_GameObject: {fileID: 1174011334}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1367,13 +1369,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579448059}
   m_CullTransparentMesh: 1
+--- !u!1 &1874467832 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 673560748423373329, guid: 0d335a9aa72059f4ab4f8c6941f86d1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1479918024}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1961638317
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 610431624}
+    m_TransformParent: {fileID: 708898659}
     m_Modifications:
     - target: {fileID: 274317931736937073, guid: 0618cf7b0e5d7614d8c31ea341afd5af,
         type: 3}

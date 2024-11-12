@@ -23,14 +23,6 @@ namespace Utility
             }
         }
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                ExitGame();
-            }
-        }
-
         public void LoadLobbyScene()
         {
             if (!string.IsNullOrEmpty(lobbySceneName))

@@ -24,7 +24,6 @@ public class ManageSwarm : MonoBehaviour
 
     void Start()
     {
-        InitializeSwarm();
         prefabCount = agentPrefabs.Count;
 
         if (camRig == null)
@@ -40,6 +39,11 @@ public class ManageSwarm : MonoBehaviour
         Debug.Log($"Total Agents Initialized: {allAgents.Count}");
     }
 
+    private void OnDisable()
+    {
+        ClearSwarm();
+    }
+
     void Update()
     {
         UpdateMouseInputs();
@@ -53,7 +57,7 @@ public class ManageSwarm : MonoBehaviour
     /// <summary>
     /// Initializes the swarm by instantiating agents.
     /// </summary>
-    private void InitializeSwarm()
+    public void InitializeSwarm()
     {
         if (agentPrefabs == null || agentPrefabs.Count == 0)
         {
@@ -84,6 +88,18 @@ public class ManageSwarm : MonoBehaviour
         {
             agent.SetAllAgents(allAgents);
         }
+    }
+
+    private void ClearSwarm()
+    {
+        foreach (Agent agent in allAgents)
+        {
+            if (agent != null)
+            {
+                Destroy(agent.gameObject);
+            }
+        }
+        allAgents.Clear();
     }
 
     #endregion
