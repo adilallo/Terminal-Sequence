@@ -13,7 +13,6 @@ namespace StartScene
         [SerializeField] private float fadeDuration = 2f;
 
         [HeaderAttribute("Intro Assets")]
-        [SerializeField] private RawImage introVideo;
         [SerializeField] private VideoPlayer introVideoPlayer;
 
         [HeaderAttribute("UI")]

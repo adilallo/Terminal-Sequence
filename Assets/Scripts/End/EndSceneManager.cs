@@ -18,7 +18,6 @@ public class EndSceneManager : MonoBehaviour
     [SerializeField] private VideoPlayer avatarVideoPlayer;
     [SerializeField] private CanvasGroup avatarCanvasGroup;
     [SerializeField] private VideoPlayer endVideoPlayer;
-    [SerializeField] private RawImage endVideo;
 
     [Header("Audio")]
     [SerializeField] private List<AudioClip> endSceneAudioClips;
@@ -43,7 +42,6 @@ public class EndSceneManager : MonoBehaviour
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayPlaylist(endSceneAudioClips, true);
-            AudioManager.Instance.OnPlaylistFinished += LoadFirstScene;
         }
 
         // Start the avatar video fade-in and play process
@@ -59,7 +57,6 @@ public class EndSceneManager : MonoBehaviour
         // Prepare the end video player and set it inactive
         if (endVideoPlayer != null)
         {
-            endVideoPlayer.gameObject.SetActive(false);
             endVideoPlayer.prepareCompleted += OnEndVideoPrepared;
             endVideoPlayer.Prepare();
         }
@@ -109,12 +106,6 @@ public class EndSceneManager : MonoBehaviour
         {
             endVideoPlayer.prepareCompleted -= OnEndVideoPrepared;
             endVideoPlayer.Stop();
-        }
-
-        // Unsubscribe from AudioManager event
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.OnPlaylistFinished -= LoadFirstScene;
         }
     }
 
@@ -202,7 +193,6 @@ public class EndSceneManager : MonoBehaviour
         // Activate and play the end video
         if (endVideoPlayer != null)
         {
-            endVideoPlayer.gameObject.SetActive(true);
             endVideoPlayer.Play();
 
             // Wait for the end video to finish playing

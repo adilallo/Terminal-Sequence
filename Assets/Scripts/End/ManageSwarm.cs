@@ -153,10 +153,10 @@ public class ManageSwarm : MonoBehaviour
             Agent agent = allAgents[i];
             agent.CohesionRadius = cohesionRadius;
             agent.CohesionStrength = cohesionStrength;
-            agent.SeparationRadius = separationRadius;
-            agent.SeparationStrength = separationStrength;
-            agent.AlignmentRadius = alignmentRadius;
-            agent.AlignmentStrength = alignmentStrength;
+           // agent.SeparationRadius = separationRadius;
+            //agent.SeparationStrength = separationStrength;
+            //agent.AlignmentRadius = alignmentRadius;
+            //agent.AlignmentStrength = alignmentStrength;
         }
     }
 
