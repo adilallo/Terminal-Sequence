@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Lobby.unity
     guid: 2c272714040d34676a5e4524f84bba6b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Start.unity
     guid: 269f7cbd772ade84e8613fddcb63f21b
   - enabled: 1
@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/End.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 0
+    path: Assets/Scenes/NPC Stocks.unity
+    guid: 9460af37fdd6b554ea4812a823b17113
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

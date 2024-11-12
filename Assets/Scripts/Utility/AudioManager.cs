@@ -56,8 +56,7 @@ public class AudioManager : MonoBehaviour
         }
         return 0f;
     }
-
-
+                    
     public void PlayPlaylist(List<AudioClip> playlist, bool fadeOutAtEnd = false)
     {
         if (playlistCoroutine != null)

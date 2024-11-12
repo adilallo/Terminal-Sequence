@@ -10,6 +10,7 @@ namespace Utility
         [SerializeField] private string firstSceneName;
         [SerializeField] private string secondSceneName;
         [SerializeField] private string thirdSceneName;
+        [SerializeField] private string npcStocksSceneName;
 
         private readonly int targetWidth = 800;
         private readonly int targetHeight = 1280;
@@ -76,6 +77,18 @@ namespace Utility
             else
             {
                 Debug.LogWarning("Third scene name is not assigned.");
+            }
+        }
+
+        public void LoadNPCStocksScene()
+        {
+            if (!string.IsNullOrEmpty(npcStocksSceneName))
+            {
+                SceneManager.LoadSceneAsync(npcStocksSceneName);
+            }
+            else
+            {
+                Debug.LogWarning("NPC Stocks scene name is not assigned.");
             }
         }
 
