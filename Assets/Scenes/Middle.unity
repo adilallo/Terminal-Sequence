@@ -622,7 +622,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 805915526}
   m_PlaneDistance: 100
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
@@ -814,7 +814,7 @@ Transform:
   m_GameObject: {fileID: 805915524}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 400, y: 640, z: -1108}
+  m_LocalPosition: {x: 300, y: 480, z: -832}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1007,7 +1007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 332.8}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 135, y: 235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &969744845
@@ -1375,6 +1375,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1604273948}
   - component: {fileID: 1604273950}
+  - component: {fileID: 1604273951}
   - component: {fileID: 1604273949}
   m_Layer: 5
   m_Name: Text (TMP)
@@ -1399,8 +1400,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 267.83}
-  m_SizeDelta: {x: 722.7, y: 50}
+  m_AnchoredPosition: {x: 0, y: 220}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1604273949
 MonoBehaviour:
@@ -1434,7 +1435,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 0.99607843, g: 0.91764706, b: 0.07058824, a: 1}
@@ -1489,7 +1490,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -4.610718, y: -21.16333, z: -4.6777344, w: -1178.2524}
+  m_margin: {x: -0.8703613, y: -21.16333, z: -1.2023926, w: -1.0099487}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1503,6 +1504,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1604273947}
   m_CullTransparentMesh: 1
+--- !u!114 &1604273951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604273947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5276f5d85f398424eac296b5f2b33e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  angleRange: 6.2831855
+  textMeshPro: {fileID: 1604273949}
 --- !u!1 &1677721666
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,14 +1754,13 @@ MonoBehaviour:
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Dream_Reader.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Overdoser.mp4
   googleSheetsHandler: {fileID: 1904902609}
---- !u!4 &1740468809
-Transform:
+--- !u!224 &1740468809
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740468806}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -1753,6 +1768,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!82 &1740468810
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2155,7 +2175,7 @@ SceneRoots:
   - {fileID: 476433020}
   - {fileID: 214183867}
   - {fileID: 54839014}
-  - {fileID: 1740468809}
   - {fileID: 1523213509}
   - {fileID: 1422243621}
   - {fileID: 1904902610}
+  - {fileID: 1740468809}

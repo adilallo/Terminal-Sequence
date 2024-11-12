@@ -375,14 +375,14 @@ namespace MiddleScene
             float canvasWidth = cachedCanvasSize.x;
             float canvasHeight = cachedCanvasSize.y;
             float avatarWidth = cachedAvatarSize.x;
-            float avatarHeight = cachedAvatarSize.y;
+            float avatarHeight = cachedAvatarSize.y + 100;
 
-            float yOffset = canvasHeight * 0.07f;
+            float yOffsetTop = canvasHeight * 0.046f;
 
             float minX = -canvasWidth / 2 + avatarWidth / 2;
             float maxX = canvasWidth / 2 - avatarWidth / 2;
-            float minY = (-canvasHeight / 2 + avatarHeight / 2) + yOffset;
-            float maxY = (canvasHeight / 2 - avatarHeight / 2) + yOffset;
+            float minY = (-canvasHeight / 2 + avatarHeight / 2) + yOffsetTop;
+            float maxY = (canvasHeight / 2 - avatarHeight / 2) + yOffsetTop;
 
             if (currentPosition.x < minX)
             {
