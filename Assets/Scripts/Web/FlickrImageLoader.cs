@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 public class FlickrImageLoader : MonoBehaviour
 {
-    //private string apiKey = "976c8648744b8e40c8541aba9ed2f978";
+    private string apiKey = "976c8648744b8e40c8541aba9ed2f978";
     private string baseUrl = "https://www.flickr.com/services/rest/";
 
     public string searchText = "dog";    // Search term
