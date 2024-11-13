@@ -17,29 +17,53 @@ public class FlickrImageLoader : MonoBehaviour
     public string sort = "relevance";    // Sorting method
     public string license = "";          // License type
     public int safeSearch = 1;           // '1' for safe search
-    public RawImage[] displayImages;        // UI element to display the image
+    public RawImage[] displayImages;     // UI elements to display images
 
     private int totalPages = -1;         // Total pages available (-1 means not fetched yet)
 
     void Start()
     {
-        // Start the update loop every 2 seconds
+        // Start the update loop every 8 seconds
         InvokeRepeating(nameof(UpdateImages), 0f, 8f);
     }
 
     void UpdateImages()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
+        int imagesPerPage = (displayImages != null && displayImages.Length > 0) ? displayImages.Length : 5;
+
         if (totalPages <= 0)
         {
-            // Request total pages first
-            FetchFlickrImagesJS(searchText, 1);
+            // Fetch the first page to get totalPages
+            FetchFlickrImagesJS(
+                searchText,
+                1.ToString(),
+                tags,
+                tagMode,
+                contentType,
+                media,
+                sort,
+                license,
+                safeSearch.ToString(),
+                imagesPerPage.ToString()
+            );
         }
         else
         {
-            // Request a random page
+            // Fetch a random page
             int randomPage = Random.Range(1, totalPages + 1);
-            FetchFlickrImagesJS(searchText, randomPage);
+            FetchFlickrImagesJS(
+    searchText,
+    randomPage.ToString(), // Convert int to string
+    tags,
+    tagMode,
+    contentType,
+    media,
+    sort,
+    license,
+    safeSearch.ToString(),
+    imagesPerPage.ToString() // Convert int to string
+);
         }
 #else
         StartCoroutine(GetImages(searchText));
@@ -48,7 +72,18 @@ public class FlickrImageLoader : MonoBehaviour
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")]
-    private static extern void FetchFlickrImagesJS(string searchText, int page);
+private static extern void FetchFlickrImagesJS(
+    string searchText,
+    string page,
+    string tags,
+    string tagMode,
+    string contentType,
+    string media,
+    string sort,
+    string license,
+    string safeSearch,
+    string perPage
+);
 #endif
 
     public void OnFlickrResponse(string jsonData)
@@ -56,34 +91,68 @@ public class FlickrImageLoader : MonoBehaviour
         Debug.Log("Received Flickr response: " + jsonData);
 
         FlickrResponse response = JsonUtility.FromJson<FlickrResponse>(jsonData);
+
+        if (response == null)
+        {
+            Debug.LogError("Failed to parse Flickr response.");
+            return;
+        }
+
+        if (response.stat != "ok")
+        {
+            Debug.LogError("Flickr API returned an error: " + response.stat);
+            return;
+        }
+
         if (response.photos != null)
         {
             if (totalPages <= 0)
             {
-                // Set total pages
-                totalPages = response.photos.pages;
-                Debug.Log("Total pages available: " + totalPages);
-            }
-
-            if (response.photos.photo.Length > 0)
-            {
-                int imagesToLoad = Mathf.Min(displayImages.Length, response.photos.photo.Length);
-                for (int i = 0; i < imagesToLoad; i++)
+                // Set total pages from the first response
+                try
                 {
-                    var photo = response.photos.photo[i];
+                    int totalImages = int.Parse(response.photos.total);
+                    int imagesPerPage = (displayImages != null && displayImages.Length > 0) ? displayImages.Length : 5;
+                    totalPages = Mathf.CeilToInt((float)totalImages / imagesPerPage);
+                    Debug.Log("Total pages calculated: " + totalPages);
+                }
+                catch (System.FormatException ex)
+                {
+                    Debug.LogError("Error parsing total images: " + ex.Message);
+                    totalPages = 0;
+                }
 
-                    // Construct image URL
-                    string photoId = photo.id;
-                    string serverId = photo.server;
-                    string secret = photo.secret;
-
-                    string imageUrl = $"https://live.staticflickr.com/{serverId}/{photoId}_{secret}.jpg";
-                    StartCoroutine(DownloadImage(imageUrl, displayImages[i]));
+                // Since we fetched page 1 to get totalPages, we need to fetch images from a random page now
+                if (totalPages > 1)
+                {
+#if UNITY_WEBGL && !UNITY_EDITOR
+    int randomPage = Random.Range(1, totalPages + 1);
+    FetchFlickrImagesJS(
+        searchText,
+        randomPage.ToString(),                
+        tags,                                 
+        tagMode,                              
+        contentType,                          
+        media,                               
+        sort,                                 
+        license,                              
+        safeSearch.ToString(),          
+        (displayImages != null && displayImages.Length > 0) 
+            ? displayImages.Length.ToString() 
+            : "5"                            
+    );
+#endif
+                }
+                else
+                {
+                    // Only one page available, display images from page 1
+                    DisplayPhotos(response.photos.photo);
                 }
             }
             else
             {
-                Debug.LogWarning("No images found on the random page.");
+                // Fetching a random page, display images
+                DisplayPhotos(response.photos.photo);
             }
         }
         else
@@ -120,19 +189,20 @@ public class FlickrImageLoader : MonoBehaviour
     string ConstructUrl(string search, string cacheBuster, int? page, int perPage)
     {
         string url = $"{baseUrl}?method=flickr.photos.search" +
-                     $"&api_key={apiKey}" +
-                     $"&text={UnityWebRequest.EscapeURL(search)}" +
-                     $"&tags={UnityWebRequest.EscapeURL(tags)}" +
-                     $"&tag_mode={tagMode}" +
-                     $"&content_type={contentType}" +
-                     $"&media={media}" +
-                     $"&sort={sort}" +
-                     $"&license={license}" +
-                     $"&safe_search={safeSearch}" +
-                     $"&format=json&nojsoncallback=1" +
-                     $"&per_page={perPage}" +
-                     (page.HasValue ? $"&page={page.Value}" : "") +
-                     $"&cachebuster={cacheBuster}";
+             $"&api_key={apiKey}" +
+             $"&text={UnityWebRequest.EscapeURL(search)}" +
+             $"&tags={UnityWebRequest.EscapeURL(tags)}" +
+             $"&tag_mode={tagMode}" +
+             $"&content_type={contentType}" +
+             $"&media={media}" +
+             $"&sort={sort}" +
+             $"&license={license}" +
+             $"&safe_search={safeSearch}" +
+             $"&format=json&nojsoncallback=1" + // This is the key addition
+             $"&per_page={perPage}" +
+             (page.HasValue ? $"&page={page.Value}" : "") +
+             $"&cachebuster={cacheBuster}";
+        Debug.Log("Constructed API URL: " + url); // For debugging
         return url;
     }
 
@@ -154,9 +224,17 @@ public class FlickrImageLoader : MonoBehaviour
         FlickrResponse response = JsonUtility.FromJson<FlickrResponse>(request.downloadHandler.text);
         if (response.photos != null)
         {
-            int totalImages = int.Parse(response.photos.total);
-            totalPages = Mathf.CeilToInt((float)totalImages / imagesPerPage);
-            Debug.Log("Total pages calculated: " + totalPages);
+            try
+            {
+                int totalImages = int.Parse(response.photos.total);
+                totalPages = Mathf.CeilToInt((float)totalImages / imagesPerPage);
+                Debug.Log("Total pages calculated: " + totalPages);
+            }
+            catch (System.FormatException ex)
+            {
+                Debug.LogError("Error parsing total images: " + ex.Message);
+                totalPages = 0;
+            }
         }
         else
         {
@@ -195,7 +273,31 @@ public class FlickrImageLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No images found on the random page.");
+            Debug.LogWarning("No images found on the page.");
+        }
+    }
+
+    void DisplayPhotos(FlickrResponse.Photo[] photos)
+    {
+        if (photos.Length > 0)
+        {
+            int imagesToLoad = Mathf.Min(displayImages.Length, photos.Length);
+            for (int i = 0; i < imagesToLoad; i++)
+            {
+                var photo = photos[i];
+
+                // Construct image URL
+                string photoId = photo.id;
+                string serverId = photo.server;
+                string secret = photo.secret;
+
+                string imageUrl = $"https://live.staticflickr.com/{serverId}/{photoId}_{secret}.jpg";
+                StartCoroutine(DownloadImage(imageUrl, displayImages[i]));
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No images found on the page.");
         }
     }
 
@@ -218,6 +320,7 @@ public class FlickrImageLoader : MonoBehaviour
     [System.Serializable]
     public class FlickrResponse
     {
+        public string stat; // Added to handle 'stat' field
         public Photos photos;
 
         [System.Serializable]
