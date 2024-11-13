@@ -144,7 +144,7 @@ public class NPCStockSceneManager : MonoBehaviour
         imageRect.anchorMin = new Vector2(0, 0);
         imageRect.anchorMax = new Vector2(0, 0);
         imageRect.pivot = new Vector2(0.5f, 0.5f);
-        imageRect.sizeDelta = new Vector2(50, 50); // Adjust size as needed
+        imageRect.sizeDelta = new Vector2(64, 64); // Adjust size as needed
 
         // Initially position the image at the start of the path
         if (mappedPath.Count > 0)
@@ -171,7 +171,7 @@ public class NPCStockSceneManager : MonoBehaviour
             cumulativeLengths.Add(totalLength);
         }
 
-        float speed = totalLength / 5f; // Adjust duration (in seconds) by changing the denominator
+        float speed = totalLength / 10f; // Adjust duration (in seconds) by changing the denominator
         float t = 0f; // Parameter along the path
         float direction = 1f; // 1 for forward, -1 for backward
 
