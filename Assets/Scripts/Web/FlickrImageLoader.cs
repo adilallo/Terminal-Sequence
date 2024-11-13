@@ -17,7 +17,7 @@ public class FlickrImageLoader : MonoBehaviour
     public string sort = "relevance";    // Sorting method
     public string license = "";          // License type
     public int safeSearch = 1;           // '1' for safe search
-    public RawImage displayImage;        // UI element to display the image
+    public RawImage[] displayImages;        // UI element to display the image
 
     private int totalPages = -1;         // Total pages available (-1 means not fetched yet)
 
@@ -67,17 +67,19 @@ public class FlickrImageLoader : MonoBehaviour
 
             if (response.photos.photo.Length > 0)
             {
-                // Get a random photo from the list
-                int randomIndex = Random.Range(0, response.photos.photo.Length);
-                var selectedPhoto = response.photos.photo[randomIndex];
+                int imagesToLoad = Mathf.Min(displayImages.Length, response.photos.photo.Length);
+                for (int i = 0; i < imagesToLoad; i++)
+                {
+                    var photo = response.photos.photo[i];
 
-                // Construct image URL
-                string photoId = selectedPhoto.id;
-                string serverId = selectedPhoto.server;
-                string secret = selectedPhoto.secret;
+                    // Construct image URL
+                    string photoId = photo.id;
+                    string serverId = photo.server;
+                    string secret = photo.secret;
 
-                string imageUrl = $"https://live.staticflickr.com/{serverId}/{photoId}_{secret}.jpg";
-                StartCoroutine(DownloadImage(imageUrl));
+                    string imageUrl = $"https://live.staticflickr.com/{serverId}/{photoId}_{secret}.jpg";
+                    StartCoroutine(DownloadImage(imageUrl, displayImages[i]));
+                }
             }
             else
             {
@@ -94,11 +96,13 @@ public class FlickrImageLoader : MonoBehaviour
     {
         string cacheBuster = Random.Range(0, 10000).ToString();
 
+        int imagesPerPage = (displayImages != null && displayImages.Length > 0) ? displayImages.Length : 5;
+
         // If totalPages is not known, fetch it
         if (totalPages <= 0)
         {
-            string url = ConstructUrl(search, cacheBuster, page: null);
-            yield return StartCoroutine(FetchTotalPages(url));
+            string url = ConstructUrl(search, cacheBuster, page: null, perPage: imagesPerPage);
+            yield return StartCoroutine(FetchTotalPages(url, imagesPerPage));
             if (totalPages <= 0)
             {
                 Debug.LogWarning("No pages available for the specified filters.");
@@ -109,11 +113,11 @@ public class FlickrImageLoader : MonoBehaviour
         // Now that we have totalPages, pick a random page
         int randomPage = Random.Range(1, totalPages + 1);
 
-        string pageUrl = ConstructUrl(search, cacheBuster, randomPage);
-        yield return StartCoroutine(FetchAndDisplayImage(pageUrl));
+        string pageUrl = ConstructUrl(search, cacheBuster, randomPage, imagesPerPage);
+        yield return StartCoroutine(FetchAndDisplayImages(pageUrl));
     }
 
-    string ConstructUrl(string search, string cacheBuster, int? page)
+    string ConstructUrl(string search, string cacheBuster, int? page, int perPage)
     {
         string url = $"{baseUrl}?method=flickr.photos.search" +
                      $"&api_key={apiKey}" +
@@ -126,13 +130,13 @@ public class FlickrImageLoader : MonoBehaviour
                      $"&license={license}" +
                      $"&safe_search={safeSearch}" +
                      $"&format=json&nojsoncallback=1" +
-                     $"&per_page=50" +
+                     $"&per_page={perPage}" +
                      (page.HasValue ? $"&page={page.Value}" : "") +
                      $"&cachebuster={cacheBuster}";
         return url;
     }
 
-    IEnumerator FetchTotalPages(string url)
+    IEnumerator FetchTotalPages(string url, int imagesPerPage)
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -146,12 +150,13 @@ public class FlickrImageLoader : MonoBehaviour
 
         Debug.Log("Total Pages Response: " + request.downloadHandler.text);
 
-        // Parse the response and extract total pages
+        // Parse the response and extract total images
         FlickrResponse response = JsonUtility.FromJson<FlickrResponse>(request.downloadHandler.text);
         if (response.photos != null)
         {
-            totalPages = response.photos.pages;
-            Debug.Log("Total pages available: " + totalPages);
+            int totalImages = int.Parse(response.photos.total);
+            totalPages = Mathf.CeilToInt((float)totalImages / imagesPerPage);
+            Debug.Log("Total pages calculated: " + totalPages);
         }
         else
         {
@@ -159,7 +164,7 @@ public class FlickrImageLoader : MonoBehaviour
         }
     }
 
-    IEnumerator FetchAndDisplayImage(string url)
+    IEnumerator FetchAndDisplayImages(string url)
     {
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -171,23 +176,22 @@ public class FlickrImageLoader : MonoBehaviour
             yield break;
         }
 
-        Debug.Log("Image Fetch Response: " + request.downloadHandler.text);
-
-        // Parse the response and extract photo details
         FlickrResponse response = JsonUtility.FromJson<FlickrResponse>(request.downloadHandler.text);
         if (response.photos != null && response.photos.photo.Length > 0)
         {
-            // Get a random photo from the list
-            int randomIndex = Random.Range(0, response.photos.photo.Length);
-            var selectedPhoto = response.photos.photo[randomIndex];
+            int imagesToLoad = Mathf.Min(displayImages.Length, response.photos.photo.Length);
+            for (int i = 0; i < imagesToLoad; i++)
+            {
+                var photo = response.photos.photo[i];
 
-            // Construct image URL
-            string photoId = selectedPhoto.id;
-            string serverId = selectedPhoto.server;
-            string secret = selectedPhoto.secret;
+                // Construct image URL
+                string photoId = photo.id;
+                string serverId = photo.server;
+                string secret = photo.secret;
 
-            string imageUrl = $"https://live.staticflickr.com/{serverId}/{photoId}_{secret}.jpg";
-            StartCoroutine(DownloadImage(imageUrl));
+                string imageUrl = $"https://live.staticflickr.com/{serverId}/{photoId}_{secret}.jpg";
+                StartCoroutine(DownloadImage(imageUrl, displayImages[i]));
+            }
         }
         else
         {
@@ -195,7 +199,7 @@ public class FlickrImageLoader : MonoBehaviour
         }
     }
 
-    IEnumerator DownloadImage(string url)
+    IEnumerator DownloadImage(string url, RawImage targetImage)
     {
         UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(url);
         yield return textureRequest.SendWebRequest();
@@ -207,8 +211,8 @@ public class FlickrImageLoader : MonoBehaviour
         }
 
         Texture2D tex = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
-        displayImage.texture = tex;
-        displayImage.SetNativeSize();
+        targetImage.texture = tex;
+        targetImage.SetNativeSize();
     }
 
     [System.Serializable]
@@ -222,7 +226,7 @@ public class FlickrImageLoader : MonoBehaviour
             public int page;
             public int pages;
             public int perpage;
-            public int total;
+            public string total;
             public Photo[] photo;
         }
 

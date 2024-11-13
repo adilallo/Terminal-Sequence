@@ -291,17 +291,17 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.6450176, a: 1}
   - {r: 0.5205597, g: 0.93710685, b: 0, a: 1}
   npcSprites:
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
-  - {fileID: 7482667652216324306, guid: 50689b5bfddc2cb4ab09202a662ebea3, type: 3}
+  - {fileID: 21300000, guid: f735f84cdccffd740b14e914c39336fd, type: 3}
+  - {fileID: 21300000, guid: f735f84cdccffd740b14e914c39336fd, type: 3}
+  - {fileID: 21300000, guid: f735f84cdccffd740b14e914c39336fd, type: 3}
+  - {fileID: 21300000, guid: f735f84cdccffd740b14e914c39336fd, type: 3}
+  - {fileID: 21300000, guid: f735f84cdccffd740b14e914c39336fd, type: 3}
+  - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
+  - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
+  - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
+  - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
+  - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
+  - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
 --- !u!1 &95710056
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,14 +619,14 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1013751967}
   - {fileID: 1197107285}
   - {fileID: 910010407}
   - {fileID: 1066078387}
   - {fileID: 1052568943}
   - {fileID: 154112030}
-  - {fileID: 1241740616}
   - {fileID: 95710058}
+  - {fileID: 1013751967}
+  - {fileID: 1241740616}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1289,7 +1289,11 @@ MonoBehaviour:
   sort: relevance
   license: 
   safeSearch: 3
-  displayImage: {fileID: 910010408}
+  displayImages:
+  - {fileID: 910010408}
+  - {fileID: 1066078388}
+  - {fileID: 1052568944}
+  - {fileID: 154112031}
 --- !u!4 &1086844811
 Transform:
   m_ObjectHideFlags: 0
