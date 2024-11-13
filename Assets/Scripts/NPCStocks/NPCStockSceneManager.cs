@@ -78,6 +78,14 @@ public class NPCStockSceneManager : MonoBehaviour
         // Add the UILineRenderer component
         UILineRenderer uiLineRenderer = lineObj.AddComponent<UILineRenderer>();
 
+        // **Adjust the RectTransform of the UILineRenderer**
+        RectTransform lineRect = uiLineRenderer.GetComponent<RectTransform>();
+        lineRect.anchorMin = new Vector2(0, 0);
+        lineRect.anchorMax = new Vector2(1, 1);
+        lineRect.pivot = new Vector2(0, 0);
+        lineRect.sizeDelta = Vector2.zero;
+        lineRect.anchoredPosition = Vector2.zero;
+
         // Set up the UILineRenderer
         int npcIndex = int.Parse(selection.NPCIndex);
         Color lineColor = npcColors.Length > npcIndex ? npcColors[npcIndex] : Color.black;
