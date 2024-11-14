@@ -30,9 +30,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _CanvasGroupAlpha: 1
-    - _WaveFrequency: 10
-    - _WaveStrength: 1
+    - _EdgeFadeEnd: 0.5
+    - _EdgeFadeStart: 0.4
+    - _WaveFrequency: 0
+    - _WaveSpeed: 0
+    - _WaveStrength: 0
     m_Colors:
-    - _Color: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
+    - _Color: {r: 0.63522005, g: 0.63522005, b: 0.63522005, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
