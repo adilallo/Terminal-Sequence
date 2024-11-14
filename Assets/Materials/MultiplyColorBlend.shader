@@ -1,9 +1,10 @@
-Shader "UI/MultiplyColorBlend"
+Shader "UI/FadeBlend"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color Tint", Color) = (1,1,1,1)
+        _CanvasGroupAlpha ("Canvas Group Alpha", Float) = 1.0
     }
     SubShader
     {
@@ -12,15 +13,14 @@ Shader "UI/MultiplyColorBlend"
             "Queue"="Transparent"
             "IgnoreProjector"="True"
             "RenderType"="Transparent"
-            "CanvasModulateColor"="True"
         }
         Cull Off
         Lighting Off
         ZWrite Off
         ZTest Always
 
-        // Multiply blending mode
-        Blend OneMinusDstColor One
+        // Standard Alpha Blending mode
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -45,6 +45,7 @@ Shader "UI/MultiplyColorBlend"
 
             sampler2D _MainTex;
             fixed4 _Color;
+            float _CanvasGroupAlpha;
 
             v2f vert(appdata_t v)
             {
@@ -57,7 +58,12 @@ Shader "UI/MultiplyColorBlend"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.texcoord) * i.color;
+                // Sample the main texture
+                fixed4 texColor = tex2D(_MainTex, i.texcoord);
+                // Multiply texture color by the vertex color (which includes _Color)
+                fixed4 col = texColor * i.color;
+                // Apply the alpha value from _CanvasGroupAlpha to the final color
+                col.a *= _CanvasGroupAlpha;
                 return col;
             }
             ENDCG
