@@ -181,7 +181,7 @@ public class NPCStockSceneManager : MonoBehaviour
             cumulativeLengths.Add(totalLength);
         }
 
-        float speed = totalLength / 10f;
+        float speed = totalLength / 15f;
         float t = 0f;
         float direction = 1f;
 

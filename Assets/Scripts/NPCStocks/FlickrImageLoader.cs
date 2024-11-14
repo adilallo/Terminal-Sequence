@@ -11,6 +11,9 @@ public class FlickrImageLoader : MonoBehaviour
     public RawImage[] displayImages;  // Array of UI elements to display images
     private int totalImages = 99;     // Number of images available (000 to 098)
 
+    [SerializeField] private Material enhancedWeaveBlendMaterial; // Assign the enhanced material in the Inspector
+    [SerializeField] private PixelSorter pixelSorter;               // Reference to the PixelSorter script
+
     void Start()
     {
         // Populate all RawImage components initially
@@ -30,8 +33,18 @@ public class FlickrImageLoader : MonoBehaviour
             // Construct the image URL with the correct file name
             string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
 
-            // Start a coroutine to download and display the image
-            StartCoroutine(DownloadAndSetImage(imageUrl, displayImages[i]));
+            // Assign the enhanced custom material to handle blending and waving
+            if (enhancedWeaveBlendMaterial != null)
+            {
+                displayImages[i].material = enhancedWeaveBlendMaterial;
+            }
+            else
+            {
+                Debug.LogWarning("EnhancedWeaveBlendMaterial is not assigned in the Inspector.");
+            }
+
+            // Start a coroutine to download, sort, and display the image
+            StartCoroutine(DownloadSortAndSetImage(imageUrl, displayImages[i]));
         }
     }
 
@@ -47,23 +60,29 @@ public class FlickrImageLoader : MonoBehaviour
         // Construct the image URL with the correct file name
         string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
 
-        // Start a coroutine to download and display the image
-        StartCoroutine(DownloadAndSetImage(imageUrl, targetImage));
+        // Start a coroutine to download, sort, and display the image
+        StartCoroutine(DownloadSortAndSetImage(imageUrl, targetImage));
     }
 
-    IEnumerator DownloadAndSetImage(string url, RawImage targetImage)
+    IEnumerator DownloadSortAndSetImage(string url, RawImage targetImage)
     {
+        // Download the image
         UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(url);
         yield return textureRequest.SendWebRequest();
 
         if (textureRequest.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError("Error downloading image: " + textureRequest.error);
+            Debug.LogError($"Error downloading image from {url}: {textureRequest.error}");
             yield break;
         }
 
-        Texture2D tex = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
-        targetImage.texture = tex;
+        Texture2D originalTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
+
+        // Sort the image using PixelSorter
+        Texture2D sortedTexture = pixelSorter.SortTexture(originalTexture);
+
+        // Assign the sorted texture to the RawImage
+        targetImage.texture = sortedTexture;
         targetImage.SetNativeSize();
     }
 }

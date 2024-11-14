@@ -1,10 +1,12 @@
-Shader "UI/FadeBlend"
+Shader "UI/EnhancedWeaveBlend"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color Tint", Color) = (1,1,1,1)
         _CanvasGroupAlpha ("Canvas Group Alpha", Float) = 1.0
+        _WaveStrength ("Wave Strength", Float) = 0.1
+        _WaveFrequency ("Wave Frequency", Float) = 10.0
     }
     SubShader
     {
@@ -19,7 +21,7 @@ Shader "UI/FadeBlend"
         ZWrite Off
         ZTest Always
 
-        // Standard Alpha Blending mode
+        // Standard Alpha Blending
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -46,10 +48,15 @@ Shader "UI/FadeBlend"
             sampler2D _MainTex;
             fixed4 _Color;
             float _CanvasGroupAlpha;
+            float _WaveStrength;
+            float _WaveFrequency;
 
             v2f vert(appdata_t v)
             {
                 v2f o;
+                // Apply a sine wave to the y-position based on x-coordinate for a waving effect
+                float wave = sin(v.vertex.x * _WaveFrequency) * _WaveStrength;
+                v.vertex.y += wave;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.color = v.color * _Color;
                 o.texcoord = v.texcoord;

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UI_MultiplyColorBlend
+  m_Name: EnhancedWeaveBlend
   m_Shader: {fileID: 4800000, guid: c4649346722ed16408a1b9e0458b2c11, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -30,7 +30,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _CanvasGroupAlpha: 1
+    - _WaveFrequency: 10
+    - _WaveStrength: 1
     m_Colors:
-    - _Color: {r: 0.42138356, g: 0.42138356, b: 0.42138356, a: 1}
+    - _Color: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
