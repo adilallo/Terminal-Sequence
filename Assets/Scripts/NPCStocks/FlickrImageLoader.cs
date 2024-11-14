@@ -13,8 +13,26 @@ public class FlickrImageLoader : MonoBehaviour
 
     void Start()
     {
+        // Populate all RawImage components initially
+        PopulateAllImages();
+
         // Start the update loop every 1 second
-        InvokeRepeating(nameof(UpdateRandomImages), 0f, 1f);
+        InvokeRepeating(nameof(UpdateRandomImages), 1f, 1f);
+    }
+
+    void PopulateAllImages()
+    {
+        for (int i = 0; i < displayImages.Length; i++)
+        {
+            // Pick a random image index from 000 to 098
+            int randomImageNumber = Random.Range(0, totalImages);
+
+            // Construct the image URL with the correct file name
+            string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
+
+            // Start a coroutine to download and display the image
+            StartCoroutine(DownloadAndSetImage(imageUrl, displayImages[i]));
+        }
     }
 
     void UpdateRandomImages()
