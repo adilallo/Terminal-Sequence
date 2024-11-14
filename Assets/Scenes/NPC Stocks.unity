@@ -278,7 +278,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineThickness: 8
   fadeDuration: 3
-  googleSheetsHandler: {fileID: 2012515491}
+  uiCanvasGroup: {fileID: 1715868990}
+  npcSprites:
+  - {fileID: 21300000, guid: f735f84cdccffd740b14e914c39336fd, type: 3}
+  - {fileID: 21300000, guid: 67b013a1cfb732549b93cd5eb22f2cd9, type: 3}
+  - {fileID: 21300000, guid: 2f88348addd59b846ab8d659d6bb5ad1, type: 3}
+  - {fileID: 21300000, guid: a78177f7f5b403743b2f15afc08f1ef2, type: 3}
+  - {fileID: 21300000, guid: 97278bd58f4381a4c995d5f5c1fbe8bd, type: 3}
+  - {fileID: 21300000, guid: 5195a1d9db6aa0248ae1337c54d22c8e, type: 3}
+  - {fileID: 21300000, guid: 6568e5ae9173fa64cb37b01ad82645b1, type: 3}
+  - {fileID: 21300000, guid: 0ffd4be5057126e41970dd6984dcda14, type: 3}
+  - {fileID: 21300000, guid: 76c7ffda13bee7640ad53bc1db289868, type: 3}
+  - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
+  - {fileID: 21300000, guid: 68655ecbf4b480a4bbd8b9f14e6e27cb, type: 3}
+  flickrImageMaterial: {fileID: 2100000, guid: 62c659d03f717aa4da1a0c8dfee790a7, type: 2}
   graphArea: {fileID: 1013751967}
   npcColors:
   - {r: 0.6117647, g: 0.41176474, b: 0.2901961, a: 1}
@@ -292,20 +305,6 @@ MonoBehaviour:
   - {r: 0.6745098, g: 0.27058825, b: 0.6509804, a: 1}
   - {r: 0.627451, g: 0.1764706, b: 0.20000002, a: 1}
   - {r: 0.48235297, g: 0.69803923, b: 0.32156864, a: 1}
-  npcSprites:
-  - {fileID: 21300000, guid: f735f84cdccffd740b14e914c39336fd, type: 3}
-  - {fileID: 21300000, guid: 67b013a1cfb732549b93cd5eb22f2cd9, type: 3}
-  - {fileID: 21300000, guid: 2f88348addd59b846ab8d659d6bb5ad1, type: 3}
-  - {fileID: 21300000, guid: a78177f7f5b403743b2f15afc08f1ef2, type: 3}
-  - {fileID: 21300000, guid: 97278bd58f4381a4c995d5f5c1fbe8bd, type: 3}
-  - {fileID: 21300000, guid: 5195a1d9db6aa0248ae1337c54d22c8e, type: 3}
-  - {fileID: 21300000, guid: 6568e5ae9173fa64cb37b01ad82645b1, type: 3}
-  - {fileID: 21300000, guid: 0ffd4be5057126e41970dd6984dcda14, type: 3}
-  - {fileID: 21300000, guid: 76c7ffda13bee7640ad53bc1db289868, type: 3}
-  - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
-  - {fileID: 21300000, guid: 68655ecbf4b480a4bbd8b9f14e6e27cb, type: 3}
-  uiCanvasGroup: {fileID: 1715868990}
-  flickrImageMaterial: {fileID: 2100000, guid: 62c659d03f717aa4da1a0c8dfee790a7, type: 2}
 --- !u!114 &21319645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -991,9 +990,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1278328537}
-        m_TargetAssemblyTypeName: Utility.SceneChanger, Assembly-CSharp
-        m_MethodName: LoadLobbySceneWithoutFade
+      - m_Target: {fileID: 21319644}
+        m_TargetAssemblyTypeName: NPCStockSceneManager, Assembly-CSharp
+        m_MethodName: OnBackButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

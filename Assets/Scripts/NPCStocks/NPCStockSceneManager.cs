@@ -2,40 +2,40 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Utility;
+using UnityEngine.SceneManagement;
 
 public class NPCStockSceneManager : MonoBehaviour
 {
     [SerializeField] private float lineThickness = 2f;
-    [SerializeField] private float fadeDuration = 2f; // Duration for fade-in
+    [SerializeField] private float fadeDuration = 2f;
+    [SerializeField] private CanvasGroup uiCanvasGroup;
 
-    public GoogleSheetsHandler googleSheetsHandler;
-
-    // Reference to the RectTransform of the graph area
-    public RectTransform graphArea;
-
-    // Colors for each NPC line
-    public Color[] npcColors;
-
-    [SerializeField] private Sprite[] npcSprites; // Assign these in the Inspector
-
-    [SerializeField] private CanvasGroup uiCanvasGroup; // Assign this in the Inspector
-    [SerializeField] private Material flickrImageMaterial; // Material used for Flickr images
-
-    // Dictionary to store the lines for each NPC
+    [Header("UI")]
+    [SerializeField] private Sprite[] npcSprites;
+    [SerializeField] private Material flickrImageMaterial;
+    [SerializeField] private RectTransform graphArea;
+    [SerializeField] private Color[] npcColors;
+    
+    private GoogleSheetsHandler googleSheetsHandler;
+    private SceneChanger sceneChanger;
     private Dictionary<string, GameObject> npcLines = new Dictionary<string, GameObject>();
 
     void Start()
     {
-        if (googleSheetsHandler == null)
-        {
-            googleSheetsHandler = FindFirstObjectByType<GoogleSheetsHandler>();
-        }
-
+        googleSheetsHandler = FindFirstObjectByType<GoogleSheetsHandler>();
         googleSheetsHandler.OnDataRetrieved += OnDataRetrievedHandler;
         googleSheetsHandler.GetAllVideoSelections();
 
+        sceneChanger = FindFirstObjectByType<SceneChanger>();
+
         // Start fading in the UI at the start
         StartCoroutine(FadeInUI());
+    }
+
+    public void OnBackButton()
+    {
+        StartCoroutine(FadeOutUI());
     }
 
     private IEnumerator FadeInUI()
@@ -60,6 +60,30 @@ public class NPCStockSceneManager : MonoBehaviour
         // Ensure UI is fully visible after fade-in
         uiCanvasGroup.alpha = 1;
         flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
+    }
+
+    private IEnumerator FadeOutUI()
+    {
+        float elapsedTime = 0f;
+
+        uiCanvasGroup.alpha = 1;
+        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
+
+        while (elapsedTime < fadeDuration)
+        {
+            float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+
+            uiCanvasGroup.alpha = alpha;
+            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        uiCanvasGroup.alpha = 0;
+        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
+
+        sceneChanger.LoadLobbySceneWithoutFade();
     }
 
     private void OnDataRetrievedHandler(List<GoogleSheetsHandler.VideoSelection> videoSelections)

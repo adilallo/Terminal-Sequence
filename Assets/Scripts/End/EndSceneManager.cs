@@ -27,6 +27,8 @@ public class EndSceneManager : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private List<AudioClip> endSceneAudioClips;
 
+    private SceneChanger sceneChanger;
+
     private bool videosPrepared = false;
     private bool hasTriggeredEndVideo = false;
 
@@ -71,6 +73,8 @@ public class EndSceneManager : MonoBehaviour
         {
             Debug.LogError("End VideoPlayer is not assigned!");
         }
+
+        sceneChanger = FindFirstObjectByType<SceneChanger>();
     }
 
     void Update()
@@ -127,12 +131,6 @@ public class EndSceneManager : MonoBehaviour
     private void OnEndVideoPrepared(VideoPlayer vp)
     {
         // You can set a flag here if needed or leave it empty
-    }
-
-    private void LoadFirstScene()
-    {
-        SceneTransitionContext.ShouldInitializeLobbyAudio = true;
-        SceneManager.LoadScene("Lobby");
     }
 
     private IEnumerator PlayAvatarVideo()
@@ -212,8 +210,7 @@ public class EndSceneManager : MonoBehaviour
                 yield return null;
             }
 
-            // After the end video finishes, load the next scene
-            LoadFirstScene();
+            sceneChanger.LoadLobbyScene();
         }
         else
         {
