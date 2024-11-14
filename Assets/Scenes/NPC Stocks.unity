@@ -530,6 +530,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4839525270666373091, guid: ec415c0f41a6b4e5fb62d5167b2c5185,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8076551594847691713, guid: ec415c0f41a6b4e5fb62d5167b2c5185,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -988,7 +993,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1278328537}
         m_TargetAssemblyTypeName: Utility.SceneChanger, Assembly-CSharp
-        m_MethodName: LoadLobbyScene
+        m_MethodName: LoadLobbySceneWithoutFade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

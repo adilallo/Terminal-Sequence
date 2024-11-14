@@ -14,6 +14,10 @@ public class AudioManager : MonoBehaviour
     private Coroutine playlistCoroutine;
     private bool shouldFadeOutAtEnd = false;
 
+    // New flags and queues
+    private bool isAudioAllowed = false;
+    private Queue<(List<AudioClip> playlist, bool fadeOut)> playlistQueue = new Queue<(List<AudioClip>, bool)>();
+
     public event Action OnPlaylistFinished;
 
     public AudioSource CurrentAudioSource
@@ -31,6 +35,19 @@ public class AudioManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    void Update()
+    {
+        if (!isAudioAllowed)
+        {
+            // Detect first user interaction (mouse click or touch)
+            if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
+            {
+                isAudioAllowed = true;
+                ProcessQueuedPlaylists();
+            }
         }
     }
 
@@ -56,8 +73,21 @@ public class AudioManager : MonoBehaviour
         }
         return 0f;
     }
-                    
+
     public void PlayPlaylist(List<AudioClip> playlist, bool fadeOutAtEnd = false)
+    {
+        if (isAudioAllowed)
+        {
+            StartPlaylist(playlist, fadeOutAtEnd);
+        }
+        else
+        {
+            // Queue the playlist to be played after user interaction
+            playlistQueue.Enqueue((playlist, fadeOutAtEnd));
+        }
+    }
+
+    private void StartPlaylist(List<AudioClip> playlist, bool fadeOutAtEnd)
     {
         if (playlistCoroutine != null)
         {
@@ -70,10 +100,24 @@ public class AudioManager : MonoBehaviour
         playlistCoroutine = StartCoroutine(PlayAudioTracks());
     }
 
+    private void ProcessQueuedPlaylists()
+    {
+        while (playlistQueue.Count > 0)
+        {
+            var (playlist, fadeOut) = playlistQueue.Dequeue();
+            StartPlaylist(playlist, fadeOut);
+        }
+    }
+
     private IEnumerator PlayAudioTracks()
     {
         while (true)
         {
+            if (currentPlaylist.Count == 0)
+            {
+                yield break;
+            }
+
             AudioClip currentTrack = currentPlaylist[currentTrackIndex];
 
             yield return StartCoroutine(CrossfadeAudio(currentTrack));
@@ -105,6 +149,7 @@ public class AudioManager : MonoBehaviour
 
         float startVolume = audioSource.volume;
 
+        // Fade out current audio
         while (audioSource != null && audioSource.volume > 0)
         {
             audioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
@@ -117,6 +162,7 @@ public class AudioManager : MonoBehaviour
             audioSource.Play();
             audioSource.volume = 0;
 
+            // Fade in new audio
             while (audioSource != null && audioSource.volume < startVolume)
             {
                 audioSource.volume += startVolume * Time.deltaTime / fadeDuration;

@@ -19,7 +19,8 @@ namespace Utility
         {
             if (Screen.width != targetWidth || Screen.height != targetHeight || !Screen.fullScreen)
             {
-               // SetResolution(targetWidth, targetHeight, true);
+                // Uncomment and implement if you want to set resolution
+                // SetResolution(targetWidth, targetHeight, true);
             }
         }
 
@@ -27,7 +28,23 @@ namespace Utility
         {
             if (!string.IsNullOrEmpty(lobbySceneName))
             {
+                // Set the flag to initialize audio when loading the lobby scene
+                SceneTransitionContext.ShouldInitializeLobbyAudio = true;
                 StartCoroutine(FadeOutAndLoadScene(lobbySceneName));
+            }
+            else
+            {
+                Debug.LogWarning("Lobby scene name is not assigned.");
+            }
+        }
+
+        public void LoadLobbySceneWithoutFade()
+        {
+            if (!string.IsNullOrEmpty(lobbySceneName))
+            {
+                // Set the flag to NOT initialize audio when loading the lobby scene
+                SceneTransitionContext.ShouldInitializeLobbyAudio = false;
+                StartCoroutine(LoadSceneAsync(lobbySceneName));
             }
             else
             {
@@ -46,7 +63,6 @@ namespace Utility
                 Debug.LogWarning("First scene name is not assigned.");
             }
         }
-
 
         public void LoadSecondScene()
         {
@@ -84,13 +100,13 @@ namespace Utility
             }
         }
 
-        private void ExitGame()
+        private IEnumerator LoadSceneAsync(string sceneName)
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
         }
 
         private IEnumerator FadeOutAndLoadScene(string sceneName)
@@ -103,6 +119,15 @@ namespace Utility
 
             // Load the next scene asynchronously after fading out
             yield return SceneManager.LoadSceneAsync(sceneName);
+        }
+
+        private void ExitGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
 
         private void SetResolution(int targetWidth, int targetHeight, bool fullscreen)
@@ -132,4 +157,11 @@ namespace Utility
             Screen.fullScreenMode = fullscreen ? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
         }
     }
+
+    public static class SceneTransitionContext
+    {
+        // Flag to determine if audio should be initialized when loading the lobby scene.
+        public static bool ShouldInitializeLobbyAudio = true;
+    }
+
 }

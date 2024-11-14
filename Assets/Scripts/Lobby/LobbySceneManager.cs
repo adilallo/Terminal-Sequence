@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using Utility;
 
 namespace LobbyScene
 {
@@ -12,15 +13,12 @@ namespace LobbyScene
         [SerializeField] private Material uiMaterial;
         [SerializeField] private float fadeDuration = 2f;
 
-        [HeaderAttribute("UI")]
-
-        [HeaderAttribute("Audio")]
+        [Header("Audio")]
         [SerializeField] private List<AudioClip> startSceneAudioClips;
 
         void Start()
         {
             InitializeUIElements();
-
             InitializeAudio();
         }
 
@@ -57,8 +55,17 @@ namespace LobbyScene
         {
             if (AudioManager.Instance != null)
             {
-                AudioManager.Instance.PlayPlaylist(startSceneAudioClips, false);
-                // If there are events related to AudioManager, handle them here
+                // Check the SceneTransitionContext to determine if audio should be initialized
+                if (SceneTransitionContext.ShouldInitializeLobbyAudio)
+                {
+                    AudioManager.Instance.PlayPlaylist(startSceneAudioClips, false);
+                    Debug.Log("Initializing lobby audio.");
+                }
+                else
+                {
+                    // Do not initialize audio when returning from NPCStocks
+                    Debug.Log("Returning to lobby from NPCStocks. Audio will continue without reinitialization.");
+                }
             }
             else
             {
@@ -81,7 +88,7 @@ namespace LobbyScene
             while (elapsedTime < fadeDuration)
             {
                 float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-        
+
                 uiCanvasGroup.alpha = alpha;
                 uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
 

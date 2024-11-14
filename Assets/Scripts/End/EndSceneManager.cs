@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using System.Collections.Generic;
+using Utility;
 
 public class EndSceneManager : MonoBehaviour
 {
@@ -130,6 +131,7 @@ public class EndSceneManager : MonoBehaviour
 
     private void LoadFirstScene()
     {
+        SceneTransitionContext.ShouldInitializeLobbyAudio = true;
         SceneManager.LoadScene("Lobby");
     }
 
