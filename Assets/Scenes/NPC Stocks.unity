@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 21319641}
   - component: {fileID: 21319644}
+  - component: {fileID: 21319645}
   - component: {fileID: 21319638}
   - component: {fileID: 21319642}
   m_Layer: 0
@@ -302,6 +303,25 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 76c7ffda13bee7640ad53bc1db289868, type: 3}
   - {fileID: 21300000, guid: 0da77837b4378ca48809565025b922d4, type: 3}
   - {fileID: 21300000, guid: 68655ecbf4b480a4bbd8b9f14e6e27cb, type: 3}
+--- !u!114 &21319645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21319637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8268d2ed4a4e4bb43972cb38c6327445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayImages:
+  - {fileID: 1690556969}
+  - {fileID: 1066078388}
+  - {fileID: 1052568944}
+  - {fileID: 154112031}
+  - {fileID: 910010408}
+  - {fileID: 535960734}
 --- !u!1 &95710056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1554,87 +1574,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066078386}
   m_CullTransparentMesh: 1
---- !u!1 &1086844809
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1086844811}
-  - component: {fileID: 1086844810}
-  - component: {fileID: 1086844812}
-  m_Layer: 0
-  m_Name: FlickrImageLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1086844810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086844809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8268d2ed4a4e4bb43972cb38c6327445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  searchText: finance trading
-  tags: chart, graph
-  tagMode: any
-  contentType: 1
-  media: photos
-  sort: relevance
-  license: 
-  safeSearch: 3
-  displayImages:
-  - {fileID: 1690556969}
-  - {fileID: 1066078388}
-  - {fileID: 1052568944}
-  - {fileID: 154112031}
---- !u!4 &1086844811
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086844809}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1086844812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086844809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8268d2ed4a4e4bb43972cb38c6327445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  searchText: guns
-  tags: gun, ammo, firearm
-  tagMode: any
-  contentType: 1
-  media: photos
-  sort: relevance
-  license: 
-  safeSearch: 3
-  displayImages:
-  - {fileID: 535960734}
-  - {fileID: 910010408}
 --- !u!1 &1278328535
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,5 +2181,4 @@ SceneRoots:
   - {fileID: 1278328538}
   - {fileID: 2012515492}
   - {fileID: 239419547}
-  - {fileID: 1086844811}
   - {fileID: 21319641}
