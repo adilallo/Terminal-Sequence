@@ -133,7 +133,7 @@ public class FlickrImageLoader : MonoBehaviour
             int randomImageNumber = Random.Range(0, totalImages);
 
             // Construct the image file path from the local Assets folder
-            string imagePath = $"Assets/StreamingAssets/FlickrImages/{randomImageNumber:D3}.jpg";
+            string imagePath = System.IO.Path.Combine(Application.streamingAssetsPath, $"FlickrImages/{randomImageNumber:D3}.jpg");
 
             // Assign the enhanced custom material to handle blending and waving
             if (enhancedWeaveBlendMaterial != null)
@@ -163,7 +163,7 @@ public class FlickrImageLoader : MonoBehaviour
         int randomImageNumber = Random.Range(0, totalImages);
 
         // Construct the image file path from the local Assets folder
-        string imagePath = $"Assets//StreamingAssets/FlickrImages/{randomImageNumber:D3}.jpg";
+        string imagePath = System.IO.Path.Combine(Application.streamingAssetsPath, $"FlickrImages/{randomImageNumber:D3}.jpg");
 
         // Start a coroutine to load, sort, and display the image with crossfade
         StartCoroutine(LoadSortAndCrossfadeImage(imagePath, targetImage));
