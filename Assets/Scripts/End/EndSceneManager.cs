@@ -15,6 +15,7 @@ public class EndSceneManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private GameObject backgroundImage;
+    [SerializeField] private GameObject backgroundMask;
 
     [Header("Video")]
     [SerializeField] private VideoPlayer avatarVideoPlayer;
@@ -36,6 +37,7 @@ public class EndSceneManager : MonoBehaviour
     {
         Camera.main.clearFlags = CameraClearFlags.Nothing;
         backgroundImage.SetActive(true);
+        backgroundMask.SetActive(true);
         // Ensure the UI is invisible initially
         if (uiCanvasGroup != null)
         {
@@ -202,6 +204,7 @@ public class EndSceneManager : MonoBehaviour
         if (endVideoPlayer != null)
         {
             backgroundImage.SetActive(false);
+            backgroundMask.SetActive(false);
             endVideoPlayer.Play();
 
             // Wait for the end video to finish playing
