@@ -29,10 +29,10 @@ namespace MiddleScene
         [SerializeField] private List<AudioClip> middleSceneAudioClips;
 
         [Header("Video URLs")]
-        [SerializeField] private List<string> npcVideoURLs;
-        [SerializeField] private List<string> avatarVideoURLs;
+        [SerializeField] private List<VideoClip> npcVideoURLs;
+        [SerializeField] private List<VideoClip> avatarVideoURLs;
 
-        [SerializeField] private GoogleSheetsHandler googleSheetsHandler;
+        [SerializeField] private LocalSelectionTracker localSelectionHandler;
 
         #endregion
 
@@ -147,13 +147,13 @@ namespace MiddleScene
 
         public void OnVideoSelected()
         {
-            if (googleSheetsHandler != null)
+            if (localSelectionHandler != null)
             {
-                googleSheetsHandler.RecordVideoSelection(currentVideoIndex);
+                localSelectionHandler.RecordVideoSelection(currentVideoIndex);
             }
             else
             {
-                Debug.LogError("GoogleSheetsHandler is not assigned in the Inspector.");
+                Debug.LogError("LocalSelectionHandler is not assigned in the Inspector.");
             }
         }
 
@@ -234,10 +234,9 @@ namespace MiddleScene
             npcVideoStarted = false;
 
             // Prepare and play NPC Video
-            if (npcVideoPlayer != null && npcVideoURLs.Count > index && !string.IsNullOrEmpty(npcVideoURLs[index]))
+            if (npcVideoPlayer != null && npcVideoURLs.Count > index && npcVideoURLs[index] != null)
             {
-                npcVideoPlayer.source = VideoSource.Url;
-                npcVideoPlayer.url = npcVideoURLs[index];
+                npcVideoPlayer.clip = npcVideoURLs[index];
                 npcVideoPlayer.prepareCompleted += OnNPCVideoPrepared;
                 npcVideoPlayer.Prepare();
             }
@@ -247,10 +246,9 @@ namespace MiddleScene
             }
 
             // Prepare and play Avatar Video
-            if (avatarVideoPlayer != null && avatarVideoURLs.Count > index && !string.IsNullOrEmpty(avatarVideoURLs[index]))
+            if (avatarVideoPlayer != null && avatarVideoURLs.Count > index && avatarVideoURLs[index] != null)
             {
-                avatarVideoPlayer.source = VideoSource.Url;
-                avatarVideoPlayer.url = avatarVideoURLs[index];
+                avatarVideoPlayer.clip = avatarVideoURLs[index];
                 avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
                 avatarVideoPlayer.Prepare();
             }

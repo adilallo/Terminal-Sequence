@@ -1262,7 +1262,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673760382}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 90450d6b1bf0e4157b1024bc698cc6a4, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 7bad9192884ae40deb939e0505f20353, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1272,16 +1272,18 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 1
+  m_DataSource: 0
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/UI/Cursor.mp4
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 0
   m_Looping: 1
@@ -1952,6 +1954,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2012515492}
   - component: {fileID: 2012515491}
+  - component: {fileID: 2012515493}
   m_Layer: 0
   m_Name: GoogleSheet
   m_TagString: Untagged
@@ -1966,7 +1969,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2012515490}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23540ceb2602c584c895d98cb655f679, type: 3}
   m_Name: 
@@ -1987,6 +1990,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2012515493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012515490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3035321dba3d1dd40821dd1d06b1b16d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: videoSelections.txt
 --- !u!1001 &2033204590
 PrefabInstance:
   m_ObjectHideFlags: 0

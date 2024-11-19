@@ -16,21 +16,57 @@ public class NPCStockSceneManager : MonoBehaviour
     [SerializeField] private Material flickrImageMaterial;
     [SerializeField] private RectTransform graphArea;
     [SerializeField] private Color[] npcColors;
-    
-    private GoogleSheetsHandler googleSheetsHandler;
+
+    private LocalSelectionTracker localSelectionTracker;
     private SceneChanger sceneChanger;
     private Dictionary<string, GameObject> npcLines = new Dictionary<string, GameObject>();
 
     void Start()
     {
-        googleSheetsHandler = FindFirstObjectByType<GoogleSheetsHandler>();
-        googleSheetsHandler.OnDataRetrieved += OnDataRetrievedHandler;
-        googleSheetsHandler.GetAllVideoSelections();
-
         sceneChanger = FindFirstObjectByType<SceneChanger>();
+        if (sceneChanger == null)
+        {
+            Debug.LogError("SceneChanger not found in the scene.");
+            return;
+        }
 
         // Start fading in the UI at the start
         StartCoroutine(FadeInUI());
+    }
+
+    IEnumerator RetrieveDataWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        localSelectionTracker.GetAllVideoSelections();
+    }
+
+    void OnEnable()
+    {
+        localSelectionTracker = FindFirstObjectByType<LocalSelectionTracker>();
+        if (localSelectionTracker == null)
+        {
+            Debug.LogError("LocalSelectionTracker not found in the scene.");
+            return;
+        }
+
+        localSelectionTracker.OnDataRetrieved += OnDataRetrievedHandler;
+
+        StartCoroutine(RetrieveDataWithDelay(0.1f)); // Delay to ensure data can be read properly
+
+        sceneChanger = FindFirstObjectByType<SceneChanger>();
+        if (sceneChanger == null)
+        {
+            Debug.LogError("SceneChanger not found in the scene.");
+            return;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (localSelectionTracker != null)
+        {
+            localSelectionTracker.OnDataRetrieved -= OnDataRetrievedHandler;
+        }
     }
 
     public void OnBackButton()
@@ -44,14 +80,24 @@ public class NPCStockSceneManager : MonoBehaviour
 
         // Ensure CanvasGroup starts fully transparent
         uiCanvasGroup.alpha = 0;
-        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
+        if (flickrImageMaterial.HasProperty("_CanvasGroupAlpha"))
+        {
+            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
+        }
+        else
+        {
+            Debug.LogWarning("flickrImageMaterial does not have the property '_CanvasGroupAlpha'.");
+        }
 
         while (elapsedTime < fadeDuration)
         {
             float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
 
             uiCanvasGroup.alpha = alpha;
-            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+            if (flickrImageMaterial.HasProperty("_CanvasGroupAlpha"))
+            {
+                flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+            }
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -59,7 +105,10 @@ public class NPCStockSceneManager : MonoBehaviour
 
         // Ensure UI is fully visible after fade-in
         uiCanvasGroup.alpha = 1;
-        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        if (flickrImageMaterial.HasProperty("_CanvasGroupAlpha"))
+        {
+            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        }
     }
 
     private IEnumerator FadeOutUI()
@@ -67,37 +116,51 @@ public class NPCStockSceneManager : MonoBehaviour
         float elapsedTime = 0f;
 
         uiCanvasGroup.alpha = 1;
-        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        if (flickrImageMaterial.HasProperty("_CanvasGroupAlpha"))
+        {
+            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        }
 
         while (elapsedTime < fadeDuration)
         {
             float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
 
             uiCanvasGroup.alpha = alpha;
-            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+            if (flickrImageMaterial.HasProperty("_CanvasGroupAlpha"))
+            {
+                flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+            }
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         uiCanvasGroup.alpha = 0;
-        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
+        if (flickrImageMaterial.HasProperty("_CanvasGroupAlpha"))
+        {
+            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
+        }
 
         sceneChanger.LoadLobbySceneWithoutFade();
     }
 
-    private void OnDataRetrievedHandler(List<GoogleSheetsHandler.VideoSelection> videoSelections)
+    private void OnDataRetrievedHandler(List<LocalSelectionTracker.VideoSelection> videoSelections)
     {
         // Process the data
         foreach (var selection in videoSelections)
         {
-            int selectionCount = int.Parse(selection.SelectionCount);
+            if (int.TryParse(selection.SelectionCount, out int selectionCount))
+            {
+                // Generate path for this NPC
+                List<Vector2> path = GeneratePath(selectionCount);
 
-            // Generate path for this NPC
-            List<Vector2> path = GeneratePath(selectionCount);
-
-            // Draw the line
-            DrawLine(selection, path);
+                // Draw the line
+                DrawLine(selection, path);
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid SelectionCount value: {selection.SelectionCount}");
+            }
         }
     }
 
@@ -124,9 +187,9 @@ public class NPCStockSceneManager : MonoBehaviour
         return path;
     }
 
-    private void DrawLine(GoogleSheetsHandler.VideoSelection selection, List<Vector2> path)
+    private void DrawLine(LocalSelectionTracker.VideoSelection selection, List<Vector2> path)
     {
-        GameObject lineObj = new GameObject(selection.NPCName + "_Line");
+        GameObject lineObj = new GameObject(selection.NPCIndex + "_Line");
         lineObj.transform.SetParent(graphArea, false);
 
         UILineRenderer uiLineRenderer = lineObj.AddComponent<UILineRenderer>();
@@ -138,10 +201,17 @@ public class NPCStockSceneManager : MonoBehaviour
         lineRect.sizeDelta = Vector2.zero;
         lineRect.anchoredPosition = Vector2.zero;
 
-        int npcIndex = int.Parse(selection.NPCIndex);
-        Color lineColor = npcColors.Length > npcIndex ? npcColors[npcIndex] : Color.black;
-        uiLineRenderer.color = lineColor;
-        uiLineRenderer.LineThickness = lineThickness;
+        if (int.TryParse(selection.NPCIndex, out int npcIndex))
+        {
+            Color lineColor = npcColors.Length > npcIndex ? npcColors[npcIndex] : Color.black;
+            uiLineRenderer.color = lineColor;
+            uiLineRenderer.LineThickness = lineThickness;
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid NPCIndex value: {selection.NPCIndex}");
+            return;
+        }
 
         List<Vector2> mappedPath = new List<Vector2>();
         foreach (var point in path)
@@ -154,27 +224,34 @@ public class NPCStockSceneManager : MonoBehaviour
 
         uiLineRenderer.Points = mappedPath;
 
-        npcLines[selection.NPCName] = lineObj;
+        npcLines[selection.NPCIndex] = lineObj;
 
         CreateAndAnimateNPCImage(selection, mappedPath);
     }
 
-    private void CreateAndAnimateNPCImage(GoogleSheetsHandler.VideoSelection selection, List<Vector2> mappedPath)
+    private void CreateAndAnimateNPCImage(LocalSelectionTracker.VideoSelection selection, List<Vector2> mappedPath)
     {
-        GameObject npcImageObj = new GameObject(selection.NPCName + "_Image");
+        GameObject npcImageObj = new GameObject(selection.NPCIndex + "_Image");
         npcImageObj.transform.SetParent(graphArea, false);
 
         Image npcImage = npcImageObj.AddComponent<Image>();
 
-        int npcIndex = int.Parse(selection.NPCIndex);
-        Sprite npcSprite = npcSprites.Length > npcIndex ? npcSprites[npcIndex] : null;
-        if (npcSprite != null)
+        if (int.TryParse(selection.NPCIndex, out int npcIndex))
         {
-            npcImage.sprite = npcSprite;
+            Sprite npcSprite = npcSprites.Length > npcIndex ? npcSprites[npcIndex] : null;
+            if (npcSprite != null)
+            {
+                npcImage.sprite = npcSprite;
+            }
+            else
+            {
+                Debug.LogWarning($"No sprite found for NPC at index {npcIndex}");
+                return;
+            }
         }
         else
         {
-            Debug.LogWarning($"No sprite found for NPC at index {npcIndex}");
+            Debug.LogWarning($"Invalid NPCIndex value: {selection.NPCIndex}");
             return;
         }
 

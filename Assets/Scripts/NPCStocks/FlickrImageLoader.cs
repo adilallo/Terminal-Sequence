@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class FlickrImageLoader : MonoBehaviour
 {
-    // Base URL for the images hosted on GitHub
-    private string baseUrl = "https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/FlickrImages/";
-
+    // Reference to the images in the FlickrImages folder
     [Header("UI Elements")]
     public RawImage[] displayImages;              // Array of UI elements to display images
     [SerializeField] private RectTransform parentRect; // Reference to the parent RectTransform (e.g., Canvas or graphArea)
@@ -125,7 +123,7 @@ public class FlickrImageLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// Populates all RawImage components by downloading, sorting, and assigning images.
+    /// Populates all RawImage components by loading images from the FlickrImages folder.
     /// </summary>
     void PopulateAllImages()
     {
@@ -134,8 +132,8 @@ public class FlickrImageLoader : MonoBehaviour
             // Pick a random image index from 000 to 098
             int randomImageNumber = Random.Range(0, totalImages);
 
-            // Construct the image URL with the correct file name
-            string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
+            // Construct the image file path from the local Assets folder
+            string imagePath = $"Assets/FlickrImages/{randomImageNumber:D3}.jpg";
 
             // Assign the enhanced custom material to handle blending and waving
             if (enhancedWeaveBlendMaterial != null)
@@ -147,8 +145,8 @@ public class FlickrImageLoader : MonoBehaviour
                 Debug.LogWarning("EnhancedWeaveBlendMaterial is not assigned in the Inspector.");
             }
 
-            // Start a coroutine to download, sort, and display the image with crossfade
-            StartCoroutine(DownloadSortAndCrossfadeImage(imageUrl, displayImages[i]));
+            // Start a coroutine to load, sort, and display the image with crossfade
+            StartCoroutine(LoadSortAndCrossfadeImage(imagePath, displayImages[i]));
         }
     }
 
@@ -164,32 +162,30 @@ public class FlickrImageLoader : MonoBehaviour
         // Pick a random image index from 000 to 098
         int randomImageNumber = Random.Range(0, totalImages);
 
-        // Construct the image URL with the correct file name
-        string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
+        // Construct the image file path from the local Assets folder
+        string imagePath = $"Assets/FlickrImages/{randomImageNumber:D3}.jpg";
 
-        // Start a coroutine to download, sort, and display the image with crossfade
-        StartCoroutine(DownloadSortAndCrossfadeImage(imageUrl, targetImage));
+        // Start a coroutine to load, sort, and display the image with crossfade
+        StartCoroutine(LoadSortAndCrossfadeImage(imagePath, targetImage));
     }
 
     /// <summary>
-    /// Downloads an image, applies pixel sorting, and assigns it to the target RawImage with a crossfade effect.
+    /// Loads an image, applies pixel sorting, and assigns it to the target RawImage with a crossfade effect.
     /// </summary>
-    /// <param name="url">URL of the image to download.</param>
+    /// <param name="path">Path of the image to load.</param>
     /// <param name="targetImage">RawImage component to assign the image to.</param>
     /// <returns>IEnumerator for coroutine.</returns>
-    IEnumerator DownloadSortAndCrossfadeImage(string url, RawImage targetImage)
+    IEnumerator LoadSortAndCrossfadeImage(string path, RawImage targetImage)
     {
-        // Download the image
-        UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(url);
-        yield return textureRequest.SendWebRequest();
-
-        if (textureRequest.result != UnityWebRequest.Result.Success)
+        // Load the image as a Texture2D
+        Texture2D newTexture = new Texture2D(2, 2);
+        byte[] imageData = System.IO.File.ReadAllBytes(path);
+        if (imageData == null || imageData.Length == 0)
         {
-            Debug.LogError($"Error downloading image from {url}: {textureRequest.error}");
+            Debug.LogError($"Error loading image from {path}");
             yield break;
         }
-
-        Texture2D newTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
+        newTexture.LoadImage(imageData);
 
         // Sort the image using PixelSorter
         Texture2D sortedTexture = pixelSorter.SortTexture(newTexture);

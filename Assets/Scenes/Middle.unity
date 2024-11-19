@@ -296,7 +296,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 280538091}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: b0a21adead7e64a05945ba7e070cc380, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: d7c731b2a0e984c8bb253dcf23db8e85, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -306,16 +306,18 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 1
+  m_DataSource: 0
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/UI/Arrow.mp4
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 0
   m_Looping: 1
@@ -1144,6 +1146,7 @@ MonoBehaviour:
   firstSceneName: Start
   secondSceneName: Middle
   thirdSceneName: End
+  npcStocksSceneName: 
 --- !u!4 &1523213509
 Transform:
   m_ObjectHideFlags: 0
@@ -1326,7 +1329,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560943318}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 63941efebb918432185d1f8e5f32af15, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 2d63114395d694f6ab744f9e3bfe80d5, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1336,7 +1339,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 1
-  m_DataSource: 1
+  m_DataSource: 0
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
@@ -1491,7 +1494,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1699116667}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 90450d6b1bf0e4157b1024bc698cc6a4, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 7bad9192884ae40deb939e0505f20353, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1501,16 +1504,18 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 1
+  m_DataSource: 0
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/UI/Cursor.mp4
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 0
   m_Looping: 1
@@ -1565,30 +1570,30 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cb1529f9255584a89b1dcea33e81b8a8, type: 3}
   - {fileID: 8300000, guid: e2396893e45b740f0aedd167a7ed8611, type: 3}
   npcVideoURLs:
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Biohacker.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Acronymologist.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Hustlepreneur.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Wojak.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Zombie.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/NEET.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Fawncore.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Being_Baby.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Exopreneur.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Dream_Reader.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/NPC/Overdoser.mp4
+  - {fileID: 32900000, guid: 6d13959046d1340cea2cffe94e229fe3, type: 3}
+  - {fileID: 32900000, guid: a2f449644388d4df4ae60f3223b93982, type: 3}
+  - {fileID: 32900000, guid: d64b94d1283db40a489abdc26521e04e, type: 3}
+  - {fileID: 32900000, guid: 58dfdd4e9fda04b7fb6069a84d3ac02e, type: 3}
+  - {fileID: 32900000, guid: 400b52e7adbb44b659622377266260f7, type: 3}
+  - {fileID: 32900000, guid: cf9d3fd549f3e4eb4af24179c57ae8c0, type: 3}
+  - {fileID: 32900000, guid: deebc5aad82a542b98f752f8117e989f, type: 3}
+  - {fileID: 32900000, guid: 74de8089428c9134887ca213dd65ca41, type: 3}
+  - {fileID: 32900000, guid: 59ff1440c12754e959d59dd5b45b4dd2, type: 3}
+  - {fileID: 32900000, guid: 3f941c0f2571d4c49bf3c31c8ecebbe2, type: 3}
+  - {fileID: 32900000, guid: 12b26ba35c1434b3a87e45ead2683d42, type: 3}
   avatarVideoURLs:
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Biohacker.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Acronymologist.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Hustlepreneur.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Wojak.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Zombie.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Neet.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Fawncore.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Being_Baby.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Exopreneur.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Dream_Reader.mp4
-  - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Overdoser.mp4
-  googleSheetsHandler: {fileID: 1904902609}
+  - {fileID: 32900000, guid: 2d63114395d694f6ab744f9e3bfe80d5, type: 3}
+  - {fileID: 32900000, guid: 448a5c941fdec46deba2c90cedeb1271, type: 3}
+  - {fileID: 32900000, guid: ff87fe9451d48498da1844e01aa9bbe7, type: 3}
+  - {fileID: 32900000, guid: 6179b9f0846154585984e6edb19cfa2a, type: 3}
+  - {fileID: 32900000, guid: 12f0f8708f07d4986b945e77d60a48fd, type: 3}
+  - {fileID: 32900000, guid: 420b40cc47d804d2a953ce89b92987cd, type: 3}
+  - {fileID: 32900000, guid: 11920a4e8da9546f393a4376fd1b6661, type: 3}
+  - {fileID: 32900000, guid: c926b43925150ca418667909c7392593, type: 3}
+  - {fileID: 32900000, guid: ebcdf70eebe964009964311c05c23790, type: 3}
+  - {fileID: 32900000, guid: a2c6ae67c5f3ff14cac99b239dbed453, type: 3}
+  - {fileID: 32900000, guid: 698c8ce2a6e5c4ecd87273fa2030cb62, type: 3}
+  localSelectionHandler: {fileID: 1904902611}
 --- !u!224 &1740468809
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1840,6 +1845,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1904902610}
   - component: {fileID: 1904902609}
+  - component: {fileID: 1904902611}
   m_Layer: 0
   m_Name: GoogleSheet
   m_TagString: Untagged
@@ -1854,7 +1860,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904902608}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23540ceb2602c584c895d98cb655f679, type: 3}
   m_Name: 
@@ -1875,6 +1881,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1904902611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1904902608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3035321dba3d1dd40821dd1d06b1b16d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: videoSelections.txt
 --- !u!1 &1963578883
 GameObject:
   m_ObjectHideFlags: 0
@@ -2165,7 +2184,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2118144297}
   m_Enabled: 1
-  m_VideoClip: {fileID: 0}
+  m_VideoClip: {fileID: 32900000, guid: 6d13959046d1340cea2cffe94e229fe3, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -2175,7 +2194,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 1
+  m_DataSource: 0
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
