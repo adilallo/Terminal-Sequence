@@ -20,7 +20,7 @@ namespace Utility
             if (Screen.width != targetWidth || Screen.height != targetHeight || !Screen.fullScreen)
             {
                 // Uncomment and implement if you want to set resolution
-                // SetResolution(targetWidth, targetHeight, true);
+                //SetResolution(targetWidth, targetHeight, true);
             }
         }
 

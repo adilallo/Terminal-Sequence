@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CanvasGroupAlpha: 0
+    - _CanvasGroupAlpha: 0.17140198
     - _Softness: 0.101
     - _SpillAmount: 1.414
     - _Threshold: 0.12
