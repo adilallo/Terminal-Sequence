@@ -9,6 +9,7 @@ Shader "UI/EnhancedWeaveBlend"
         _WaveSpeed ("Wave Speed", Float) = 1.0
         _EdgeFadeStart ("Edge Fade Start", Float) = 0.4
         _EdgeFadeEnd ("Edge Fade End", Float) = 0.5
+        _CanvasGroupAlpha ("Canvas Group Alpha", Float) = 1.0
     }
     SubShader
     {
@@ -54,6 +55,7 @@ Shader "UI/EnhancedWeaveBlend"
             float _WaveSpeed;
             float _EdgeFadeStart;
             float _EdgeFadeEnd;
+            float _CanvasGroupAlpha;
 
             v2f vert(appdata_t v)
             {
@@ -87,6 +89,9 @@ Shader "UI/EnhancedWeaveBlend"
 
                 // Apply the alpha fade to the texture's alpha
                 texColor.a *= (1.0 - alphaFade);
+
+                // Apply the Canvas Group alpha
+                texColor.a *= _CanvasGroupAlpha;
 
                 // Multiply texture color by the vertex color (which includes _Color)
                 fixed4 col = texColor * i.color;
