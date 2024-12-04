@@ -10,6 +10,7 @@ public class NPCStockSceneManager : MonoBehaviour
     [SerializeField] private float lineThickness = 2f;
     [SerializeField] private float fadeDuration = 2f;
     [SerializeField] private CanvasGroup uiCanvasGroup;
+    [SerializeField] private Material uiMaterial;
 
     [Header("UI")]
     [SerializeField] private Sprite[] npcSprites;
@@ -30,12 +31,14 @@ public class NPCStockSceneManager : MonoBehaviour
         sceneChanger = FindFirstObjectByType<SceneChanger>();
 
         // Start fading in the UI at the start
+        uiCanvasGroup.interactable = false;
         StartCoroutine(FadeInUI());
     }
 
     public void OnBackButton()
     {
         StartCoroutine(FadeOutUI());
+        uiCanvasGroup.interactable = false;
     }
 
     private IEnumerator FadeInUI()
@@ -44,6 +47,7 @@ public class NPCStockSceneManager : MonoBehaviour
 
         // Ensure CanvasGroup starts fully transparent
         uiCanvasGroup.alpha = 0;
+        uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
         flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
 
         while (elapsedTime < fadeDuration)
@@ -52,6 +56,7 @@ public class NPCStockSceneManager : MonoBehaviour
 
             uiCanvasGroup.alpha = alpha;
             flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+            uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -60,6 +65,8 @@ public class NPCStockSceneManager : MonoBehaviour
         // Ensure UI is fully visible after fade-in
         uiCanvasGroup.alpha = 1;
         flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        uiCanvasGroup.interactable = true;
     }
 
     private IEnumerator FadeOutUI()
@@ -68,6 +75,8 @@ public class NPCStockSceneManager : MonoBehaviour
 
         uiCanvasGroup.alpha = 1;
         flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        uiCanvasGroup.interactable = false;
 
         while (elapsedTime < fadeDuration)
         {
@@ -75,6 +84,7 @@ public class NPCStockSceneManager : MonoBehaviour
 
             uiCanvasGroup.alpha = alpha;
             flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+            uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -82,6 +92,7 @@ public class NPCStockSceneManager : MonoBehaviour
 
         uiCanvasGroup.alpha = 0;
         flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
+        uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
 
         sceneChanger.LoadLobbySceneWithoutFade();
     }

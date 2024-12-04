@@ -9,6 +9,7 @@ namespace StartScene
     public class StartSceneManager : MonoBehaviour
     {
         [SerializeField] private CanvasGroup uiCanvasGroup;
+        [SerializeField] private Material uiMaterial;
         [SerializeField] private Material avatarMaterial;
         [SerializeField] private float fadeDuration = 2f;
 
@@ -21,7 +22,6 @@ namespace StartScene
         [SerializeField] private RawImage stockRawImage;
         [SerializeField] private Image frameImage;
         [SerializeField] private VideoPlayer avatarVideoPlayer;
-        [SerializeField] private GameObject selectButton;
 
         [HeaderAttribute("Audio")]
         [SerializeField] private List<AudioClip> startSceneAudioClips;
@@ -100,12 +100,13 @@ namespace StartScene
         {
             // Activate introImage and deactivate UI elements
             UI.SetActive(false);
-            selectButton.SetActive(false);
 
             // Set initial alpha for UI CanvasGroup if assigned
             if (uiCanvasGroup != null)
             {
+                uiCanvasGroup.interactable = false;
                 uiCanvasGroup.alpha = 0;
+                uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
                 avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
             }
             else
@@ -212,13 +213,11 @@ namespace StartScene
             // Reset introVideoPlayer time to loop if necessary
             introVideoPlayer.time = 0;
 
-            // Start fading in the UI and play avatar and stock videos
-            StartCoroutine(FadeInUI());
+            StartCoroutine(FadeInAvatar());
 
             if (avatarVideoPlayer != null && stockVideoPlayer != null)
             {
                 avatarVideoPlayer.Play();
-                stockVideoPlayer.Play();
                 UI.SetActive(true);
             }
             else
@@ -271,7 +270,7 @@ namespace StartScene
             introVideoPlayer.Play();
         }
 
-        private IEnumerator FadeInUI()
+        private IEnumerator FadeInAvatar()
         {
             float elapsedTime = 0f;
 
@@ -288,6 +287,26 @@ namespace StartScene
 
             uiCanvasGroup.alpha = 1;
             avatarMaterial.SetFloat("_CanvasGroupAlpha", 1);
+        }
+
+        private IEnumerator FadeInUI()
+        {
+            float elapsedTime = 0f;
+
+            while (elapsedTime < fadeDuration)
+            {
+                float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+
+                uiCanvasGroup.alpha = alpha;
+                uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            uiCanvasGroup.alpha = 1;
+            uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
+            uiCanvasGroup.interactable = true;
         }
 
         private IEnumerator FadeInStockVideo()
@@ -325,7 +344,7 @@ namespace StartScene
 
             if (avatarVideoPlayer.time >= avatarVideoPlayer.length * 0.93f)
             {
-                selectButton.SetActive(true);
+                StartCoroutine(FadeInUI());
                 selectButtonVisible = true;
             }
         }

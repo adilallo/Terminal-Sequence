@@ -15,6 +15,7 @@ public class EndSceneManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private GameObject backgroundImage;
+    [SerializeField] private GameObject backgroundMask;
 
     [Header("Video")]
     [SerializeField] private VideoPlayer avatarVideoPlayer;
@@ -36,9 +37,11 @@ public class EndSceneManager : MonoBehaviour
     {
         Camera.main.clearFlags = CameraClearFlags.Nothing;
         backgroundImage.SetActive(true);
+        backgroundMask.SetActive(true);
         // Ensure the UI is invisible initially
         if (uiCanvasGroup != null)
         {
+            uiCanvasGroup.interactable = false;
             uiCanvasGroup.alpha = 0;
             uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
             avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
@@ -202,6 +205,7 @@ public class EndSceneManager : MonoBehaviour
         if (endVideoPlayer != null)
         {
             backgroundImage.SetActive(false);
+            backgroundMask.SetActive(false);
             endVideoPlayer.Play();
 
             // Wait for the end video to finish playing
@@ -243,5 +247,6 @@ public class EndSceneManager : MonoBehaviour
         }
 
         uiCanvasGroup.alpha = 1;
+        uiCanvasGroup.interactable = true;
     }
 }

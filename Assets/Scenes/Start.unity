@@ -834,6 +834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvasGroup: {fileID: 2086674711}
+  uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
   avatarMaterial: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
   fadeDuration: 2
   introVideoPlayer: {fileID: 221618431}
@@ -842,7 +843,6 @@ MonoBehaviour:
   stockRawImage: {fileID: 2100996185}
   frameImage: {fileID: 29983105}
   avatarVideoPlayer: {fileID: 268472084}
-  selectButton: {fileID: 878679277}
   startSceneAudioClips:
   - {fileID: 8300000, guid: c0299acbe61874a10b65aba625505640, type: 3}
 --- !u!4 &805059023

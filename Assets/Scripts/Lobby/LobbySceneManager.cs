@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Video;
 using Utility;
 
 namespace LobbyScene
@@ -16,22 +15,34 @@ namespace LobbyScene
         [Header("Audio")]
         [SerializeField] private List<AudioClip> startSceneAudioClips;
 
+        private SceneChanger sceneChanger;
+        private bool hasInitializedUI = false;
+
         void Start()
         {
-            InitializeUIElements();
+            uiCanvasGroup.interactable = false;
+            sceneChanger = FindFirstObjectByType<SceneChanger>();
+
             InitializeAudio();
-        }
 
-        void OnEnable()
-        {
-        }
-
-        void OnDisable()
-        {
+            if (SceneTransitionContext.ShouldInitializeLobbyAudio)
+            {
+                uiCanvasGroup.alpha = 0;
+                uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
+            }
+            else
+            {
+                StartCoroutine(FadeInUI());
+            }
         }
 
         void Update()
         {
+            if (SceneTransitionContext.ShouldInitializeLobbyAudio && !hasInitializedUI && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
+            {
+                hasInitializedUI = true;
+                InitializeUIElements();
+            }
         }
 
         #region Initialization Methods
@@ -41,8 +52,6 @@ namespace LobbyScene
             // Set initial alpha for UI CanvasGroup if assigned
             if (uiCanvasGroup != null)
             {
-                uiCanvasGroup.alpha = 0;
-                uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
                 StartCoroutine(FadeInUI());
             }
             else
@@ -75,7 +84,20 @@ namespace LobbyScene
 
         #endregion
 
-        #region Video Preparation
+        #region Buttons
+        public async void OnPlayButton()
+        {
+            uiCanvasGroup.interactable = false;
+            await FadeOutUICoroutine();
+            sceneChanger.LoadFirstScene();
+        }
+
+        public async void OnNPCButton()
+        {
+            uiCanvasGroup.interactable = false;
+            await FadeOutUICoroutine();
+            sceneChanger.LoadNPCStocksScene();
+        }
 
         #endregion
 
@@ -98,6 +120,40 @@ namespace LobbyScene
 
             uiCanvasGroup.alpha = 1;
             uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
+            uiCanvasGroup.interactable = true;
+        }
+
+        private async Task FadeOutUICoroutine()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            StartCoroutine(FadeOutUI(tcs));
+
+            await tcs.Task;
+        }
+
+        private IEnumerator FadeOutUI(TaskCompletionSource<bool> tcs)
+        {
+            float elapsedTime = 0f;
+
+            uiCanvasGroup.alpha = 1;
+            uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
+
+            while (elapsedTime < fadeDuration)
+            {
+                float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+
+                uiCanvasGroup.alpha = alpha;
+                uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            uiCanvasGroup.alpha = 0;
+            uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
+
+            tcs.SetResult(true);
         }
 
         #endregion

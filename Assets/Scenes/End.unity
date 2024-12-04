@@ -236,6 +236,7 @@ MonoBehaviour:
   uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
   fadeDuration: 2
   backgroundImage: {fileID: 1874467832}
+  backgroundMask: {fileID: 1838458195}
   avatarVideoPlayer: {fileID: 1415882648}
   avatarCanvasGroup: {fileID: 878701669}
   endVideoPlayer: {fileID: 2087576570}

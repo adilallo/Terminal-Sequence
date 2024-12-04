@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Video;
+using Utility;
 
 namespace MiddleScene
 {
@@ -41,12 +43,13 @@ namespace MiddleScene
         private int currentVideoIndex = 0;
         private Vector2 avatarVelocity = new Vector2(100f, 100f);
         private RectTransform canvasRectTransform;
-        private bool videoPlayersPrepared = false;
         private Vector2 cachedCanvasSize;
         private Vector2 cachedAvatarSize;
 
         private bool avatarVideoStarted = false;
         private bool npcVideoStarted = false;
+
+        private SceneChanger sceneChanger;
 
         #endregion
 
@@ -54,6 +57,7 @@ namespace MiddleScene
 
         void Start()
         {
+            sceneChanger = FindFirstObjectByType<SceneChanger>();
             Initialize();
         }
 
@@ -82,6 +86,7 @@ namespace MiddleScene
 
             if (uiCanvasGroup != null)
             {
+                uiCanvasGroup.interactable = false;
                 uiCanvasGroup.alpha = 0;
                 SetMaterialAlpha(avatarMaterial, 0);
                 SetMaterialAlpha(npcMaterial, 0);
@@ -145,8 +150,9 @@ namespace MiddleScene
             StartCoroutine(FadeOutAndChangeVideo(prevIndex));
         }
 
-        public void OnVideoSelected()
+        public async void OnVideoSelected()
         {
+            uiCanvasGroup.interactable = false;
             if (googleSheetsHandler != null)
             {
                 googleSheetsHandler.RecordVideoSelection(currentVideoIndex);
@@ -155,6 +161,8 @@ namespace MiddleScene
             {
                 Debug.LogError("GoogleSheetsHandler is not assigned in the Inspector.");
             }
+            await FadeOutUICoroutine();
+            sceneChanger.LoadThirdScene();
         }
 
         private IEnumerator FadeOutAndChangeVideo(int newVideoIndex)
@@ -330,6 +338,7 @@ namespace MiddleScene
             SetMaterialAlpha(avatarMaterial, 1);
             SetMaterialAlpha(npcMaterial, 1);
             SetMaterialAlpha(uiMaterial, 1);
+            uiCanvasGroup.interactable = true;
         }
 
         // Helper method to set the alpha on the material
@@ -339,6 +348,38 @@ namespace MiddleScene
             {
                 material.SetFloat("_CanvasGroupAlpha", alpha);
             }
+        }
+
+        private async Task FadeOutUICoroutine()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            StartCoroutine(FadeOutUI(tcs));
+
+            await tcs.Task;
+        }
+
+        private IEnumerator FadeOutUI(TaskCompletionSource<bool> tcs)
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < fadeDuration)
+            {
+                float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
+                uiCanvasGroup.alpha = alpha;
+                SetMaterialAlpha(avatarMaterial, alpha);
+                SetMaterialAlpha(npcMaterial, alpha);
+                SetMaterialAlpha(uiMaterial, alpha);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            uiCanvasGroup.alpha = 0;
+            SetMaterialAlpha(avatarMaterial, 0);
+            SetMaterialAlpha(npcMaterial, 0);
+            SetMaterialAlpha(uiMaterial, 0);
+            uiCanvasGroup.interactable = false;
+
+            tcs.SetResult(true);
         }
 
         #endregion
