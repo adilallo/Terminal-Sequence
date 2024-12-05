@@ -20,7 +20,6 @@ namespace StartScene
         [SerializeField] private GameObject UI;
         [SerializeField] private VideoPlayer stockVideoPlayer;
         [SerializeField] private RawImage stockRawImage;
-        [SerializeField] private Image frameImage;
         [SerializeField] private VideoPlayer avatarVideoPlayer;
 
         [HeaderAttribute("Audio")]
@@ -114,10 +113,9 @@ namespace StartScene
             }
 
             // Set initial alpha for stockRawImage and frameImage
-            if (stockRawImage != null && frameImage != null)
+            if (stockRawImage != null)
             {
                 stockRawImage.color = new Color(stockRawImage.color.r, stockRawImage.color.g, stockRawImage.color.b, 0f);
-                frameImage.color = new Color(frameImage.color.r, frameImage.color.g, frameImage.color.b, 0f);
             }
             else
             {
@@ -127,10 +125,9 @@ namespace StartScene
 
         private void CacheInitialColors()
         {
-            if (stockRawImage != null && frameImage != null)
+            if (stockRawImage != null)
             {
                 initialStockRawImageColor = stockRawImage.color;
-                initialFrameImageColor = frameImage.color;
             }
         }
 
@@ -304,7 +301,7 @@ namespace StartScene
 
         private IEnumerator FadeInStockVideo()
         {
-            if (stockVideoPlayer == null || stockRawImage == null || frameImage == null)
+            if (stockVideoPlayer == null || stockRawImage == null)
             {
                 yield break;
             }
@@ -316,14 +313,12 @@ namespace StartScene
             {
                 float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
                 stockRawImage.color = new Color(initialStockRawImageColor.r, initialStockRawImageColor.g, initialStockRawImageColor.b, alpha);
-                frameImage.color = new Color(initialFrameImageColor.r, initialFrameImageColor.g, initialFrameImageColor.b, alpha);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
             // Ensure alpha is set to 1
             stockRawImage.color = new Color(initialStockRawImageColor.r, initialStockRawImageColor.g, initialStockRawImageColor.b, 1f);
-            frameImage.color = new Color(initialFrameImageColor.r, initialFrameImageColor.g, initialFrameImageColor.b, 1f);
         }
 
         #endregion
