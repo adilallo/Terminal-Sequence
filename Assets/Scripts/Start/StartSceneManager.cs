@@ -105,7 +105,6 @@ namespace StartScene
             if (uiCanvasGroup != null)
             {
                 uiCanvasGroup.interactable = false;
-                uiCanvasGroup.alpha = 0;
                 uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
                 avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
             }
@@ -278,14 +277,12 @@ namespace StartScene
             {
                 float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
         
-                uiCanvasGroup.alpha = alpha;
                 avatarMaterial.SetFloat("_CanvasGroupAlpha", alpha);
 
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            uiCanvasGroup.alpha = 1;
             avatarMaterial.SetFloat("_CanvasGroupAlpha", 1);
         }
 
@@ -296,15 +293,11 @@ namespace StartScene
             while (elapsedTime < fadeDuration)
             {
                 float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-
-                uiCanvasGroup.alpha = alpha;
                 uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
-
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            uiCanvasGroup.alpha = 1;
             uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
             uiCanvasGroup.interactable = true;
         }

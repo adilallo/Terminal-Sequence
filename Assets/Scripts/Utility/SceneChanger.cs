@@ -18,6 +18,7 @@ namespace Utility
             {
                 // Set the flag to initialize audio when loading the lobby scene
                 SceneTransitionContext.ShouldInitializeLobbyAudio = true;
+                SceneTransitionContext.ShouldInitializeLobbyUI = false;
                 SceneManager.LoadSceneAsync(lobbySceneName);
             }
             else
@@ -32,6 +33,7 @@ namespace Utility
             {
                 // Set the flag to NOT initialize audio when loading the lobby scene
                 SceneTransitionContext.ShouldInitializeLobbyAudio = false;
+                SceneTransitionContext.ShouldInitializeLobbyUI = false;
                 StartCoroutine(LoadSceneAsync(lobbySceneName));
             }
             else
@@ -111,6 +113,7 @@ namespace Utility
     {
         // Flag to determine if audio should be initialized when loading the lobby scene.
         public static bool ShouldInitializeLobbyAudio = true;
+        public static bool ShouldInitializeLobbyUI = true;
     }
 
 }

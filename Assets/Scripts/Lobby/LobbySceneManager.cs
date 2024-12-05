@@ -25,7 +25,7 @@ namespace LobbyScene
 
             InitializeAudio();
 
-            if (SceneTransitionContext.ShouldInitializeLobbyAudio)
+            if (SceneTransitionContext.ShouldInitializeLobbyUI)
             {
                 uiCanvasGroup.alpha = 0;
                 uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
@@ -38,7 +38,7 @@ namespace LobbyScene
 
         void Update()
         {
-            if (SceneTransitionContext.ShouldInitializeLobbyAudio && !hasInitializedUI && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
+            if (SceneTransitionContext.ShouldInitializeLobbyUI && !hasInitializedUI && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
             {
                 hasInitializedUI = true;
                 InitializeUIElements();
