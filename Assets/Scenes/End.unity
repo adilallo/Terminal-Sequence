@@ -366,9 +366,11 @@ MonoBehaviour:
   - {fileID: 4885486871096227200, guid: fcf01120827fd44279f76737709fd97d, type: 3}
   - {fileID: 7967010216821551845, guid: 69ce02cd0b8144b7fbdac8e3de1ca88c, type: 3}
   spread: 25
-  amount: 22
+  amount: 11
   rotationSpeed: 45
   camRig: {fileID: 1023854165}
+  cohesionRadius: 5
+  cohesionStrength: 1
   allAgents: []
 --- !u!1 &356140035
 GameObject:
