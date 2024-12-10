@@ -223,7 +223,7 @@ VideoPlayer:
   m_DataSource: 1
   m_TimeUpdateMode: 0
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 1
+  m_AudioOutputMode: 2
   m_TargetAudioSources:
   - {fileID: 805059024}
   m_DirectAudioVolumes:
@@ -766,7 +766,6 @@ MonoBehaviour:
   UI: {fileID: 1346442421}
   stockVideoPlayer: {fileID: 1541138310}
   stockRawImage: {fileID: 2100996185}
-  frameImage: {fileID: 0}
   avatarVideoPlayer: {fileID: 268472084}
   startSceneAudioClips:
   - {fileID: 8300000, guid: c0299acbe61874a10b65aba625505640, type: 3}

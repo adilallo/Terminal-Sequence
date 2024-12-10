@@ -47,7 +47,7 @@ public class GoogleSheetsHandler : MonoBehaviour
     private IEnumerator GetDataCoroutine()
     {
         UnityWebRequest request = UnityWebRequest.Get(webAppUrl);
-
+        request.timeout = 30;
         yield return request.SendWebRequest();
 
         if (request.result != UnityWebRequest.Result.Success)

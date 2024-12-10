@@ -1328,7 +1328,7 @@ VideoPlayer:
   m_DataSource: 1
   m_TimeUpdateMode: 0
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 1
+  m_AudioOutputMode: 2
   m_TargetAudioSources:
   - {fileID: 1740468810}
   m_DirectAudioVolumes:
