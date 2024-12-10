@@ -13,11 +13,11 @@ public class Agent : MonoBehaviour
     [SerializeField] private float agility = 0.5f;
     [SerializeField] private float maxSpeed = 3f;
 
-    // Public properties to allow ManageSwarm to set these values
+    // Public properties for ManageSwarm to set values
     public float CohesionRadius
     {
         get => cohesionRadius;
-        set => cohesionRadius = Mathf.Max(0f, value); // Ensure non-negative
+        set => cohesionRadius = Mathf.Max(0f, value);
     }
 
     public float CohesionStrength
@@ -53,7 +53,7 @@ public class Agent : MonoBehaviour
     public float Agility
     {
         get => agility;
-        set => agility = Mathf.Clamp(value, 0f, 1f); // Assuming agility is between 0 and 1
+        set => agility = Mathf.Clamp(value, 0f, 1f);
     }
 
     public float MaxSpeed
@@ -61,6 +61,9 @@ public class Agent : MonoBehaviour
         get => maxSpeed;
         set => maxSpeed = Mathf.Max(0f, value);
     }
+
+    // Target position for cohesion behavior (set by ManageSwarm)
+    public Vector3 TargetPosition { get; set; }
 
     // Cached references
     private Transform cachedTransform;
@@ -74,13 +77,8 @@ public class Agent : MonoBehaviour
 
     void Awake()
     {
-        // Cache the transform component for performance
         cachedTransform = transform;
-
-        // Initialize velocity
         velocity = Vector3.zero;
-
-        // Set initial rotation to 180 degrees around Y-axis using Euler angles
         cachedTransform.rotation = Quaternion.Euler(0f, 180f, 0f);
     }
 
@@ -91,11 +89,6 @@ public class Agent : MonoBehaviour
         UpdatePosition();
     }
 
-    /// <summary>
-    /// Sets the reference to all agents.
-    /// Should be called once after all agents are instantiated.
-    /// </summary>
-    /// <param name="agents">List of all Agent instances.</param>
     public void SetAllAgents(List<Agent> agents)
     {
         if (agents == null || agents.Count == 0)
@@ -107,56 +100,26 @@ public class Agent : MonoBehaviour
         allAgents = agents;
     }
 
-    /// <summary>
-    /// Cohesion behavior: Steer towards the average position of agents outside a certain radius.
-    /// </summary>
-    /// <param name="radiusSquared">Squared detection radius.</param>
-    /// <param name="strength">Strength of the cohesion force.</param>
-    /// <returns>Acceleration vector for cohesion.</returns>
     private Vector3 Cohesion(float radiusSquared, float strength)
     {
-        Vector3 averagePosition = Vector3.zero;
-        int count = 0;
+        Vector3 targetDirection = TargetPosition - cachedTransform.position;
+        float distanceSquared = targetDirection.sqrMagnitude;
 
-        for (int i = 0; i < allAgents.Count; i++)
+        if (distanceSquared > radiusSquared)
         {
-            Agent agent = allAgents[i];
-            if (agent == this) continue;
-
-            Vector3 diff = agent.cachedTransform.position - cachedTransform.position;
-            float distanceSquared = diff.sqrMagnitude;
-
-            if (distanceSquared > radiusSquared)
-            {
-                averagePosition += diff;
-                count++;
-            }
-        }
-
-        if (count > 0)
-        {
-            averagePosition /= count;
-            Vector3 direction = averagePosition.normalized * strength;
-            return direction;
+            return targetDirection.normalized * strength;
         }
 
         return Vector3.zero;
     }
 
-    /// <summary>
-    /// Separation behavior: Steer to avoid crowding agents within a certain radius.
-    /// </summary>
-    /// <param name="radiusSquared">Squared detection radius.</param>
-    /// <param name="strength">Strength of the separation force.</param>
-    /// <returns>Acceleration vector for separation.</returns>
     private Vector3 Separation(float radiusSquared, float strength)
     {
         Vector3 force = Vector3.zero;
         int count = 0;
 
-        for (int i = 0; i < allAgents.Count; i++)
+        foreach (var agent in allAgents)
         {
-            Agent agent = allAgents[i];
             if (agent == this) continue;
 
             Vector3 diff = cachedTransform.position - agent.cachedTransform.position;
@@ -164,7 +127,6 @@ public class Agent : MonoBehaviour
 
             if (distanceSquared < radiusSquared && distanceSquared > 0f)
             {
-                // Weight the force by the inverse of distance to prioritize closer agents
                 force += diff.normalized / Mathf.Sqrt(distanceSquared);
                 count++;
             }
@@ -179,20 +141,13 @@ public class Agent : MonoBehaviour
         return force;
     }
 
-    /// <summary>
-    /// Alignment behavior: Steer towards the average velocity of nearby agents within a certain radius.
-    /// </summary>
-    /// <param name="radiusSquared">Squared detection radius.</param>
-    /// <param name="strength">Strength of the alignment force.</param>
-    /// <returns>Acceleration vector for alignment.</returns>
     private Vector3 Alignment(float radiusSquared, float strength)
     {
         Vector3 averageVelocity = Vector3.zero;
         int count = 0;
 
-        for (int i = 0; i < allAgents.Count; i++)
+        foreach (var agent in allAgents)
         {
-            Agent agent = allAgents[i];
             if (agent == this) continue;
 
             Vector3 diff = agent.cachedTransform.position - cachedTransform.position;
@@ -208,43 +163,31 @@ public class Agent : MonoBehaviour
         if (count > 0)
         {
             averageVelocity /= count;
-            Vector3 desiredVelocity = averageVelocity.normalized * strength;
-            return desiredVelocity;
+            return (averageVelocity.normalized * strength);
         }
 
         return Vector3.zero;
     }
 
-    /// <summary>
-    /// Calculates the acceleration based on cohesion, separation, and alignment behaviors.
-    /// </summary>
     private void CalculateAcceleration()
     {
         Vector3 cohesionForce = Cohesion(cohesionRadius * cohesionRadius, cohesionStrength);
         Vector3 separationForce = Separation(separationRadius * separationRadius, separationStrength);
         Vector3 alignmentForce = Alignment(alignmentRadius * alignmentRadius, alignmentStrength);
 
-        // Combine the forces
         acceleration = (cohesionForce + separationForce + alignmentForce) / 3f;
     }
 
-    /// <summary>
-    /// Updates the velocity based on acceleration and agility.
-    /// </summary>
     private void UpdateVelocity()
     {
         velocity += acceleration * agility;
 
-        // Limit the velocity to maxSpeed
         if (velocity.sqrMagnitude > maxSpeed * maxSpeed)
         {
             velocity = velocity.normalized * maxSpeed;
         }
     }
 
-    /// <summary>
-    /// Updates the agent's position based on velocity.
-    /// </summary>
     private void UpdatePosition()
     {
         cachedTransform.position += velocity * Time.deltaTime;
