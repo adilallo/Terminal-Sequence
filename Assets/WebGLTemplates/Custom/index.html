@@ -36,6 +36,25 @@
       const canvas = document.querySelector("#unity-canvas");
       const desiredAspectRatio = 600 / 960; // Define the aspect ratio (width / height)
 
+      // Function to check if OffscreenCanvas WebGL support is available
+      function isOffscreenCanvasWebGLSupported() {
+        if (typeof OffscreenCanvas === 'undefined') {
+          return false; // OffscreenCanvas is not supported
+        }
+        try {
+          const offscreenCanvas = new OffscreenCanvas(1, 1);
+          const gl = offscreenCanvas.getContext("webgl") || offscreenCanvas.getContext("webgl2");
+          return !!gl; // WebGL context is available
+        } catch (e) {
+          return false; // Error or unsupported
+        }
+      }
+
+      if (!isOffscreenCanvasWebGLSupported()) {
+        console.warn("OffscreenCanvas with WebGL is not fully supported in this browser. Adjusting fallback settings.");
+        // Optionally, add fallback logic here if needed
+      }
+
       function resizeCanvas() {
         const containerWidth = window.innerWidth;
         const containerHeight = window.innerHeight;
