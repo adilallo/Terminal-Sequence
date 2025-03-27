@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class GoogleSheetsHandler : MonoBehaviour
 {
     [SerializeField] private string webAppUrl = "https://script.google.com/macros/s/AKfycbwgty4GsgJ1WubDogn9jJjNTjj2WZI6LJiw3ZchtKF-gZf1t2uJLoXHTaJ6VVsQx3K5/exec"; // Replace with your web app URL
+    [SerializeField] private int fallbackMaxSelectionCount = 20;
+    [SerializeField] private int numberOfNPCs = 11;
 
     public event System.Action<List<VideoSelection>> OnDataRetrieved;
 
@@ -52,14 +54,15 @@ public class GoogleSheetsHandler : MonoBehaviour
 
         if (request.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError("Error getting data: " + request.error);
-            Debug.LogError("Response: " + request.downloadHandler.text);
+            Debug.Log("Error getting data: " + request.error);
+            Debug.Log("Response: " + request.downloadHandler.text);
+            List<VideoSelection> fallbackList = GenerateRandomFallbackData(numberOfNPCs, fallbackMaxSelectionCount);
+            OnDataRetrieved?.Invoke(fallbackList);
         }
         else
         {
             string jsonData = request.downloadHandler.text;
             Debug.Log("Data retrieved: " + jsonData);
-            // Parse and process the data
             ProcessRetrievedData(jsonData);
         }
     }
@@ -70,6 +73,27 @@ public class GoogleSheetsHandler : MonoBehaviour
         List<VideoSelection> videoSelections = JsonUtility.FromJson<VideoSelectionList>("{\"items\":" + jsonData + "}").items;
 
         OnDataRetrieved?.Invoke(videoSelections);
+    }
+
+    private List<VideoSelection> GenerateRandomFallbackData(int npcCount, int fallbackMax)
+    {
+        List<VideoSelection> randomSelections = new List<VideoSelection>();
+
+        for (int i = 0; i < npcCount; i++)
+        {
+            int randomValue = Random.Range(0, fallbackMax + 1);
+
+            VideoSelection fallbackData = new VideoSelection
+            {
+                NPCIndex = i.ToString(),
+                NPCName = "NPC_" + i,
+                SelectionCount = randomValue.ToString()
+            };
+
+            randomSelections.Add(fallbackData);
+        }
+
+        return randomSelections;
     }
 
     [System.Serializable]

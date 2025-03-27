@@ -5,18 +5,23 @@ using UnityEngine.UI;
 
 public class FlickrImageLoader : MonoBehaviour
 {
-    // Base URL for the images hosted on GitHub
-    private string baseUrl = "https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/FlickrImages/";
+    // REMOTE (online) location
+    private string baseUrl =
+        "https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/FlickrImages/";
 
     [Header("UI Elements")]
-    public RawImage[] displayImages;              // Array of UI elements to display images
-    [SerializeField] private RectTransform parentRect; // Reference to the parent RectTransform (e.g., Canvas or graphArea)
+    public RawImage[] displayImages;                 // Array of UI elements to display images
+    [SerializeField] private RectTransform parentRect; // Reference to the parent RectTransform (e.g., Canvas)
 
     [Header("Materials & Scripts")]
     [SerializeField] private Material enhancedWeaveBlendMaterial; // Assign the enhanced material in the Inspector
-    [SerializeField] private PixelSorter pixelSorter;               // Reference to the PixelSorter script
+    [SerializeField] private PixelSorter pixelSorter;             // Reference to the PixelSorter script
 
-    private int totalImages = 99;             // Number of images available (000 to 098)
+    [Header("Fallback Settings")]
+    [Tooltip("Local textures to use if remote download fails.")]
+    public Texture2D[] fallbackImages;  // Assign your local images here in the Inspector
+
+    private int totalImages = 99; // Number of remote images available (000 to 098)
 
     void Start()
     {
@@ -39,7 +44,7 @@ public class FlickrImageLoader : MonoBehaviour
             {
                 canvasGroup = rawImage.gameObject.AddComponent<CanvasGroup>();
             }
-            canvasGroup.alpha = 1f; // Initially make them fully visible
+            canvasGroup.alpha = 1f; // Initially fully visible
         }
 
         // Arrange images with overlap
@@ -62,18 +67,17 @@ public class FlickrImageLoader : MonoBehaviour
         DetermineGridLayout(n, out rows, out columns);
 
         // Calculate cell size based on parent RectTransform with overlap allowance
-        float cellWidth = parentRect.rect.width / columns * 1.2f;  // Increase width for overlap
-        float cellHeight = parentRect.rect.height / rows * 1.2f;   // Increase height for overlap
+        float cellWidth = parentRect.rect.width / columns * 1.2f;
+        float cellHeight = parentRect.rect.height / rows * 1.2f;
 
-        float overlapMargin = 0.15f; // Increased overlap margin
+        float overlapMargin = 0.15f; // Overlap margin
 
         for (int i = 0; i < n; i++)
         {
             int row = i / columns;
             int col = i % columns;
 
-            // Calculate anchorMin and anchorMax for the cell with increased overlap
-            float anchorMinX = (float)col / columns - overlapMargin;  // Offset for overlap
+            float anchorMinX = (float)col / columns - overlapMargin;
             float anchorMaxX = (float)(col + 1) / columns + overlapMargin;
             float anchorMinY = 1f - ((float)(row + 1) / rows) - overlapMargin;
             float anchorMaxY = 1f - ((float)row / rows) + overlapMargin;
@@ -92,10 +96,9 @@ public class FlickrImageLoader : MonoBehaviour
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            // Ensure the image fills and slightly exceeds its cell
             rt.localScale = Vector3.one;
 
-            // Randomly adjust the position slightly for a more organic look
+            // Random offset for a more organic look
             float randomOffsetX = Random.Range(-0.08f, 0.08f) * parentRect.rect.width / columns;
             float randomOffsetY = Random.Range(-0.08f, 0.08f) * parentRect.rect.height / rows;
             rt.anchoredPosition += new Vector2(randomOffsetX, randomOffsetY);
@@ -110,34 +113,28 @@ public class FlickrImageLoader : MonoBehaviour
     /// <param name="columns">Output number of columns.</param>
     void DetermineGridLayout(int n, out int rows, out int columns)
     {
-        // Start with a square grid
+        // Start with a square-ish grid
         rows = Mathf.CeilToInt(Mathf.Sqrt(n));
         columns = Mathf.CeilToInt((float)n / rows);
+        // Adjust if needed
+        while (rows * columns < n) columns++;
 
-        // Adjust to ensure all images fit
-        while (rows * columns < n)
-        {
-            columns++;
-        }
-
-        // Debugging log
-        Debug.Log($"Grid Layout: Rows = {rows}, Columns = {columns}, Total Cells = {rows * columns}");
+        Debug.Log($"Grid Layout: Rows = {rows}, Columns = {columns}");
     }
 
     /// <summary>
-    /// Populates all RawImage components by downloading, sorting, and assigning images.
+    /// Populates all RawImage components by downloading (or falling back), sorting, and assigning images.
     /// </summary>
     void PopulateAllImages()
     {
         for (int i = 0; i < displayImages.Length; i++)
         {
-            // Pick a random image index from 000 to 098
+            // Pick a random remote image index from 000 to 098
             int randomImageNumber = Random.Range(0, totalImages);
-
-            // Construct the image URL with the correct file name
+            // Construct the remote image URL
             string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
 
-            // Assign the enhanced custom material to handle blending and waving
+            // Assign the enhanced custom material (if available)
             if (enhancedWeaveBlendMaterial != null)
             {
                 displayImages[i].material = enhancedWeaveBlendMaterial;
@@ -147,7 +144,7 @@ public class FlickrImageLoader : MonoBehaviour
                 Debug.LogWarning("EnhancedWeaveBlendMaterial is not assigned in the Inspector.");
             }
 
-            // Start a coroutine to download, sort, and display the image with crossfade
+            // Start a coroutine to download OR fallback, then pixel-sort, then crossfade
             StartCoroutine(DownloadSortAndCrossfadeImage(imageUrl, displayImages[i]));
         }
     }
@@ -157,64 +154,77 @@ public class FlickrImageLoader : MonoBehaviour
     /// </summary>
     void UpdateRandomImages()
     {
-        // Pick a random RawImage component from the array
+        // Pick a random RawImage component
         int randomIndex = Random.Range(0, displayImages.Length);
         RawImage targetImage = displayImages[randomIndex];
 
-        // Pick a random image index from 000 to 098
+        // Pick a random remote image index
         int randomImageNumber = Random.Range(0, totalImages);
 
-        // Construct the image URL with the correct file name
+        // Construct the URL
         string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
 
-        // Start a coroutine to download, sort, and display the image with crossfade
+        // Download or fallback
         StartCoroutine(DownloadSortAndCrossfadeImage(imageUrl, targetImage));
     }
 
     /// <summary>
-    /// Downloads an image, applies pixel sorting, and assigns it to the target RawImage with a crossfade effect.
+    /// Downloads an image, applies pixel sorting, and assigns it to the target RawImage with a crossfade effect.  
+    /// If the download fails, it uses a random fallback image from the local array.
     /// </summary>
-    /// <param name="url">URL of the image to download.</param>
-    /// <param name="targetImage">RawImage component to assign the image to.</param>
-    /// <returns>IEnumerator for coroutine.</returns>
     IEnumerator DownloadSortAndCrossfadeImage(string url, RawImage targetImage)
     {
-        // Download the image
+        // Attempt to download the image
         UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(url);
         yield return textureRequest.SendWebRequest();
 
-        if (textureRequest.result != UnityWebRequest.Result.Success)
+        Texture2D finalTexture = null;
+
+        if (textureRequest.result == UnityWebRequest.Result.Success)
         {
-            Debug.LogError($"Error downloading image from {url}: {textureRequest.error}");
-            yield break;
+            // Got a remote texture
+            Texture2D downloadedTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
+            // Sort via pixelSorter
+            finalTexture = pixelSorter.SortTexture(downloadedTexture);
+        }
+        else
+        {
+            Debug.Log($"Error downloading image from {url}: {textureRequest.error}");
+
+            // ------------- FALLBACK MODE -------------
+            if (fallbackImages != null && fallbackImages.Length > 0)
+            {
+                // Pick one random image from the fallback array
+                int randomFallbackIndex = Random.Range(0, fallbackImages.Length);
+                Texture2D fallbackTexture = fallbackImages[randomFallbackIndex];
+
+                // Sort via pixelSorter
+                finalTexture = pixelSorter.SortTexture(fallbackTexture);
+            }
+            else
+            {
+                // If no fallback images are assigned, just quit
+                Debug.LogWarning("No fallback images available. Cannot load an image.");
+                yield break;
+            }
         }
 
-        Texture2D newTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
-
-        // Sort the image using PixelSorter
-        Texture2D sortedTexture = pixelSorter.SortTexture(newTexture);
-
-        // Start the crossfade
-        StartCoroutine(CrossfadeImage(targetImage, sortedTexture, 3.0f));
+        // Start the crossfade (finalTexture should never be null if we reached here)
+        StartCoroutine(CrossfadeImage(targetImage, finalTexture, 3.0f));
     }
 
     /// <summary>
     /// Crossfades from the current image to a new texture.
     /// </summary>
-    /// <param name="targetImage">RawImage component to crossfade.</param>
-    /// <param name="newTexture">New texture to apply.</param>
-    /// <param name="duration">Duration of the crossfade in seconds.</param>
-    /// <returns>IEnumerator for coroutine.</returns>
     IEnumerator CrossfadeImage(RawImage targetImage, Texture2D newTexture, float duration)
     {
         // Create a temporary RawImage for the new texture
         GameObject newImageObj = new GameObject("TempImage");
-        newImageObj.transform.SetParent(parentRect, false); // Set parent to the same as original RawImages
+        newImageObj.transform.SetParent(parentRect, false);
         RawImage newImage = newImageObj.AddComponent<RawImage>();
         newImage.texture = newTexture;
         newImage.material = enhancedWeaveBlendMaterial;
 
-        // Match the RectTransform of the target image
         RectTransform targetRect = targetImage.GetComponent<RectTransform>();
         RectTransform newRect = newImage.GetComponent<RectTransform>();
         newRect.anchorMin = targetRect.anchorMin;
@@ -223,14 +233,14 @@ public class FlickrImageLoader : MonoBehaviour
         newRect.sizeDelta = targetRect.sizeDelta;
         newRect.anchoredPosition = targetRect.anchoredPosition;
 
-        // Ensure the new image is on top
+        // Ensure new image is on top
         newImageObj.transform.SetSiblingIndex(targetRect.GetSiblingIndex() + 1);
 
         // Add CanvasGroup for fading
         CanvasGroup newCanvasGroup = newImageObj.AddComponent<CanvasGroup>();
         newCanvasGroup.alpha = 0f;
 
-        // Add CanvasGroup to the old image if not present
+        // Add or retrieve CanvasGroup for old image
         CanvasGroup oldCanvasGroup = targetImage.GetComponent<CanvasGroup>();
         if (oldCanvasGroup == null)
         {
@@ -238,7 +248,7 @@ public class FlickrImageLoader : MonoBehaviour
             oldCanvasGroup.alpha = 1f;
         }
 
-        // Perform the crossfade: Fade in new image while fading out the old one
+        // Crossfade
         float elapsedTime = 0f;
         while (elapsedTime < duration)
         {
@@ -248,16 +258,17 @@ public class FlickrImageLoader : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
         newCanvasGroup.alpha = 1f;
         oldCanvasGroup.alpha = 0f;
 
         // Assign the new texture to the target image
         targetImage.texture = newTexture;
 
-        // Reset the old image's alpha to 1 for future use
+        // Reset the old image's alpha
         oldCanvasGroup.alpha = 1f;
 
-        // Destroy the temporary RawImage
+        // Cleanup temporary object
         Destroy(newImageObj);
     }
 }
