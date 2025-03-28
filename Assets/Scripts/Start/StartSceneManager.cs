@@ -157,7 +157,7 @@ namespace StartScene
             // Prepare Intro Video
             if (introVideoPlayer != null)
             {
-                introVideoPlayer.source = VideoSource.Url;
+                //introVideoPlayer.source = VideoSource.Url;
                 introVideoPlayer.Prepare();
 
                 // Wait until introVideoPlayer is prepared
@@ -172,7 +172,7 @@ namespace StartScene
             // Prepare Stock Video
             if (stockVideoPlayer != null)
             {
-                stockVideoPlayer.source = VideoSource.Url;
+                //stockVideoPlayer.source = VideoSource.Url;
                 stockVideoPlayer.Prepare();
 
                 // Wait until stockVideoPlayer is prepared
@@ -187,7 +187,7 @@ namespace StartScene
             // Prepare Avatar Video
             if (avatarVideoPlayer != null)
             {
-                avatarVideoPlayer.source = VideoSource.Url;
+                //avatarVideoPlayer.source = VideoSource.Url;
                 avatarVideoPlayer.Prepare();
             }
             

@@ -176,7 +176,7 @@ QualitySettings:
     PS5: 2
     Server: 1
     Stadia: 2
-    Standalone: 2
+    Standalone: 0
     VisionOS: 0
     WebGL: 0
     Windows Store Apps: 2

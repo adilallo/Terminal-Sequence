@@ -1134,7 +1134,7 @@ MonoBehaviour:
   firstSceneName: Start
   secondSceneName: Middle
   thirdSceneName: End
-  npcStocksSceneName: 
+  npcStocksSceneName: NPCStocks
 --- !u!4 &1523213509
 Transform:
   m_ObjectHideFlags: 0
@@ -1581,6 +1581,30 @@ MonoBehaviour:
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Exopreneur.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Dream_Reader.mp4
   - https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/Video/Avatar/Overdoser.mp4
+  npcFallbackClips:
+  - {fileID: 32900000, guid: 6d13959046d1340cea2cffe94e229fe3, type: 3}
+  - {fileID: 32900000, guid: a2f449644388d4df4ae60f3223b93982, type: 3}
+  - {fileID: 32900000, guid: d64b94d1283db40a489abdc26521e04e, type: 3}
+  - {fileID: 32900000, guid: 58dfdd4e9fda04b7fb6069a84d3ac02e, type: 3}
+  - {fileID: 32900000, guid: 400b52e7adbb44b659622377266260f7, type: 3}
+  - {fileID: 32900000, guid: cf9d3fd549f3e4eb4af24179c57ae8c0, type: 3}
+  - {fileID: 32900000, guid: deebc5aad82a542b98f752f8117e989f, type: 3}
+  - {fileID: 32900000, guid: 74de8089428c9134887ca213dd65ca41, type: 3}
+  - {fileID: 32900000, guid: 59ff1440c12754e959d59dd5b45b4dd2, type: 3}
+  - {fileID: 32900000, guid: 3f941c0f2571d4c49bf3c31c8ecebbe2, type: 3}
+  - {fileID: 32900000, guid: 12b26ba35c1434b3a87e45ead2683d42, type: 3}
+  avatarFallbackClips:
+  - {fileID: 32900000, guid: 2d63114395d694f6ab744f9e3bfe80d5, type: 3}
+  - {fileID: 32900000, guid: 448a5c941fdec46deba2c90cedeb1271, type: 3}
+  - {fileID: 32900000, guid: ff87fe9451d48498da1844e01aa9bbe7, type: 3}
+  - {fileID: 32900000, guid: 6179b9f0846154585984e6edb19cfa2a, type: 3}
+  - {fileID: 32900000, guid: 12f0f8708f07d4986b945e77d60a48fd, type: 3}
+  - {fileID: 32900000, guid: 420b40cc47d804d2a953ce89b92987cd, type: 3}
+  - {fileID: 32900000, guid: 11920a4e8da9546f393a4376fd1b6661, type: 3}
+  - {fileID: 32900000, guid: c926b43925150ca418667909c7392593, type: 3}
+  - {fileID: 32900000, guid: ebcdf70eebe964009964311c05c23790, type: 3}
+  - {fileID: 32900000, guid: a2c6ae67c5f3ff14cac99b239dbed453, type: 3}
+  - {fileID: 32900000, guid: 698c8ce2a6e5c4ecd87273fa2030cb62, type: 3}
   googleSheetsHandler: {fileID: 1904902609}
 --- !u!224 &1740468809
 RectTransform:
@@ -1853,6 +1877,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   webAppUrl: https://script.google.com/macros/s/AKfycbwgty4GsgJ1WubDogn9jJjNTjj2WZI6LJiw3ZchtKF-gZf1t2uJLoXHTaJ6VVsQx3K5/exec
+  fallbackMaxSelectionCount: 20
+  numberOfNPCs: 11
 --- !u!4 &1904902610
 Transform:
   m_ObjectHideFlags: 0

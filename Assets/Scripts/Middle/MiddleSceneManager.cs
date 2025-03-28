@@ -34,6 +34,10 @@ namespace MiddleScene
         [SerializeField] private List<string> npcVideoURLs;
         [SerializeField] private List<string> avatarVideoURLs;
 
+        [Header("Video Clips (Offline Fallback)")]
+        [SerializeField] private List<VideoClip> npcFallbackClips;
+        [SerializeField] private List<VideoClip> avatarFallbackClips;
+
         [SerializeField] private GoogleSheetsHandler googleSheetsHandler;
 
         #endregion
@@ -48,6 +52,7 @@ namespace MiddleScene
 
         private bool avatarVideoStarted = false;
         private bool npcVideoStarted = false;
+        private bool isOffline = false;
 
         private SceneChanger sceneChanger;
 
@@ -57,6 +62,7 @@ namespace MiddleScene
 
         void Start()
         {
+            isOffline = (Application.internetReachability == NetworkReachability.NotReachable);
             sceneChanger = FindFirstObjectByType<SceneChanger>();
             Initialize();
         }
@@ -159,7 +165,7 @@ namespace MiddleScene
             }
             else
             {
-                Debug.LogError("GoogleSheetsHandler is not assigned in the Inspector.");
+                Debug.LogWarning("GoogleSheetsHandler is not assigned in the Inspector.");
             }
             await FadeOutUICoroutine();
             sceneChanger.LoadThirdScene();
@@ -241,31 +247,114 @@ namespace MiddleScene
             avatarVideoStarted = false;
             npcVideoStarted = false;
 
-            // Prepare and play NPC Video
+            // --- NPC Video ---
             if (npcVideoPlayer != null && npcVideoURLs.Count > index && !string.IsNullOrEmpty(npcVideoURLs[index]))
             {
                 npcVideoPlayer.source = VideoSource.Url;
                 npcVideoPlayer.url = npcVideoURLs[index];
+
+                // If there's an error retrieving the video, call OnNPCVideoError
+                npcVideoPlayer.errorReceived += OnNPCVideoError;
+
+                // Once prepared, call OnNPCVideoPrepared
                 npcVideoPlayer.prepareCompleted += OnNPCVideoPrepared;
                 npcVideoPlayer.Prepare();
             }
             else
             {
-                Debug.LogWarning("NPC Video URL at index " + index + " is invalid.");
+                // Immediately fallback if we know the URL is invalid
+                Debug.LogWarning($"NPC Video URL at index {index} is invalid – fallback to local clip.");
+                PlayNPCFallback(index);
             }
 
-            // Prepare and play Avatar Video
+            // --- Avatar Video ---
             if (avatarVideoPlayer != null && avatarVideoURLs.Count > index && !string.IsNullOrEmpty(avatarVideoURLs[index]))
             {
                 avatarVideoPlayer.source = VideoSource.Url;
                 avatarVideoPlayer.url = avatarVideoURLs[index];
+
+                avatarVideoPlayer.errorReceived += OnAvatarVideoError;
                 avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
                 avatarVideoPlayer.Prepare();
             }
             else
             {
-                Debug.LogWarning("Avatar Video URL at index " + index + " is invalid.");
+                Debug.LogWarning($"Avatar Video URL at index {index} is invalid – fallback to local clip.");
+                PlayAvatarFallback(index);
             }
+        }
+
+        private void OnNPCVideoError(VideoPlayer source, string message)
+        {
+            Debug.LogWarning($"NPC Video failed to load from '{source.url}' => {message}. Falling back to local clip.");
+
+            // Cleanup this event so it doesn't keep firing
+            source.errorReceived -= OnNPCVideoError;
+            source.prepareCompleted -= OnNPCVideoPrepared;
+            source.Stop();
+
+            // Fallback
+            PlayNPCFallback(currentVideoIndex);
+        }
+
+        private void PlayNPCFallback(int index)
+        {
+            if (npcVideoPlayer == null)
+            {
+                Debug.LogError("NPC VideoPlayer is null – cannot play fallback!");
+                return;
+            }
+            if (npcFallbackClips == null || npcFallbackClips.Count <= index || npcFallbackClips[index] == null)
+            {
+                Debug.LogWarning($"No valid NPC fallback clip at index {index}.");
+                return;
+            }
+
+            // Use local video clip
+            npcVideoPlayer.source = VideoSource.VideoClip;
+            npcVideoPlayer.clip = npcFallbackClips[index];
+
+            // Make sure we remove any old listeners
+            npcVideoPlayer.errorReceived -= OnNPCVideoError;
+            npcVideoPlayer.prepareCompleted -= OnNPCVideoPrepared;
+
+            npcVideoPlayer.prepareCompleted += OnNPCVideoPrepared;
+            npcVideoPlayer.Prepare();
+        }
+
+        private void OnAvatarVideoError(VideoPlayer source, string message)
+        {
+            Debug.LogWarning($"Avatar Video failed to load from '{source.url}' => {message}. Falling back to local clip.");
+
+            // Cleanup
+            source.errorReceived -= OnAvatarVideoError;
+            source.prepareCompleted -= OnAvatarVideoPrepared;
+            source.Stop();
+
+            PlayAvatarFallback(currentVideoIndex);
+        }
+
+        private void PlayAvatarFallback(int index)
+        {
+            if (avatarVideoPlayer == null)
+            {
+                Debug.LogError("Avatar VideoPlayer is null – cannot play fallback!");
+                return;
+            }
+            if (avatarFallbackClips == null || avatarFallbackClips.Count <= index || avatarFallbackClips[index] == null)
+            {
+                Debug.LogWarning($"No valid Avatar fallback clip at index {index}.");
+                return;
+            }
+
+            avatarVideoPlayer.source = VideoSource.VideoClip;
+            avatarVideoPlayer.clip = avatarFallbackClips[index];
+
+            avatarVideoPlayer.errorReceived -= OnAvatarVideoError;
+            avatarVideoPlayer.prepareCompleted -= OnAvatarVideoPrepared;
+
+            avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
+            avatarVideoPlayer.Prepare();
         }
 
         private void OnNPCVideoPrepared(VideoPlayer source)

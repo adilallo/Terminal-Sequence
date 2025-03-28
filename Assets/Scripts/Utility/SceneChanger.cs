@@ -12,6 +12,14 @@ namespace Utility
         [SerializeField] private string thirdSceneName;
         [SerializeField] private string npcStocksSceneName;
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ExitGame();
+            }
+        }
+
         public void LoadLobbyScene()
         {
             if (!string.IsNullOrEmpty(lobbySceneName))

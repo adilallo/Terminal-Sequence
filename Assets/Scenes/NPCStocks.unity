@@ -1889,7 +1889,7 @@ MonoBehaviour:
   firstSceneName: Start
   secondSceneName: Middle
   thirdSceneName: End
-  npcStocksSceneName: 
+  npcStocksSceneName: NPCStocks
 --- !u!4 &1278328538
 Transform:
   m_ObjectHideFlags: 0
