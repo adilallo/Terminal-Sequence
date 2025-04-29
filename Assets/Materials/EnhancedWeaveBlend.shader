@@ -23,8 +23,6 @@ Shader "UI/EnhancedWeaveBlend"
         Lighting Off
         ZWrite Off
         ZTest Always
-
-        // Standard Alpha Blending
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
@@ -32,6 +30,7 @@ Shader "UI/EnhancedWeaveBlend"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma target 2.5
             #include "UnityCG.cginc"
 
             struct appdata_t
@@ -62,7 +61,7 @@ Shader "UI/EnhancedWeaveBlend"
                 v2f o;
 
                 // Apply sine wave to vertex position for subtle vertical movement
-                float waveOffset = sin(v.vertex.x * _WaveFrequency + _Time.y * _WaveSpeed) * _WaveStrength;
+                half waveOffset = sin(v.vertex.x * _WaveFrequency + _Time.y * _WaveSpeed) * _WaveStrength;
                 v.vertex.y += waveOffset;
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
@@ -70,7 +69,7 @@ Shader "UI/EnhancedWeaveBlend"
                 o.texcoord = v.texcoord;
 
                 // Apply sine wave to UV coordinates to create a weaving effect at the pixel level
-                o.texcoord.y += sin(v.vertex.x * _WaveFrequency + _Time.y * _WaveSpeed) * _WaveStrength;
+                o.texcoord.y += waveOffset;
 
                 return o;
             }
@@ -81,11 +80,12 @@ Shader "UI/EnhancedWeaveBlend"
                 fixed4 texColor = tex2D(_MainTex, i.texcoord);
 
                 // Calculate distance from the center of the image
-                float2 center = float2(0.5, 0.5);
-                float distanceFromCenter = distance(i.texcoord, center);
+                half2 center = half2(0.5, 0.5);
+                half2 diff = i.texcoord - center;
+                half distanceFromCenter = length(diff);
 
                 // Calculate alpha fade based on distance
-                float alphaFade = smoothstep(_EdgeFadeStart, _EdgeFadeEnd, distanceFromCenter);
+                half alphaFade = smoothstep(_EdgeFadeStart, _EdgeFadeEnd, distanceFromCenter);
 
                 // Apply the alpha fade to the texture's alpha
                 texColor.a *= (1.0 - alphaFade);

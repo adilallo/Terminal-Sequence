@@ -16,7 +16,7 @@ namespace Utility
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                ExitGame();
+                //ExitGame();
             }
         }
 

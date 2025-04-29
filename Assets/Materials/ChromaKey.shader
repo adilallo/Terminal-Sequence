@@ -22,6 +22,7 @@ Shader "UI/ChromaKey_HSV"
         Cull Off
         Lighting Off
         ZWrite Off
+        ZTest Always
         Fog { Mode Off }
 
         Pass
@@ -31,7 +32,7 @@ Shader "UI/ChromaKey_HSV"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma target 3.0
+            #pragma target 2.5
             #include "UnityCG.cginc"
 
             struct appdata_t
@@ -47,23 +48,23 @@ Shader "UI/ChromaKey_HSV"
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
-            float4 _ChromaKeyColor;
-            float _Threshold;
-            float _Softness;
-            float _SpillAmount;
-            float _CanvasGroupAlpha;
+            fixed4 _MainTex_ST;
+            fixed4 _ChromaKeyColor;
+            fixed _Threshold;
+            fixed _Softness;
+            fixed _SpillAmount;
+            fixed _CanvasGroupAlpha;
 
             // Function to convert RGB to HSV
-            float3 RGBtoHSV(float3 c)
+            fixed3 RGBtoHSV(float3 c)
             {
-                float4 K = float4(0.0, -1.0/3.0, 2.0/3.0, -1.0);
-                float4 p = lerp(float4(c.bg, K.wz), float4(c.gb, K.xy), step(c.b, c.g));
-                float4 q = lerp(float4(p.xyw, c.r), float4(c.r, p.yzx), step(p.x, c.r));
+                fixed4 K = fixed4(0.0, -1.0/3.0, 2.0/3.0, -1.0);
+                fixed4 p = lerp(fixed4(c.bg, K.wz), fixed4(c.gb, K.xy), step(c.b, c.g));
+                fixed4 q = lerp(fixed4(p.xyw, c.r), fixed4(c.r, p.yzx), step(p.x, c.r));
 
-                float d = q.x - min(q.w, q.y);
-                float e = 1e-10;
-                return float3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+                fixed d = q.x - min(q.w, q.y);
+                fixed e = 1e-10;
+                return fixed3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
             }
 
             v2f vert(appdata_t IN)
@@ -76,25 +77,25 @@ Shader "UI/ChromaKey_HSV"
 
             fixed4 frag(v2f IN) : SV_Target
             {
-                float2 uv = IN.texcoord;
+                fixed2 uv = IN.texcoord;
                 fixed4 color = tex2D(_MainTex, uv);
 
                 // Convert pixel color and chroma key color to HSV
-                float3 cHSV = RGBtoHSV(color.rgb);
-                float3 keyHSV = RGBtoHSV(_ChromaKeyColor.rgb);
+                fixed3 cHSV = RGBtoHSV(color.rgb);
+                fixed3 keyHSV = RGBtoHSV(_ChromaKeyColor.rgb);
 
                 // Calculate hue difference (accounting for wrap-around)
-                float hueDiff = abs(cHSV.x - keyHSV.x);
+                fixed hueDiff = abs(cHSV.x - keyHSV.x);
                 hueDiff = min(hueDiff, 1.0 - hueDiff); // Wrap-around
 
                 // Compute alpha using smoothstep for a smooth transition
-                float alpha = smoothstep(_Threshold, _Threshold + _Softness, hueDiff);
+                fixed alpha = smoothstep(_Threshold, _Threshold + _Softness, hueDiff);
 
                 // Enhanced Spill Suppression
                 if (alpha < 1.0)
                 {
                     // Calculate the amount of green spill
-                    float spill = color.g - max(color.r, color.b);
+                    fixed spill = color.g - max(color.r, color.b);
                     spill = max(spill, 0.0);
 
                     // Only proceed if there is actual spill

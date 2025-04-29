@@ -32,8 +32,6 @@ public class ManageSwarm : MonoBehaviour
         {
             Debug.LogError("Agent Prefabs list is empty! Please assign prefabs in the Inspector.");
         }
-
-        InitializeSwarm();
     }
 
     private void OnDisable()
@@ -58,6 +56,21 @@ public class ManageSwarm : MonoBehaviour
             GameObject selectedPrefab = agentPrefabs[i % agentPrefabs.Count];
             Vector3 spawnPosition = Random.insideUnitSphere * spread;
             GameObject newAgent = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
+
+            MeshRenderer meshRenderer = newAgent.GetComponent<MeshRenderer>();
+            if (meshRenderer != null)
+            {
+                meshRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.UseProxyVolume;
+            }
+            else
+            {
+                // Try to find inside children
+                meshRenderer = newAgent.GetComponentInChildren<MeshRenderer>();
+                if (meshRenderer != null)
+                {
+                    meshRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.UseProxyVolume;
+                }
+            }
 
             Agent agentScript = newAgent.GetComponent<Agent>();
             if (agentScript != null)
