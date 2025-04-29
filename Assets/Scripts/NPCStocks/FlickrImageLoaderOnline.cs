@@ -1,9 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using UnityEngine.UI;
 
-public class FlickrImageLoader : MonoBehaviour
+public class FlickrImageLoaderOnline : MonoBehaviour
 {
     // REMOTE (online) location
     private string baseUrl =

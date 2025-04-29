@@ -1,265 +1,230 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 using Utility;
-using UnityEngine.SceneManagement;
 
 public class NPCStockSceneManager : MonoBehaviour
 {
-    [SerializeField] private float lineThickness = 2f;
-    [SerializeField] private float fadeDuration = 2f;
-    [SerializeField] private CanvasGroup uiCanvasGroup;
-    [SerializeField] private Material uiMaterial;
+    [Header("Pooling / References")]
+    [SerializeField] private PoolManager pool;            // drag PoolManager here
+    [SerializeField] private RectTransform graphArea;     // the parent for lines & images
 
-    [Header("UI")]
+    [Header("Visual Settings")]
+    [SerializeField] private float lineThickness = 2f;
     [SerializeField] private Sprite[] npcSprites;
-    [SerializeField] private Material flickrImageMaterial;
-    [SerializeField] private RectTransform graphArea;
     [SerializeField] private Color[] npcColors;
-    
+
+    [Header("UI Fading")]
+    [SerializeField] private CanvasGroup uiCanvasGroup;
+    [SerializeField] private Material uiMaterial;          // material that exposes _CanvasGroupAlpha
+    [SerializeField] private Material flickrImageMaterial; // secondary fade material
+    [SerializeField] private float fadeDuration = 2f;
+
     private GoogleSheetsHandler googleSheetsHandler;
     private SceneChanger sceneChanger;
-    private Dictionary<string, GameObject> npcLines = new Dictionary<string, GameObject>();
 
-    void Start()
+    // Internal pooled instances alive in current graph
+    private readonly List<GameObject> _liveLines = new();
+    private readonly List<GameObject> _liveImages = new();
+
+    // Sprite mover state struct
+    private struct Mover
     {
-        googleSheetsHandler = FindFirstObjectByType<GoogleSheetsHandler>();
+        public RectTransform rect;
+        public List<Vector2> path;
+        public List<float> cum;
+        public float t;
+        public float dir;
+        public float total;
+    }
+    private readonly List<Mover> movers = new();
+
+    // --------------------------------------------------
+    // Life?cycle
+    // --------------------------------------------------
+    private IEnumerator Start()
+    {
+        while (googleSheetsHandler == null)
+        {
+            googleSheetsHandler = FindFirstObjectByType<GoogleSheetsHandler>();
+            yield return null;
+        }
+        sceneChanger = FindFirstObjectByType<SceneChanger>();
+
         googleSheetsHandler.OnDataRetrieved += OnDataRetrievedHandler;
         googleSheetsHandler.GetAllVideoSelections();
 
-        sceneChanger = FindFirstObjectByType<SceneChanger>();
-
-        // Start fading in the UI at the start
         uiCanvasGroup.interactable = false;
-        StartCoroutine(FadeInUI());
+        StartCoroutine(FadeCanvas(0f, 1f, fadeDuration, () => uiCanvasGroup.interactable = true));
+    }
+
+    private void OnDestroy()
+    {
+        if (googleSheetsHandler != null)
+            googleSheetsHandler.OnDataRetrieved -= OnDataRetrievedHandler;
+    }
+
+    // --------------------------------------------------
+    // UI Fade helpers
+    // --------------------------------------------------
+    private IEnumerator FadeCanvas(float from, float to, float dur, System.Action onComplete = null)
+    {
+        float t = 0f;
+        while (t < dur)
+        {
+            float a = Mathf.Lerp(from, to, t / dur);
+            uiCanvasGroup.alpha = a;
+            uiMaterial.SetFloat("_CanvasGroupAlpha", a);
+            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", a);
+            t += Time.deltaTime;
+            yield return null;
+        }
+        uiCanvasGroup.alpha = to;
+        uiMaterial.SetFloat("_CanvasGroupAlpha", to);
+        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", to);
+        onComplete?.Invoke();
     }
 
     public void OnBackButton()
     {
-        StartCoroutine(FadeOutUI());
         uiCanvasGroup.interactable = false;
+        StartCoroutine(FadeCanvas(1f, 0f, fadeDuration, () => sceneChanger.LoadLobbySceneWithoutFade()));
     }
 
-    private IEnumerator FadeInUI()
+    // --------------------------------------------------
+    // Google?sheet callback
+    // --------------------------------------------------
+    private void OnDataRetrievedHandler(List<GoogleSheetsHandler.VideoSelection> data)
     {
-        float elapsedTime = 0f;
-
-        // Ensure CanvasGroup starts fully transparent
-        uiCanvasGroup.alpha = 0;
-        uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
-        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
-
-        while (elapsedTime < fadeDuration)
+        ClearGraph();
+        if (data == null || data.Count == 0)
         {
-            float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-
-            uiCanvasGroup.alpha = alpha;
-            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
-            uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure UI is fully visible after fade-in
-        uiCanvasGroup.alpha = 1;
-        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
-        uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
-        uiCanvasGroup.interactable = true;
-    }
-
-    private IEnumerator FadeOutUI()
-    {
-        float elapsedTime = 0f;
-
-        uiCanvasGroup.alpha = 1;
-        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 1);
-        uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
-        uiCanvasGroup.interactable = false;
-
-        while (elapsedTime < fadeDuration)
-        {
-            float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
-
-            uiCanvasGroup.alpha = alpha;
-            flickrImageMaterial.SetFloat("_CanvasGroupAlpha", alpha);
-            uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        uiCanvasGroup.alpha = 0;
-        flickrImageMaterial.SetFloat("_CanvasGroupAlpha", 0);
-        uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
-
-        sceneChanger.LoadLobbySceneWithoutFade();
-    }
-
-    private void OnDataRetrievedHandler(List<GoogleSheetsHandler.VideoSelection> videoSelections)
-    {
-        // Process the data
-        foreach (var selection in videoSelections)
-        {
-            int selectionCount = int.Parse(selection.SelectionCount);
-
-            // Generate path for this NPC
-            List<Vector2> path = GeneratePath(selectionCount);
-
-            // Draw the line
-            DrawLine(selection, path);
-        }
-    }
-
-    private List<Vector2> GeneratePath(int selectionCount)
-    {
-        List<Vector2> path = new List<Vector2>();
-
-        if (selectionCount < 2)
-        {
-            selectionCount = 2;
-        }
-
-        for (int i = 0; i < selectionCount; i++)
-        {
-            float x = (float)i / (selectionCount - 1);
-            float y = Random.value;
-
-            x = Mathf.Clamp01(x);
-            y = Mathf.Clamp01(y);
-
-            path.Add(new Vector2(x, y));
-        }
-
-        return path;
-    }
-
-    private void DrawLine(GoogleSheetsHandler.VideoSelection selection, List<Vector2> path)
-    {
-        GameObject lineObj = new GameObject(selection.NPCName + "_Line");
-        lineObj.transform.SetParent(graphArea, false);
-
-        UILineRenderer uiLineRenderer = lineObj.AddComponent<UILineRenderer>();
-
-        RectTransform lineRect = uiLineRenderer.GetComponent<RectTransform>();
-        lineRect.anchorMin = new Vector2(0, 0);
-        lineRect.anchorMax = new Vector2(1, 1);
-        lineRect.pivot = new Vector2(0, 0);
-        lineRect.sizeDelta = Vector2.zero;
-        lineRect.anchoredPosition = Vector2.zero;
-
-        int npcIndex = int.Parse(selection.NPCIndex);
-        Color lineColor = npcColors.Length > npcIndex ? npcColors[npcIndex] : Color.black;
-        uiLineRenderer.color = lineColor;
-        uiLineRenderer.LineThickness = lineThickness;
-
-        List<Vector2> mappedPath = new List<Vector2>();
-        foreach (var point in path)
-        {
-            float x = point.x * graphArea.rect.width;
-            float y = point.y * graphArea.rect.height;
-            Vector2 mappedPoint = new Vector2(x, y);
-            mappedPath.Add(mappedPoint);
-        }
-
-        uiLineRenderer.Points = mappedPath;
-
-        npcLines[selection.NPCName] = lineObj;
-
-        CreateAndAnimateNPCImage(selection, mappedPath);
-    }
-
-    private void CreateAndAnimateNPCImage(GoogleSheetsHandler.VideoSelection selection, List<Vector2> mappedPath)
-    {
-        GameObject npcImageObj = new GameObject(selection.NPCName + "_Image");
-        npcImageObj.transform.SetParent(graphArea, false);
-
-        Image npcImage = npcImageObj.AddComponent<Image>();
-
-        int npcIndex = int.Parse(selection.NPCIndex);
-        Sprite npcSprite = npcSprites.Length > npcIndex ? npcSprites[npcIndex] : null;
-        if (npcSprite != null)
-        {
-            npcImage.sprite = npcSprite;
-        }
-        else
-        {
-            Debug.LogWarning($"No sprite found for NPC at index {npcIndex}");
+            Debug.LogWarning("NPCStockSceneManager: No data received.");
             return;
         }
 
-        RectTransform imageRect = npcImage.GetComponent<RectTransform>();
-        imageRect.anchorMin = new Vector2(0, 0);
-        imageRect.anchorMax = new Vector2(0, 0);
-        imageRect.pivot = new Vector2(0.5f, 0.5f);
-        imageRect.sizeDelta = new Vector2(64, 64);
-
-        if (mappedPath.Count > 0)
+        foreach (var sel in data)
         {
-            imageRect.anchoredPosition = mappedPath[0];
-        }
+            int count = int.TryParse(sel.SelectionCount, out var n) ? n : 2;
+            if (count < 2) count = 2;
 
-        StartCoroutine(MoveImageAlongPath(npcImageObj, mappedPath));
-    }
-
-    private IEnumerator MoveImageAlongPath(GameObject npcImageObj, List<Vector2> path)
-    {
-        RectTransform imageRect = npcImageObj.GetComponent<RectTransform>();
-
-        List<float> cumulativeLengths = new List<float> { 0f };
-        float totalLength = 0f;
-        for (int i = 1; i < path.Count; i++)
-        {
-            float segmentLength = Vector2.Distance(path[i - 1], path[i]);
-            totalLength += segmentLength;
-            cumulativeLengths.Add(totalLength);
-        }
-
-        float speed = totalLength / 15f;
-        float t = 0f;
-        float direction = 1f;
-
-        while (true)
-        {
-            t += direction * speed * Time.deltaTime;
-
-            if (t > totalLength)
-            {
-                t = totalLength;
-                direction = -1f;
-            }
-            else if (t < 0f)
-            {
-                t = 0f;
-                direction = 1f;
-            }
-
-            Vector2 position = GetPositionAtDistance(path, cumulativeLengths, t);
-            imageRect.anchoredPosition = position;
-
-            yield return null;
+            List<Vector2> path = GeneratePath(count);
+            DrawLineAndSprite(sel, path);
         }
     }
 
-    private Vector2 GetPositionAtDistance(List<Vector2> path, List<float> cumulativeLengths, float t)
+    // --------------------------------------------------
+    // Graph building helpers
+    // --------------------------------------------------
+    private void ClearGraph()
     {
-        int index = 0;
-        for (int i = 1; i < cumulativeLengths.Count; i++)
+        foreach (var go in _liveLines) pool.Return("Line", go);
+        foreach (var go in _liveImages) pool.Return("NPCImage", go);
+        _liveLines.Clear();
+        _liveImages.Clear();
+        movers.Clear();
+    }
+
+    private List<Vector2> GeneratePath(int steps)
+    {
+        var list = new List<Vector2>(steps);
+        for (int i = 0; i < steps; ++i)
         {
-            if (t <= cumulativeLengths[i])
-            {
-                index = i - 1;
-                break;
-            }
+            float x = (float)i / (steps - 1);
+            float y = Random.value;
+            list.Add(new Vector2(x, y));
         }
+        return list;
+    }
 
-        Vector2 p0 = path[index];
-        Vector2 p1 = path[index + 1];
+    private void DrawLineAndSprite(GoogleSheetsHandler.VideoSelection sel, List<Vector2> path)
+    {
+        // -------- line ------------------------------------------------
+        GameObject lineObj = pool.Get("Line", graphArea);
+        _liveLines.Add(lineObj);
+#if UNITY_UI_EXTENSIONS
+        var lr = lineObj.GetComponent<UILineRenderer>();
+        if (lr == null) lr = lineObj.AddComponent<UILineRenderer>();
+#else
+        var lr = lineObj.GetComponent<UILineRenderer>();
+#endif
+        int idx = int.Parse(sel.NPCIndex);
+        lr.color = npcColors.Length > idx ? npcColors[idx] : Color.black;
+        lr.LineThickness = lineThickness;
 
-        float segmentLength = cumulativeLengths[index + 1] - cumulativeLengths[index];
-        float segmentT = (t - cumulativeLengths[index]) / segmentLength;
+        // map path into pixel space
+        var localPoints = new List<Vector2>(path.Count);
+        float w = graphArea.rect.width;
+        float h = graphArea.rect.height;
+        for (int i = 0; i < path.Count; i++)
+            localPoints.Add(new Vector2(path[i].x * w, path[i].y * h));
 
-        return Vector2.Lerp(p0, p1, segmentT);
+        lr.Points = localPoints;        // unique list per line
+        lr.SetAllDirty();
+
+        // -------- sprite ----------------------------------------------
+        GameObject imgObj = pool.Get("NPCImage", graphArea);
+        _liveImages.Add(imgObj);
+        var img = imgObj.GetComponent<Image>();
+        if (img == null) img = imgObj.AddComponent<Image>();
+        img.sprite = npcSprites.Length > idx ? npcSprites[idx] : null;
+
+        var rt = img.rectTransform;
+        rt.anchorMin = rt.anchorMax = Vector2.zero;
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(64, 64);
+        rt.anchoredPosition = localPoints[0];
+
+        BuildMover(rt, localPoints);
+    }
+
+    private void BuildMover(RectTransform rt, List<Vector2> mappedPath)
+    {
+        // cumulative length table
+        var cum = new List<float>(mappedPath.Count);
+        float total = 0f;
+        cum.Add(0f);
+        for (int i = 1; i < mappedPath.Count; i++)
+        {
+            total += Vector2.Distance(mappedPath[i - 1], mappedPath[i]);
+            cum.Add(total);
+        }
+        movers.Add(new Mover
+        {
+            rect = rt,
+            path = new List<Vector2>(mappedPath),
+            cum = cum,
+            t = 0f,
+            dir = 1f,
+            total = total
+        });
+    }
+
+    // --------------------------------------------------
+    // Single Update loop animating all sprites
+    // --------------------------------------------------
+    private void Update()
+    {
+        if (movers.Count == 0) return;
+        float dt = Time.deltaTime;
+        for (int i = 0; i < movers.Count; i++)
+        {
+            var m = movers[i];
+            m.t += m.dir * (m.total / 15f) * dt;
+            if (m.t > m.total) { m.t = m.total; m.dir = -1f; }
+            else if (m.t < 0f) { m.t = 0f; m.dir = 1f; }
+            m.rect.anchoredPosition = GetPositionAtDistance(m.path, m.cum, m.t);
+            movers[i] = m; // copy back because struct
+        }
+    }
+
+    private static Vector2 GetPositionAtDistance(List<Vector2> path, List<float> cum, float t)
+    {
+        int seg = 0;
+        while (seg < cum.Count - 1 && t > cum[seg + 1]) seg++;
+        float segLen = cum[seg + 1] - cum[seg];
+        float segT = (t - cum[seg]) / segLen;
+        return Vector2.Lerp(path[seg], path[seg + 1], segT);
     }
 }
