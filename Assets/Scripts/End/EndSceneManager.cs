@@ -78,23 +78,6 @@ public class EndSceneManager : MonoBehaviour
         sceneChanger = FindFirstObjectByType<SceneChanger>();
     }
 
-    void Update()
-    {
-        if (!hasTriggeredEndVideo && AudioManager.Instance != null)
-        {
-            AudioSource audioSource = AudioManager.Instance.CurrentAudioSource;
-            if (audioSource != null && audioSource.clip != null && audioSource.isPlaying)
-            {
-                float progress = audioSource.time / audioSource.clip.length;
-                if (progress >= 0.85f)
-                {
-                    hasTriggeredEndVideo = true;
-                    StartCoroutine(FadeOutUIAndPlayEndVideo());
-                }
-            }
-        }
-    }
-
     void OnEnable()
     {
         // Subscribe to VideoPlayer prepareCompleted event only once
@@ -103,6 +86,8 @@ public class EndSceneManager : MonoBehaviour
             avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
             avatarVideoPlayer.Prepare();
         }
+
+        AudioManager.Instance.OnPlaylistFinished += HandleTrackEnding;
     }
 
     void OnDisable()
@@ -119,6 +104,15 @@ public class EndSceneManager : MonoBehaviour
             endVideoPlayer.prepareCompleted -= OnEndVideoPrepared;
             endVideoPlayer.Stop();
         }
+
+        AudioManager.Instance.OnPlaylistFinished -= HandleTrackEnding;
+    }
+
+    private void HandleTrackEnding()
+    {
+        if (hasTriggeredEndVideo) return;
+        hasTriggeredEndVideo = true;
+        StartCoroutine(FadeOutUIAndPlayEndVideo());
     }
 
     private void OnAvatarVideoPrepared(VideoPlayer vp)

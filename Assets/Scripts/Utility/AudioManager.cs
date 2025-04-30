@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,184 +7,145 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    [SerializeField] private AudioSource audioSource;
+    [Header("Fade settings")]
     [SerializeField] private float fadeDuration = 2f;
-    private List<AudioClip> currentPlaylist = new List<AudioClip>();
-    private int currentTrackIndex = 0;
-    private Coroutine playlistCoroutine;
-    private bool shouldFadeOutAtEnd = false;
 
-    // New flags and queues
-    private bool isAudioAllowed = false;
-    private Queue<(List<AudioClip> playlist, bool fadeOut)> playlistQueue = new Queue<(List<AudioClip>, bool)>();
+    [Header("Runtime info (debug)")]
+    [SerializeField] private AudioSource sourceA;
+    [SerializeField] private AudioSource sourceB;
+
+    private AudioSource _active;
+    private AudioSource _incoming; 
+
+    private readonly Queue<(List<AudioClip> playlist, bool fadeOut)> playQueue = new();
+    private List<AudioClip> currentPlaylist = new();
+    private int trackIndex;
+    private bool fadeOutAtEnd;
+    private Coroutine playlistRoutine;
+
+    private bool userUnlocked = false; 
 
     public event Action OnPlaylistFinished;
 
-    public AudioSource CurrentAudioSource
-    {
-        get { return audioSource; }
-    }
-
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // create two AudioSources for overlap cross‑fades
+        sourceA = gameObject.AddComponent<AudioSource>();
+        sourceB = gameObject.AddComponent<AudioSource>();
+        sourceA.playOnAwake = sourceB.playOnAwake = false;
+        sourceA.loop = sourceB.loop = false;
+
+        _active = sourceA;
+        _incoming = sourceB;
     }
 
     void Update()
     {
-        if (!isAudioAllowed)
+        if (!userUnlocked && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
         {
-            // Detect first user interaction (mouse click or touch)
-            if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
-            {
-                isAudioAllowed = true;
-                ProcessQueuedPlaylists();
-            }
+            userUnlocked = true;
+            ProcessQueuedPlaylists();
         }
     }
 
     void OnDisable()
     {
-        if (OnPlaylistFinished != null)
-        {
-            Delegate[] invocationList = OnPlaylistFinished.GetInvocationList();
-            foreach (Delegate d in invocationList)
-            {
-                OnPlaylistFinished -= (Action)d;
-            }
-        }
-
-        StopAllCoroutines();
+        if (playlistRoutine != null) StopCoroutine(playlistRoutine);
+        OnPlaylistFinished = null; // clear invocation list
     }
 
-    public float GetCurrentTrackProgress()
+    public void PlayPlaylist(List<AudioClip> playlist, bool fadeOut = false)
     {
-        if (audioSource != null && audioSource.clip != null)
-        {
-            return audioSource.time / audioSource.clip.length;
-        }
-        return 0f;
-    }
-
-    public void PlayPlaylist(List<AudioClip> playlist, bool fadeOutAtEnd = false)
-    {
-        if (isAudioAllowed)
-        {
-            StartPlaylist(playlist, fadeOutAtEnd);
-        }
-        else
-        {
-            // Queue the playlist to be played after user interaction
-            playlistQueue.Enqueue((playlist, fadeOutAtEnd));
-        }
-    }
-
-    private void StartPlaylist(List<AudioClip> playlist, bool fadeOutAtEnd)
-    {
-        if (playlistCoroutine != null)
-        {
-            StopCoroutine(playlistCoroutine);
-        }
-
-        currentPlaylist = playlist;
-        currentTrackIndex = 0;
-        shouldFadeOutAtEnd = fadeOutAtEnd;
-        playlistCoroutine = StartCoroutine(PlayAudioTracks());
+        if (playlist == null || playlist.Count == 0) return;
+        if (userUnlocked) StartPlaylist(playlist, fadeOut);
+        else playQueue.Enqueue((playlist, fadeOut));
     }
 
     private void ProcessQueuedPlaylists()
     {
-        while (playlistQueue.Count > 0)
+        while (playQueue.Count > 0)
         {
-            var (playlist, fadeOut) = playlistQueue.Dequeue();
-            StartPlaylist(playlist, fadeOut);
+            var (pl, fo) = playQueue.Dequeue();
+            StartPlaylist(pl, fo);
         }
     }
 
-    private IEnumerator PlayAudioTracks()
+    private void StartPlaylist(List<AudioClip> playlist, bool fadeOut)
+    {
+        if (playlistRoutine != null) StopCoroutine(playlistRoutine);
+        currentPlaylist = playlist;
+        trackIndex = 0;
+        fadeOutAtEnd = fadeOut;
+        playlistRoutine = StartCoroutine(PlaylistLoop());
+    }
+
+    IEnumerator PlaylistLoop()
     {
         while (true)
         {
-            if (currentPlaylist.Count == 0)
+            if (currentPlaylist.Count == 0) yield break;
+            AudioClip clip = currentPlaylist[trackIndex];
+            yield return CrossFadeToClip(clip);
+
+            yield return new WaitForSecondsRealtime(clip.length - fadeDuration); // start next fade slightly before end
+
+            trackIndex++;
+            if (trackIndex >= currentPlaylist.Count)
             {
-                yield break;
-            }
-
-            AudioClip currentTrack = currentPlaylist[currentTrackIndex];
-
-            yield return StartCoroutine(CrossfadeAudio(currentTrack));
-
-            yield return new WaitForSeconds(currentTrack.length);
-
-            currentTrackIndex++;
-
-            if (currentTrackIndex >= currentPlaylist.Count)
-            {
-                if (shouldFadeOutAtEnd)
+                if (fadeOutAtEnd)
                 {
-                    yield return StartCoroutine(FadeOutLastTrack());
+                    yield return FadeOut(_active);
                     OnPlaylistFinished?.Invoke();
                     yield break;
                 }
-                else
-                {
-                    currentTrackIndex = 0;
-                }
+                trackIndex = 0;
             }
         }
     }
 
-    private IEnumerator CrossfadeAudio(AudioClip newClip)
+    IEnumerator CrossFadeToClip(AudioClip newClip)
     {
-        if (audioSource == null)
-            yield break;
+        // swap roles
+        (_active, _incoming) = (_incoming, _active);
 
-        float startVolume = audioSource.volume;
+        _incoming.clip = newClip;
+        _incoming.volume = 0f;
+        _incoming.Play();
 
-        // Fade out current audio
-        while (audioSource != null && audioSource.volume > 0)
+        float t = 0f;
+        while (t < fadeDuration)
         {
-            audioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
+            float step = Time.unscaledDeltaTime / fadeDuration;
+            _incoming.volume = Mathf.MoveTowards(_incoming.volume, 1f, step);
+            _active.volume = Mathf.MoveTowards(_active.volume, 0f, step);
+            t += Time.unscaledDeltaTime;
             yield return null;
         }
-
-        if (audioSource != null)
-        {
-            audioSource.clip = newClip;
-            audioSource.Play();
-            audioSource.volume = 0;
-
-            // Fade in new audio
-            while (audioSource != null && audioSource.volume < startVolume)
-            {
-                audioSource.volume += startVolume * Time.deltaTime / fadeDuration;
-                yield return null;
-            }
-
-            if (audioSource != null)
-                audioSource.volume = startVolume;
-        }
+        _incoming.volume = 1f;
+        _active.Stop();
     }
 
-    private IEnumerator FadeOutLastTrack()
+    IEnumerator FadeOut(AudioSource src)
     {
-        float startVolume = audioSource.volume;
-
-        while (audioSource.volume > 0)
+        while (src.volume > 0f)
         {
-            audioSource.volume -= startVolume * Time.deltaTime / fadeDuration;
+            src.volume = Mathf.MoveTowards(src.volume, 0f, Time.unscaledDeltaTime / fadeDuration);
             yield return null;
         }
-
-        audioSource.Stop();
-        audioSource.volume = 1;
+        src.Stop();
+        src.volume = 1f;
     }
+
+    // Public helpers
+    public void Pause() { sourceA.Pause(); sourceB.Pause(); }
+    public void Resume() { sourceA.UnPause(); sourceB.UnPause(); }
+    public void Skip() { if (playlistRoutine != null) StopCoroutine(playlistRoutine); StartPlaylist(currentPlaylist, fadeOutAtEnd); }
 }
