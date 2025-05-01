@@ -9,536 +9,330 @@ namespace MiddleScene
 {
     public class MiddleSceneManager : MonoBehaviour
     {
-        #region Serialized Fields
+        #region ─── Serialized
 
-        [SerializeField] private CanvasGroup uiCanvasGroup;
-        [SerializeField] private Material avatarMaterial;
-        [SerializeField] private Material npcMaterial;
-        [SerializeField] private Material uiMaterial;
-        [SerializeField] private float fadeDuration = 2f;
+        [SerializeField] CanvasGroup uiCanvasGroup;
+        [SerializeField] CanvasGroup textCanvasGroup;
+        [SerializeField] Material avatarMaterial;
+        [SerializeField] Material npcMaterial;
+        [SerializeField] Material uiMaterial;
+        [SerializeField] float fadeDuration = 2f;
 
         [Header("UI")]
-        [SerializeField] private VideoPlayer npcVideoPlayer;
-        [SerializeField] private VideoPlayer avatarVideoPlayer;
-        [SerializeField] private RectTransform npcRawImage;
-        [SerializeField] private RectTransform avatarRawImage;
-        [SerializeField] private VideoPlayer arrowVideoPlayer;
-        [SerializeField] private GameObject arrowLeftRawImage;
-        [SerializeField] private GameObject arrowRightRawImage;
-        [SerializeField] private Canvas canvas;
+        [SerializeField] VideoPlayer npcVideoPlayer;
+        [SerializeField] VideoPlayer avatarVideoPlayer;
+        [SerializeField] RectTransform npcRawImage;
+        [SerializeField] RectTransform avatarRawImage;
+        [SerializeField] VideoPlayer arrowVideoPlayer;
+        [SerializeField] GameObject arrowLeftRawImage;
+        [SerializeField] GameObject arrowRightRawImage;
+        [SerializeField] Canvas canvas;
 
         [Header("Audio")]
-        [SerializeField] private List<AudioClip> middleSceneAudioClips;
+        [SerializeField] List<AudioClip> middleSceneAudioClips;
 
-        [Header("Video URLs")]
-        [SerializeField] private List<string> npcVideoURLs;
-        [SerializeField] private List<string> avatarVideoURLs;
+        [Header("Video URLs / Fallbacks")]
+        [SerializeField] List<string> npcVideoURLs;
+        [SerializeField] List<string> avatarVideoURLs;
+        [SerializeField] List<VideoClip> npcFallbackClips;
+        [SerializeField] List<VideoClip> avatarFallbackClips;
 
-        [Header("Video Clips (Offline Fallback)")]
-        [SerializeField] private List<VideoClip> npcFallbackClips;
-        [SerializeField] private List<VideoClip> avatarFallbackClips;
-
-        [SerializeField] private GoogleSheetsHandler googleSheetsHandler;
+        [SerializeField] GoogleSheetsHandler googleSheetsHandler;
 
         #endregion
 
-        #region Private Fields
+        #region ─── Cached fields
 
-        private int currentVideoIndex = 0;
-        private Vector2 avatarVelocity = new Vector2(100f, 100f);
-        private RectTransform canvasRectTransform;
-        private Vector2 cachedCanvasSize;
-        private Vector2 cachedAvatarSize;
+        int currentVideoIndex;
+        Vector2 avatarVelocity = new(100f, 100f);
 
-        private bool avatarVideoStarted = false;
-        private bool npcVideoStarted = false;
-        private bool isOffline = false;
+        bool avatarStarted, npcStarted;
+        bool isOffline;
 
-        private SceneChanger sceneChanger;
+        Material[] fadeMats;                     // batch SetFloat calls
+        SceneChanger sceneChanger;
+
+        // cached bounds to avoid per-frame Rect allocations
+        Vector2 canvasSize, avatarSize;
+        int cachedScreenW, cachedScreenH;
+
+        // reused temp vector (avoids new Vector2 each frame)
+        Vector2 tmpVec2 = new();
 
         #endregion
 
-        #region Unity Methods
+        /*────────────────────────────────────────────────────────────────────────*/
+
+        void Awake()
+        {
+            fadeMats = new[] { avatarMaterial, npcMaterial, uiMaterial };
+            sceneChanger = FindFirstObjectByType<SceneChanger>();
+            isOffline = Application.internetReachability == NetworkReachability.NotReachable;
+        }
 
         void Start()
         {
-            isOffline = (Application.internetReachability == NetworkReachability.NotReachable);
-            sceneChanger = FindFirstObjectByType<SceneChanger>();
-            Initialize();
-        }
-
-        void Update()
-        {
-            MoveAvatarRawImage();
-        }
-
-        void OnDisable()
-        {
-            CleanupVideoPlayers();
-        }
-
-        #endregion
-
-        #region Initialization Methods
-
-        private void Initialize()
-        {
             Cursor.visible = false;
 
+            // ensure objects hidden
             npcRawImage.gameObject.SetActive(false);
             avatarRawImage.gameObject.SetActive(false);
             arrowLeftRawImage.SetActive(false);
             arrowRightRawImage.SetActive(false);
 
-            if (uiCanvasGroup != null)
-            {
-                uiCanvasGroup.interactable = false;
-                uiCanvasGroup.alpha = 0;
-                SetMaterialAlpha(avatarMaterial, 0);
-                SetMaterialAlpha(npcMaterial, 0);
-                SetMaterialAlpha(uiMaterial, 0);
-                StartCoroutine(FadeInUI());
-            }
+            // fade-in coroutine
+            uiCanvasGroup.interactable = false;
+            uiCanvasGroup.alpha = 0f;
+            textCanvasGroup.alpha = 0f;
+            SetAlphaAll(0f);
+            StartCoroutine(FadeInTextUI());
+            StartCoroutine(FadeInUI());
 
             currentVideoIndex = 0;
 
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayPlaylist(middleSceneAudioClips, false);
-            }
+            AudioManager.Instance?.PlayPlaylist(middleSceneAudioClips, false);
 
-            if (canvas != null)
-            {
-                canvasRectTransform = canvas.GetComponent<RectTransform>();
-                CacheCanvasAndAvatarDimensions();
-            }
-            else
-            {
-                Debug.LogError("Canvas is not assigned! Please assign a Canvas in the Inspector.");
-            }
+            if (!canvas) Debug.LogError("Canvas missing!");
+            CacheBounds();
 
-            if (avatarRawImage == null)
-            {
-                Debug.LogError("avatarRawImage is not assigned! Please check the Inspector.");
-            }
-
-            // Start playing the initial videos
             PlayVideoAndAudio(currentVideoIndex);
         }
 
-        private void CleanupVideoPlayers()
+        void Update() => MoveAvatarRawImage();
+
+        void OnDisable() => CleanupVideoPlayers();
+
+        /*────────────────────────────────────────────────────────────────────────*
+         *                    INITIALISATION / CLEANUP                           *
+        /*────────────────────────────────────────────────────────────────────────*/
+
+        void CleanupVideoPlayers()
         {
-            if (npcVideoPlayer != null)
+            if (npcVideoPlayer)
             {
+                npcVideoPlayer.errorReceived -= OnNPCVideoError;
                 npcVideoPlayer.prepareCompleted -= OnNPCVideoPrepared;
+                npcVideoPlayer.started -= OnNPCVideoStarted;
                 npcVideoPlayer.Stop();
             }
-            if (avatarVideoPlayer != null)
+            if (avatarVideoPlayer)
             {
+                avatarVideoPlayer.errorReceived -= OnAvatarVideoError;
                 avatarVideoPlayer.prepareCompleted -= OnAvatarVideoPrepared;
+                avatarVideoPlayer.started -= OnAvatarVideoStarted;
                 avatarVideoPlayer.Stop();
             }
         }
 
-        #endregion
+        /*────────────────────────────────────────────────────────────────────────*
+         *                         VIDEO CONTROL                                 *
+        /*────────────────────────────────────────────────────────────────────────*/
 
-        #region Video Control Methods
-
-        public void NextVideo()
-        {
-            int nextIndex = (currentVideoIndex + 1) % npcVideoURLs.Count;
-            StartCoroutine(FadeOutAndChangeVideo(nextIndex));
-        }
-
-        public void PreviousVideo()
-        {
-            int prevIndex = (currentVideoIndex - 1 + npcVideoURLs.Count) % npcVideoURLs.Count;
-            StartCoroutine(FadeOutAndChangeVideo(prevIndex));
-        }
+        public void NextVideo() => StartCoroutine(FadeSwapVideo((currentVideoIndex + 1) % npcVideoURLs.Count));
+        public void PreviousVideo() => StartCoroutine(FadeSwapVideo((currentVideoIndex - 1 + npcVideoURLs.Count) % npcVideoURLs.Count));
 
         public async void OnVideoSelected()
         {
             uiCanvasGroup.interactable = false;
-            if (googleSheetsHandler != null)
-            {
-                googleSheetsHandler.RecordVideoSelection(currentVideoIndex);
-            }
-            else
-            {
-                Debug.LogWarning("GoogleSheetsHandler is not assigned in the Inspector.");
-            }
+            googleSheetsHandler?.RecordVideoSelection(currentVideoIndex);
             await FadeOutUICoroutine();
             sceneChanger.LoadThirdScene();
         }
 
-        private IEnumerator FadeOutAndChangeVideo(int newVideoIndex)
+        /*── helpers ────────────────────────────────────────────────────────────*/
+
+        IEnumerator FadeSwapVideo(int newIndex)
         {
-            // Fade out over 0.5 seconds
-            float fadeOutDuration = 0.75f;
-            float elapsedTime = 0f;
+            yield return FadeMaterials(1f, 0f, .75f);
 
-            // Get the current alpha of the materials
-            float startAlpha = avatarMaterial.GetFloat("_CanvasGroupAlpha");
-
-            while (elapsedTime < fadeOutDuration)
-            {
-                float alpha = Mathf.Lerp(startAlpha, 0f, elapsedTime / fadeOutDuration);
-
-                SetMaterialAlpha(avatarMaterial, alpha);
-                SetMaterialAlpha(npcMaterial, alpha);
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            // Ensure materials are fully transparent
-            SetMaterialAlpha(avatarMaterial, 0f);
-            SetMaterialAlpha(npcMaterial, 0f);
-
-            // Deactivate the RawImages
-            avatarRawImage.gameObject.SetActive(false);
             npcRawImage.gameObject.SetActive(false);
+            avatarRawImage.gameObject.SetActive(false);
+            npcVideoPlayer?.Stop();
+            avatarVideoPlayer?.Stop();
 
-            // Stop current videos
-            if (avatarVideoPlayer != null)
-            {
-                avatarVideoPlayer.Stop();
-            }
-            if (npcVideoPlayer != null)
-            {
-                npcVideoPlayer.Stop();
-            }
-
-            // Change the video index
-            currentVideoIndex = newVideoIndex;
-
-            // Prepare and play the new videos
+            currentVideoIndex = newIndex;
             PlayVideoAndAudio(currentVideoIndex);
 
-            // Wait until both videos have started playing
-            while (!avatarVideoStarted || !npcVideoStarted)
-            {
-                yield return null;
-            }
-
-            // Fade in over 0.5 seconds
-            float fadeInDuration = 0.75f;
-            elapsedTime = 0f;
-
-            while (elapsedTime < fadeInDuration)
-            {
-                float alpha = Mathf.Lerp(0f, 1f, elapsedTime / fadeInDuration);
-
-                SetMaterialAlpha(avatarMaterial, alpha);
-                SetMaterialAlpha(npcMaterial, alpha);
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            // Ensure materials are fully opaque
-            SetMaterialAlpha(avatarMaterial, 1f);
-            SetMaterialAlpha(npcMaterial, 1f);
+            while (!npcStarted || !avatarStarted) yield return null;
+            yield return FadeMaterials(0f, 1f, .75f);
         }
 
-        private void PlayVideoAndAudio(int index)
+        void PlayVideoAndAudio(int idx)
         {
-            // Reset started flags
-            avatarVideoStarted = false;
-            npcVideoStarted = false;
+            avatarStarted = npcStarted = false;
 
-            // --- NPC Video ---
-            if (npcVideoPlayer != null && npcVideoURLs.Count > index && !string.IsNullOrEmpty(npcVideoURLs[index]))
+            // ----- NPC -----
+            PreparePlayer(npcVideoPlayer, idx,
+                          npcVideoURLs, npcFallbackClips,
+                          OnNPCVideoError, OnNPCVideoPrepared);
+
+            // ----- AVATAR -----
+            PreparePlayer(avatarVideoPlayer, idx,
+                          avatarVideoURLs, avatarFallbackClips,
+                          OnAvatarVideoError, OnAvatarVideoPrepared);
+        }
+
+        static void PreparePlayer(VideoPlayer vp, int idx,
+                                   List<string> urls, List<VideoClip> fallbacks,
+                                   VideoPlayer.ErrorEventHandler err, VideoPlayer.EventHandler prepared)
+        {
+            if (!vp) return;
+
+            vp.errorReceived -= err;
+            vp.prepareCompleted -= prepared;
+
+            if (urls.Count > idx && !string.IsNullOrEmpty(urls[idx]))
             {
-                npcVideoPlayer.source = VideoSource.Url;
-                npcVideoPlayer.url = npcVideoURLs[index];
-
-                // If there's an error retrieving the video, call OnNPCVideoError
-                npcVideoPlayer.errorReceived += OnNPCVideoError;
-
-                // Once prepared, call OnNPCVideoPrepared
-                npcVideoPlayer.prepareCompleted += OnNPCVideoPrepared;
-                npcVideoPlayer.Prepare();
+                vp.source = VideoSource.Url;
+                vp.url = urls[idx];
+            }
+            else if (fallbacks.Count > idx && fallbacks[idx])
+            {
+                vp.source = VideoSource.VideoClip;
+                vp.clip = fallbacks[idx];
             }
             else
             {
-                // Immediately fallback if we know the URL is invalid
-                Debug.LogWarning($"NPC Video URL at index {index} is invalid – fallback to local clip.");
-                PlayNPCFallback(index);
-            }
-
-            // --- Avatar Video ---
-            if (avatarVideoPlayer != null && avatarVideoURLs.Count > index && !string.IsNullOrEmpty(avatarVideoURLs[index]))
-            {
-                avatarVideoPlayer.source = VideoSource.Url;
-                avatarVideoPlayer.url = avatarVideoURLs[index];
-
-                avatarVideoPlayer.errorReceived += OnAvatarVideoError;
-                avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
-                avatarVideoPlayer.Prepare();
-            }
-            else
-            {
-                Debug.LogWarning($"Avatar Video URL at index {index} is invalid – fallback to local clip.");
-                PlayAvatarFallback(index);
-            }
-        }
-
-        private void OnNPCVideoError(VideoPlayer source, string message)
-        {
-            Debug.LogWarning($"NPC Video failed to load from '{source.url}' => {message}. Falling back to local clip.");
-
-            // Cleanup this event so it doesn't keep firing
-            source.errorReceived -= OnNPCVideoError;
-            source.prepareCompleted -= OnNPCVideoPrepared;
-            source.Stop();
-
-            // Fallback
-            PlayNPCFallback(currentVideoIndex);
-        }
-
-        private void PlayNPCFallback(int index)
-        {
-            if (npcVideoPlayer == null)
-            {
-                Debug.LogError("NPC VideoPlayer is null – cannot play fallback!");
-                return;
-            }
-            if (npcFallbackClips == null || npcFallbackClips.Count <= index || npcFallbackClips[index] == null)
-            {
-                Debug.LogWarning($"No valid NPC fallback clip at index {index}.");
+                Debug.LogWarning($"No valid source for {vp.name} at index {idx}");
                 return;
             }
 
-            // Use local video clip
-            npcVideoPlayer.source = VideoSource.VideoClip;
-            npcVideoPlayer.clip = npcFallbackClips[index];
-
-            // Make sure we remove any old listeners
-            npcVideoPlayer.errorReceived -= OnNPCVideoError;
-            npcVideoPlayer.prepareCompleted -= OnNPCVideoPrepared;
-
-            npcVideoPlayer.prepareCompleted += OnNPCVideoPrepared;
-            npcVideoPlayer.Prepare();
+            vp.errorReceived += err;
+            vp.prepareCompleted += prepared;
+            vp.Prepare();
         }
 
-        private void OnAvatarVideoError(VideoPlayer source, string message)
+        /* video callbacks */
+        void OnNPCVideoError(VideoPlayer s, string m) { Debug.LogWarning($"NPC error: {m}"); PlayNPCFallback(currentVideoIndex); }
+        void OnAvatarVideoError(VideoPlayer s, string m) { Debug.LogWarning($"Avatar error: {m}"); PlayAvatarFallback(currentVideoIndex); }
+
+        void OnNPCVideoPrepared(VideoPlayer s) { s.prepareCompleted -= OnNPCVideoPrepared; s.started += OnNPCVideoStarted; s.Play(); }
+        void OnAvatarVideoPrepared(VideoPlayer s) { s.prepareCompleted -= OnAvatarVideoPrepared; s.started += OnAvatarVideoStarted; s.Play(); }
+
+        void OnNPCVideoStarted(VideoPlayer s) { s.started -= OnNPCVideoStarted; npcRawImage.gameObject.SetActive(true); npcStarted = true; CheckBothStarted(); }
+        void OnAvatarVideoStarted(VideoPlayer s) { s.started -= OnAvatarVideoStarted; avatarRawImage.gameObject.SetActive(true); avatarStarted = true; CheckBothStarted(); }
+
+        void CheckBothStarted()
         {
-            Debug.LogWarning($"Avatar Video failed to load from '{source.url}' => {message}. Falling back to local clip.");
-
-            // Cleanup
-            source.errorReceived -= OnAvatarVideoError;
-            source.prepareCompleted -= OnAvatarVideoPrepared;
-            source.Stop();
-
-            PlayAvatarFallback(currentVideoIndex);
-        }
-
-        private void PlayAvatarFallback(int index)
-        {
-            if (avatarVideoPlayer == null)
-            {
-                Debug.LogError("Avatar VideoPlayer is null – cannot play fallback!");
-                return;
-            }
-            if (avatarFallbackClips == null || avatarFallbackClips.Count <= index || avatarFallbackClips[index] == null)
-            {
-                Debug.LogWarning($"No valid Avatar fallback clip at index {index}.");
-                return;
-            }
-
-            avatarVideoPlayer.source = VideoSource.VideoClip;
-            avatarVideoPlayer.clip = avatarFallbackClips[index];
-
-            avatarVideoPlayer.errorReceived -= OnAvatarVideoError;
-            avatarVideoPlayer.prepareCompleted -= OnAvatarVideoPrepared;
-
-            avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
-            avatarVideoPlayer.Prepare();
-        }
-
-        private void OnNPCVideoPrepared(VideoPlayer source)
-        {
-            source.prepareCompleted -= OnNPCVideoPrepared;
-            npcVideoPlayer.started += OnNPCVideoStarted;
-            npcVideoPlayer.Play();
-        }
-
-        private void OnNPCVideoStarted(VideoPlayer source)
-        {
-            source.started -= OnNPCVideoStarted;
-            npcRawImage.gameObject.SetActive(true);
-            npcVideoStarted = true;
-            CheckIfBothVideosStarted();
-        }
-
-        private void OnAvatarVideoPrepared(VideoPlayer source)
-        {
-            source.prepareCompleted -= OnAvatarVideoPrepared;
-            avatarVideoPlayer.started += OnAvatarVideoStarted;
-            avatarVideoPlayer.Play();
-        }
-
-        private void OnAvatarVideoStarted(VideoPlayer source)
-        {
-            source.started -= OnAvatarVideoStarted;
-            avatarRawImage.gameObject.SetActive(true);
-            avatarVideoStarted = true;
-            CheckIfBothVideosStarted();
-        }
-
-        private void CheckIfBothVideosStarted()
-        {
-            if (npcVideoStarted && avatarVideoStarted)
+            if (npcStarted && avatarStarted)
             {
                 arrowLeftRawImage.SetActive(true);
                 arrowRightRawImage.SetActive(true);
             }
         }
 
-        #endregion
+        void PlayNPCFallback(int i) => PlayClip(npcVideoPlayer, npcFallbackClips, i, OnNPCVideoPrepared);
+        void PlayAvatarFallback(int i) => PlayClip(avatarVideoPlayer, avatarFallbackClips, i, OnAvatarVideoPrepared);
 
-        #region UI Methods
-
-        private IEnumerator FadeInUI()
+        static void PlayClip(VideoPlayer vp, List<VideoClip> clips, int idx, VideoPlayer.EventHandler prepared)
         {
-            float elapsedTime = 0f;
+            if (!vp || clips.Count <= idx || clips[idx] == null) return;
+            vp.source = VideoSource.VideoClip;
+            vp.clip = clips[idx];
+            vp.prepareCompleted += prepared;
+            vp.Prepare();
+        }
 
-            // While we haven't reached the fade duration, continue adjusting the alpha
-            while (elapsedTime < fadeDuration)
-            {
-                float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
+        /*────────────────────────────────────────────────────────────────────────*
+         *                           FADING                                      *
+        /*────────────────────────────────────────────────────────────────────────*/
 
-                // Set the alpha for the UI Canvas Group
-                uiCanvasGroup.alpha = alpha;
-
-                // Set the alpha value for the materials
-                SetMaterialAlpha(avatarMaterial, alpha);
-                SetMaterialAlpha(npcMaterial, alpha);
-                SetMaterialAlpha(uiMaterial, alpha);
-
-                // Update the elapsed time
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            // Ensure everything is fully visible at the end of the fade-in
-            uiCanvasGroup.alpha = 1;
-            SetMaterialAlpha(avatarMaterial, 1);
-            SetMaterialAlpha(npcMaterial, 1);
-            SetMaterialAlpha(uiMaterial, 1);
+        IEnumerator FadeInUI()
+        {
+            yield return FadeMaterials(0f, 1f, fadeDuration);
             uiCanvasGroup.interactable = true;
         }
 
-        // Helper method to set the alpha on the material
-        private void SetMaterialAlpha(Material material, float alpha)
-        {
-            if (material != null)
-            {
-                material.SetFloat("_CanvasGroupAlpha", alpha);
-            }
-        }
-
-        private async Task FadeOutUICoroutine()
+        async Task FadeOutUICoroutine()
         {
             var tcs = new TaskCompletionSource<bool>();
-
-            StartCoroutine(FadeOutUI(tcs));
-
+            StartCoroutine(FadeMaterials(1f, 0f, fadeDuration, () => tcs.SetResult(true)));
             await tcs.Task;
+            uiCanvasGroup.interactable = false;
         }
 
-        private IEnumerator FadeOutUI(TaskCompletionSource<bool> tcs)
+        IEnumerator FadeMaterials(float from, float to, float dur, System.Action onDone = null)
         {
-            float elapsedTime = 0f;
-            while (elapsedTime < fadeDuration)
+            float t = 0f;
+            while (t < dur)
             {
-                float alpha = Mathf.Lerp(1, 0, elapsedTime / fadeDuration);
-                uiCanvasGroup.alpha = alpha;
-                SetMaterialAlpha(avatarMaterial, alpha);
-                SetMaterialAlpha(npcMaterial, alpha);
-                SetMaterialAlpha(uiMaterial, alpha);
-                elapsedTime += Time.deltaTime;
+                float a = Mathf.Lerp(from, to, t / dur);
+                uiCanvasGroup.alpha = a;
+                SetAlphaAll(a);
+                t += Time.deltaTime;
+                yield return null;
+            }
+            uiCanvasGroup.alpha = to;
+            SetAlphaAll(to);
+            onDone?.Invoke();
+        }
+
+        IEnumerator FadeInTextUI()
+        {
+            float t = 0f;
+            float dur = fadeDuration;
+            textCanvasGroup.alpha = 0f;
+            textCanvasGroup.interactable = false;
+            textCanvasGroup.blocksRaycasts = false;
+
+            while (t < dur)
+            {
+                float a = Mathf.Lerp(0f, 1f, t / dur);
+                textCanvasGroup.alpha = a;
+                t += Time.deltaTime;
                 yield return null;
             }
 
-            uiCanvasGroup.alpha = 0;
-            SetMaterialAlpha(avatarMaterial, 0);
-            SetMaterialAlpha(npcMaterial, 0);
-            SetMaterialAlpha(uiMaterial, 0);
-            uiCanvasGroup.interactable = false;
-
-            tcs.SetResult(true);
+            textCanvasGroup.alpha = 1f;
         }
 
-        #endregion
-
-        #region Avatar Movement Methods
-
-        private void CacheCanvasAndAvatarDimensions()
+        void SetAlphaAll(float a)
         {
-            if (canvasRectTransform != null && avatarRawImage != null)
-            {
-                cachedCanvasSize = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height);
-                cachedAvatarSize = new Vector2(avatarRawImage.rect.width, avatarRawImage.rect.height);
-            }
+            for (int i = 0; i < fadeMats.Length; i++)
+                if (fadeMats[i]) fadeMats[i].SetFloat("_CanvasGroupAlpha", a);
         }
 
-        private void MoveAvatarRawImage()
+        /*────────────────────────────────────────────────────────────────────────*
+         *                 AVATAR MOVEMENT   (no allocations)                    *
+        /*────────────────────────────────────────────────────────────────────────*/
+
+        void CacheBounds()
         {
-            if (avatarRawImage == null || canvasRectTransform == null)
-            {
-                Debug.LogError("Either avatarRawImage or canvasRectTransform is null. Movement cannot proceed.");
-                return;
-            }
-
-            Vector2 currentCanvasSize = new Vector2(canvasRectTransform.rect.width, canvasRectTransform.rect.height);
-            Vector2 currentAvatarSize = new Vector2(avatarRawImage.rect.width, avatarRawImage.rect.height);
-            if (currentCanvasSize != cachedCanvasSize || currentAvatarSize != cachedAvatarSize)
-            {
-                CacheCanvasAndAvatarDimensions();
-            }
-
-            Vector2 currentPosition = avatarRawImage.anchoredPosition;
-            currentPosition += avatarVelocity * Time.deltaTime;
-
-            float canvasWidth = cachedCanvasSize.x;
-            float canvasHeight = cachedCanvasSize.y;
-            float avatarWidth = cachedAvatarSize.x;
-            float avatarHeight = cachedAvatarSize.y + 100;
-
-            float yOffsetTop = canvasHeight * 0.046f;
-
-            float minX = -canvasWidth / 2 + avatarWidth / 2;
-            float maxX = canvasWidth / 2 - avatarWidth / 2;
-            float minY = (-canvasHeight / 2 + avatarHeight / 2) + yOffsetTop;
-            float maxY = (canvasHeight / 2 - avatarHeight / 2) + yOffsetTop;
-
-            if (currentPosition.x < minX)
-            {
-                currentPosition.x = minX;
-                avatarVelocity.x *= -1;
-            }
-            else if (currentPosition.x > maxX)
-            {
-                currentPosition.x = maxX;
-                avatarVelocity.x *= -1;
-            }
-
-            if (currentPosition.y < minY)
-            {
-                currentPosition.y = minY;
-                avatarVelocity.y *= -1;
-            }
-            else if (currentPosition.y > maxY)
-            {
-                currentPosition.y = maxY;
-                avatarVelocity.y *= -1;
-            }
-
-            avatarRawImage.anchoredPosition = currentPosition;
+            if (!canvas) return;
+            canvasSize = new Vector2(canvas.pixelRect.width, canvas.pixelRect.height);
+            avatarSize = avatarRawImage ? avatarRawImage.sizeDelta : Vector2.zero;
+            cachedScreenW = Screen.width;
+            cachedScreenH = Screen.height;
         }
 
-        #endregion
+        void MoveAvatarRawImage()
+        {
+            if (!avatarRawImage) return;
+
+            if (Screen.width != cachedScreenW || Screen.height != cachedScreenH)
+                CacheBounds();
+
+            tmpVec2.Set(avatarRawImage.anchoredPosition.x + avatarVelocity.x * Time.deltaTime,
+                        avatarRawImage.anchoredPosition.y + avatarVelocity.y * Time.deltaTime);
+
+            float w = canvasSize.x;
+            float h = canvasSize.y;
+            float aw = avatarSize.x;
+            float ah = avatarSize.y + 100f;            // y offset fudge
+
+            float yOff = h * 0.046f;
+
+            float minX = -w * .5f + aw * .5f;
+            float maxX = w * .5f - aw * .5f;
+            float minY = -h * .5f + ah * .5f + yOff;
+            float maxY = h * .5f - ah * .5f + yOff;
+
+            if (tmpVec2.x < minX) { tmpVec2.x = minX; avatarVelocity.x *= -1; }
+            else if (tmpVec2.x > maxX) { tmpVec2.x = maxX; avatarVelocity.x *= -1; }
+            if (tmpVec2.y < minY) { tmpVec2.y = minY; avatarVelocity.y *= -1; }
+            else if (tmpVec2.y > maxY) { tmpVec2.y = maxY; avatarVelocity.y *= -1; }
+
+            avatarRawImage.anchoredPosition = tmpVec2;
+        }
     }
 }

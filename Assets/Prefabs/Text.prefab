@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5276f5d85f398424eac296b5f2b33e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 0.1
   angleRange: 6.2831855
   textMeshPro: {fileID: 359582567924872946}
 --- !u!114 &359582567924872946

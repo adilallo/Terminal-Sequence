@@ -1,44 +1,38 @@
 ﻿using UnityEngine;
 using TMPro;
 
+[RequireComponent(typeof(TMP_Text))]
 public class LightAngleAnimator : MonoBehaviour
 {
-    [SerializeField] private float speed = 1f;        // Speed of the light angle change
-    [SerializeField] private float angleRange = Mathf.PI * 2f; // Range of the angle change (0 to 2π)
+    [SerializeField] float speed = 1f;                 // oscillations per second
+    [SerializeField] float angleRange = Mathf.PI * 2;  // max ± range (radians)
 
-    [SerializeField] private TMP_Text textMeshPro;
-    private Material textMaterial;
-    private float initialLightAngle;
+    [SerializeField] TMP_Text textMeshPro;
 
-    void Start()
+    static readonly int LightAngleID = Shader.PropertyToID("_LightAngle");
+
+    Material matInstance;
+    float baseAngle;
+    float halfRange;
+
+    void Awake()
     {
-        // Get the material used by the TextMeshPro component
-        // We clone the material to avoid changing the shared material
-        textMaterial = textMeshPro.fontMaterial;
+        if (!textMeshPro) textMeshPro = GetComponent<TMP_Text>();
 
-        // Store the initial light angle
-        if (textMaterial.HasProperty("_LightAngle"))
-        {
-            initialLightAngle = textMaterial.GetFloat("_LightAngle");
-        }
-        else
-        {
-            Debug.LogWarning("Material does not have a _LightAngle property.");
-        }
+        // clone once -> no shared-material mutation
+        matInstance = Instantiate(textMeshPro.fontMaterial);
+        textMeshPro.fontMaterial = matInstance;
+
+        baseAngle = matInstance.HasProperty(LightAngleID)
+                  ? matInstance.GetFloat(LightAngleID)
+                  : 0f;
+
+        halfRange = angleRange * .5f;
     }
 
     void Update()
     {
-        if (textMaterial != null && textMaterial.HasProperty("_LightAngle"))
-        {
-            // Calculate the new light angle value
-            float lightAngle = initialLightAngle + Mathf.Sin(Time.time * speed) * angleRange * 0.5f;
-
-            // Keep the angle within 0 to 2π
-            lightAngle = Mathf.Repeat(lightAngle, Mathf.PI * 2f);
-
-            // Set the "_LightAngle" property in the shader
-            textMaterial.SetFloat("_LightAngle", lightAngle);
-        }
+        float ang = baseAngle + Mathf.Sin(Time.time * speed * Mathf.PI * 2f) * halfRange;
+        matInstance.SetFloat(LightAngleID, ang);
     }
 }

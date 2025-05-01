@@ -3,155 +3,62 @@ using UnityEngine;
 
 public class ManageSwarm : MonoBehaviour
 {
-    [Header("Agent Configuration")]
-    [SerializeField] private List<GameObject> agentPrefabs = new List<GameObject>();
-    [SerializeField] private int spread = 50;
-    [SerializeField] private int amount = 100;
-    [SerializeField] private float rotationSpeed = 30f;
+    [SerializeField] AgentPool pool;                 // drag the pool here
+    [SerializeField] int spread = 40;
+    [SerializeField, Range(0.1f, 10f)]
+    float mouseStrength = 4f;
+    [SerializeField] GameObject camRig;
 
-    [Header("Camera")]
-    [SerializeField] private GameObject camRig;
+    readonly List<Agent> agents = new();
+    Plane ground = new Plane(Vector3.up, Vector3.zero);
+    Vector3 target;
 
-    [Header("Swarm Behavior")]
-    [SerializeField] private float cohesionRadius = 5f;  // Fixed radius for cohesion
-    [SerializeField] private float cohesionStrength = 1f;  // Fixed strength for cohesion
-
-    [Header("Agent Management")]
-    [SerializeField] private List<Agent> allAgents = new List<Agent>();
-
-    private Vector3 mouseWorldPosition;
-
-    void Start()
+    void OnEnable()
     {
-        if (camRig == null)
+        // spawn exactly one of each prefab variant in the pool
+        for (int v = 0; v < pool.transform.childCount; v++)
         {
-            Debug.LogError("Camera Rig is not assigned! Please assign it in the Inspector.");
-        }
-
-        if (agentPrefabs == null || agentPrefabs.Count == 0)
-        {
-            Debug.LogError("Agent Prefabs list is empty! Please assign prefabs in the Inspector.");
+            Vector3 pos = Random.insideUnitSphere * spread;
+            Agent a = pool.Get(v, pos, Quaternion.identity);
+            a.Init(agents);
+            agents.Add(a);
         }
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        ClearSwarm();
+        // return all live agents to their variant queue
+        for (int i = 0; i < agents.Count; i++)
+        {
+            var a = agents[i];
+            int variant = i;                     // 1-to-1 ordering
+            a.DeInit();
+            pool.Return(variant, a);
+        }
+        agents.Clear();
     }
 
     void Update()
     {
-        UpdateMousePosition();
-        UpdateCameraPosition();
-        RotateAgents();
-        UpdateAgentTarget();
-    }
+        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (ground.Raycast(r, out float d))
+            target = r.GetPoint(d);
 
-    #region Initialization
+        float dt = Time.deltaTime;
+        float dtSq = dt * dt;
 
-    public void InitializeSwarm()
-    {
-        for (int i = 0; i < amount; i++)
+        foreach (var a in agents)
         {
-            GameObject selectedPrefab = agentPrefabs[i % agentPrefabs.Count];
-            Vector3 spawnPosition = Random.insideUnitSphere * spread;
-            GameObject newAgent = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity);
-
-            MeshRenderer meshRenderer = newAgent.GetComponent<MeshRenderer>();
-            if (meshRenderer != null)
-            {
-                meshRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.UseProxyVolume;
-            }
-            else
-            {
-                // Try to find inside children
-                meshRenderer = newAgent.GetComponentInChildren<MeshRenderer>();
-                if (meshRenderer != null)
-                {
-                    meshRenderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.UseProxyVolume;
-                }
-            }
-
-            Agent agentScript = newAgent.GetComponent<Agent>();
-            if (agentScript != null)
-            {
-                allAgents.Add(agentScript);
-            }
-            else
-            {
-                Debug.LogWarning($"Agent prefab at index {i % agentPrefabs.Count} does not have an Agent component.");
-            }
+            a.mouse = target;
+            a.mStr = mouseStrength;
+            a.Tick(dtSq, dt);
         }
 
-        foreach (Agent agent in allAgents)
+        if (camRig && agents.Count > 0)
         {
-            agent.SetAllAgents(allAgents);
-            agent.CohesionRadius = cohesionRadius;  // Set fixed radius
-            agent.CohesionStrength = cohesionStrength;  // Set fixed strength
+            Vector3 c = Vector3.zero;
+            foreach (var a in agents) c += a.transform.position;
+            camRig.transform.position = Vector3.Lerp(camRig.transform.position, c / agents.Count, 0.1f);
         }
     }
-
-    private void ClearSwarm()
-    {
-        foreach (Agent agent in allAgents)
-        {
-            if (agent != null)
-            {
-                Destroy(agent.gameObject);
-            }
-        }
-        allAgents.Clear();
-    }
-
-    #endregion
-
-    #region Update Methods
-
-    private void UpdateMousePosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane plane = new Plane(Vector3.up, Vector3.zero);
-
-        if (plane.Raycast(ray, out float distance))
-        {
-            mouseWorldPosition = ray.GetPoint(distance);
-        }
-    }
-
-    private void UpdateCameraPosition()
-    {
-        if (camRig == null || allAgents.Count == 0)
-            return;
-
-        Vector3 averagePosition = Vector3.zero;
-        for (int i = 0; i < allAgents.Count; i++)
-        {
-            averagePosition += allAgents[i].transform.position;
-        }
-        averagePosition /= allAgents.Count;
-
-        camRig.transform.position = Vector3.MoveTowards(camRig.transform.position, averagePosition, 0.1f);
-    }
-
-    private void RotateAgents()
-    {
-        if (allAgents.Count == 0)
-            return;
-
-        float rotationAmount = rotationSpeed * Time.deltaTime;
-        foreach (Agent agent in allAgents)
-        {
-            agent.transform.Rotate(Vector3.up, rotationAmount, Space.Self);
-        }
-    }
-
-    private void UpdateAgentTarget()
-    {
-        foreach (Agent agent in allAgents)
-        {
-            agent.TargetPosition = mouseWorldPosition;  // Pass the mouse position as a target
-        }
-    }
-
-    #endregion
 }

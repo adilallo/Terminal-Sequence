@@ -971,6 +971,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6717011352498232582, guid: ec415c0f41a6b4e5fb62d5167b2c5185,
+        type: 3}
+      propertyPath: musicMixerGroup
+      value: 
+      objectReference: {fileID: -7914144020407849176, guid: b31825bd972544370b6a2c4eae9afda7,
+        type: 2}
     - target: {fileID: 8076551594847691713, guid: ec415c0f41a6b4e5fb62d5167b2c5185,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1027,7 +1033,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -7914144020407849176, guid: b31825bd972544370b6a2c4eae9afda7,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8954149353046245319, guid: ec415c0f41a6b4e5fb62d5167b2c5185, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1261,7 +1268,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1923228404 stripped
 RectTransform:
@@ -1465,7 +1472,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 0
-  m_TimeUpdateMode: 2
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources:

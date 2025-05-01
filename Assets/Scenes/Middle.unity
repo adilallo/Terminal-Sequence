@@ -149,7 +149,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1831112276}
   - {fileID: 969744844}
   - {fileID: 880178272}
   - {fileID: 446284648}
@@ -313,7 +312,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 0
-  m_TimeUpdateMode: 2
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources:
@@ -580,6 +579,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1831112276}
   - {fileID: 8054323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -937,6 +937,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969744843}
   m_CullTransparentMesh: 1
+--- !u!1 &1220646308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 33832016380833367, guid: 25054c58a78f8554589d68827f7cf6fc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1831112275}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1422243621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1309,7 +1315,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 0
-  m_TimeUpdateMode: 2
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources:
@@ -1357,6 +1363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvasGroup: {fileID: 8054324}
+  textCanvasGroup: {fileID: 1831112280}
   avatarMaterial: {fileID: 2100000, guid: 818ebfa5adbe94284af9cc7ba0edba8b, type: 2}
   npcMaterial: {fileID: 2100000, guid: 90e00a4bd6b1e41b593f646b888a31cd, type: 2}
   uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
@@ -1545,7 +1552,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8054323}
+    m_TransformParent: {fileID: 476433020}
     m_Modifications:
     - target: {fileID: 33832016380833367, guid: 25054c58a78f8554589d68827f7cf6fc,
         type: 3}
@@ -1655,7 +1662,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 33832016380833367, guid: 25054c58a78f8554589d68827f7cf6fc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1831112280}
   m_SourcePrefab: {fileID: 100100000, guid: 25054c58a78f8554589d68827f7cf6fc, type: 3}
 --- !u!224 &1831112276 stripped
 RectTransform:
@@ -1663,6 +1674,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1831112275}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &1831112280
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220646308}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1904902608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,7 +1910,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 0
-  m_TimeUpdateMode: 2
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources:

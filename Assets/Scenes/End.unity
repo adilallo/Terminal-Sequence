@@ -171,7 +171,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 0
-  m_TimeUpdateMode: 2
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources:
@@ -198,7 +198,6 @@ GameObject:
   m_Component:
   - component: {fileID: 92192286}
   - component: {fileID: 92192287}
-  - component: {fileID: 92192289}
   - component: {fileID: 92192288}
   m_Layer: 0
   m_Name: Scripts
@@ -242,7 +241,7 @@ MonoBehaviour:
   avatarVideoPlayer: {fileID: 1415882648}
   avatarCanvasGroup: {fileID: 878701669}
   endVideoPlayer: {fileID: 2087576570}
-  manageSwarm: {fileID: 92192289}
+  manageSwarm: {fileID: 1074513763}
   endSceneAudioClips:
   - {fileID: 8300000, guid: 01a4bb9f90184483bacaa0a4ddcbc6f5, type: 3}
 --- !u!82 &92192288
@@ -343,37 +342,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &92192289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 92192284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bae38074cfe8c9a4d80513cc6a85ecfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentPrefabs:
-  - {fileID: 6499929168635528300, guid: a51deebedcb214e27853c4c1c2121b90, type: 3}
-  - {fileID: 5388067087109498559, guid: 395bcb220d6e14046bff743ac9b79d03, type: 3}
-  - {fileID: 8312114406260443829, guid: d15feaf4df90946d2945eafb947a6d68, type: 3}
-  - {fileID: 6985074348126498792, guid: cde867feb6c974791b23181b4f09a532, type: 3}
-  - {fileID: 8656772720759716444, guid: 38d7503c298534db09f4b1a1cb9dc9a4, type: 3}
-  - {fileID: 7071447827563053067, guid: 8edd50d8188b642a39f5992470145bfc, type: 3}
-  - {fileID: 3351499934528674126, guid: 002ca47b009c149168de9d1940eedadf, type: 3}
-  - {fileID: 8353412086202436871, guid: 326c8281fb8b74df4ac48846a032990a, type: 3}
-  - {fileID: 2109688841053343063, guid: 9c9e80de6150f406cb6e1b946e1c14b2, type: 3}
-  - {fileID: 4885486871096227200, guid: fcf01120827fd44279f76737709fd97d, type: 3}
-  - {fileID: 7967010216821551845, guid: 69ce02cd0b8144b7fbdac8e3de1ca88c, type: 3}
-  spread: 25
-  amount: 11
-  rotationSpeed: 45
-  camRig: {fileID: 1023854165}
-  cohesionRadius: 5
-  cohesionStrength: 1
-  allAgents: []
 --- !u!1 &356140035
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,6 +734,101 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1174011335}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1074513761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1074513764}
+  - component: {fileID: 1074513763}
+  - component: {fileID: 1074513762}
+  m_Layer: 0
+  m_Name: Swarm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1074513762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074513761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c09aef981f64304fb73a09a8f902392, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variants:
+  - prefab: {fileID: 6499929168635528300, guid: a51deebedcb214e27853c4c1c2121b90,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 5388067087109498559, guid: 395bcb220d6e14046bff743ac9b79d03,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 8312114406260443829, guid: d15feaf4df90946d2945eafb947a6d68,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 6985074348126498792, guid: cde867feb6c974791b23181b4f09a532,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 8656772720759716444, guid: 38d7503c298534db09f4b1a1cb9dc9a4,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 7071447827563053067, guid: 8edd50d8188b642a39f5992470145bfc,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 3351499934528674126, guid: 002ca47b009c149168de9d1940eedadf,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 8353412086202436871, guid: 326c8281fb8b74df4ac48846a032990a,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 2109688841053343063, guid: 9c9e80de6150f406cb6e1b946e1c14b2,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 4885486871096227200, guid: fcf01120827fd44279f76737709fd97d,
+      type: 3}
+    preload: 1
+  - prefab: {fileID: 7967010216821551845, guid: 69ce02cd0b8144b7fbdac8e3de1ca88c,
+      type: 3}
+    preload: 1
+--- !u!114 &1074513763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074513761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bae38074cfe8c9a4d80513cc6a85ecfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pool: {fileID: 1074513762}
+  spread: 25
+  mouseStrength: 0.29
+  camRig: {fileID: 1023854165}
+--- !u!4 &1074513764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074513761}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1165956525
@@ -1408,6 +1471,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7681967421836647168, guid: 3db1e3bac8523444e8f3d272dfa6da4a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1692,7 +1760,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 1
   m_DataSource: 0
-  m_TimeUpdateMode: 2
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources:
@@ -1791,9 +1859,10 @@ SceneRoots:
   - {fileID: 1842500433}
   - {fileID: 708898659}
   - {fileID: 2031572146}
-  - {fileID: 1165956528}
   - {fileID: 92192286}
+  - {fileID: 1074513764}
   - {fileID: 466713856}
   - {fileID: 2112130697}
   - {fileID: 2068920482}
   - {fileID: 1800362117}
+  - {fileID: 1165956528}

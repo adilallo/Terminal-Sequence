@@ -307,7 +307,7 @@ MonoBehaviour:
   - {r: 0.48235297, g: 0.69803923, b: 0.32156864, a: 1}
   uiCanvasGroup: {fileID: 1715868990}
   uiMaterial: {fileID: 2100000, guid: 03ddff9621a13431e81ae570a73f489f, type: 2}
-  flickrImageMaterial: {fileID: 2100000, guid: 62c659d03f717aa4da1a0c8dfee790a7, type: 2}
+  flickrMaterial: {fileID: 2100000, guid: 62c659d03f717aa4da1a0c8dfee790a7, type: 2}
   fadeDuration: 3
 --- !u!114 &21319646
 MonoBehaviour:
@@ -855,10 +855,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 3
-  whiteValue: -12345678
-  blackValue: -3456789
-  brightValue: 0.3
-  darkValue: 0.7
+  whiteValue: 4282621618
+  blackValue: 4291510507
+  brightValue: 0
+  darkValue: 0
 --- !u!4 &469712697
 Transform:
   m_ObjectHideFlags: 0
@@ -1223,7 +1223,7 @@ VideoPlayer:
   m_RenderMode: 2
   m_AspectRatio: 2
   m_DataSource: 0
-  m_TimeUpdateMode: 2
+  m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
   m_TargetAudioSources:

@@ -1,354 +1,199 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.UI;
 
 namespace StartScene
 {
     public class StartSceneManager : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup uiCanvasGroup;
-        [SerializeField] private Material uiMaterial;
-        [SerializeField] private Material avatarMaterial;
-        [SerializeField] private float fadeDuration = 2f;
+        /* ─── Serialized ─────────────────────────────────────────────────── */
 
-        [HeaderAttribute("Intro Assets")]
-        [SerializeField] private VideoPlayer introVideoPlayer;
+        [Header("Fade Targets")]
+        [SerializeField] CanvasGroup uiCanvasGroup;
+        [SerializeField] Material uiMaterial;
+        [SerializeField] Material avatarMaterial;
+        [SerializeField] float fadeDuration = 2f;
 
-        [HeaderAttribute("UI")]
-        [SerializeField] private GameObject UI;
-        [SerializeField] private VideoPlayer stockVideoPlayer;
-        [SerializeField] private RawImage stockRawImage;
-        [SerializeField] private VideoPlayer avatarVideoPlayer;
+        [Header("Intro Assets")]
+        [SerializeField] VideoPlayer introVideoPlayer;
+        [SerializeField] RawImage introDisplay;
 
-        [HeaderAttribute("Audio")]
-        [SerializeField] private List<AudioClip> startSceneAudioClips;
+        [Header("UI")]
+        [SerializeField] GameObject UI;
+        [SerializeField] VideoPlayer stockVideoPlayer;
+        [SerializeField] RawImage stockRawImage;
+        [SerializeField] VideoPlayer avatarVideoPlayer;
 
-        private bool selectButtonVisible = false;
-        private bool stockVideoStarted = false;
+        [Header("Audio")]
+        [SerializeField] List<AudioClip> startSceneAudioClips;
 
-        private bool videosPrepared = false;
+        /* ─── private fields ─────────────────────────────────────────────── */
 
-        private Color initialStockRawImageColor;
-        private Color initialFrameImageColor;
+        bool selectButtonVisible;
+        bool stockVideoStarted;
+        bool videosPrepared;
+
+        Color baseStockColor;
+
+        readonly Material[] fadeMats = new Material[2];
+
+        /* ─── Unity lifecycle ────────────────────────────────────────────── */
+
+        void Awake()
+        {
+            fadeMats[0] = uiMaterial;
+            fadeMats[1] = avatarMaterial;
+        }
 
         void Start()
         {
-            InitializeFlags();
-            InitializeUIElements();
-            CacheInitialColors();
+            if (introVideoPlayer)
+            {
+                var rt = new RenderTexture(600, 960, 0, RenderTextureFormat.ARGB32);
+                introVideoPlayer.targetTexture = rt;
 
+                // Point every RawImage or material at that RT
+                introDisplay.texture = rt;          // RawImage that shows intro
+            }
             Cursor.visible = false;
 
-            InitializeAudio();
+            UI.SetActive(false);
+            stockRawImage.color = new Color(1, 1, 1, 0);
+            SetAlphaAll(0f); uiCanvasGroup.alpha = 0;
+            uiCanvasGroup.interactable = false;
 
+            AudioManager.Instance?.PlayPlaylist(startSceneAudioClips, false);
+            Debug.Log("Is intro video player prepared? " + introVideoPlayer.isPrepared);
             StartCoroutine(PrepareVideos());
-            StartCoroutine(PlayIntroVideoWhenReady());
-        }
-
-        void OnEnable()
-        {
-            if (introVideoPlayer != null && !videosPrepared)
-            {
-                introVideoPlayer.loopPointReached += OnVideoFinished;
-                videosPrepared = true;
-            }
-
-            if (avatarVideoPlayer != null)
-            {
-                avatarVideoPlayer.prepareCompleted += OnAvatarVideoPrepared;
-            }
-        }
-
-        void OnDisable()
-        {
-            if (introVideoPlayer != null)
-            {
-                introVideoPlayer.loopPointReached -= OnVideoFinished;
-                introVideoPlayer.Stop();
-            }
-
-            if (stockVideoPlayer != null)
-            {
-                stockVideoPlayer.Stop();
-            }
-
-            if (avatarVideoPlayer != null)
-            {
-                avatarVideoPlayer.Stop();
-                avatarVideoPlayer.prepareCompleted -= OnAvatarVideoPrepared;
-            }
+            StartCoroutine(PlayIntroWhenReady());
+            Debug.Log("Is intro video player prepared? " + introVideoPlayer.isPrepared);
         }
 
         void Update()
         {
-            HandleAvatarVideoState();
-        }
+            if (!avatarVideoPlayer || !avatarVideoPlayer.isPlaying) return;
 
-        #region Initialization Methods
-
-        private void InitializeFlags()
-        {
-            selectButtonVisible = false;
-            stockVideoStarted = false;
-            videosPrepared = false;
-        }
-
-        private void InitializeUIElements()
-        {
-            // Activate introImage and deactivate UI elements
-            UI.SetActive(false);
-
-            // Set initial alpha for UI CanvasGroup if assigned
-            if (uiCanvasGroup != null)
-            {
-                uiCanvasGroup.interactable = false;
-                uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
-                avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
-            }
-            else
-            {
-                Debug.LogError("UI CanvasGroup is not assigned! Please check the Inspector.");
-            }
-
-            // Set initial alpha for stockRawImage and frameImage
-            if (stockRawImage != null)
-            {
-                stockRawImage.color = new Color(stockRawImage.color.r, stockRawImage.color.g, stockRawImage.color.b, 0f);
-            }
-            else
-            {
-                Debug.LogError("Stock RawImage or Frame Image is not assigned! Please check the Inspector.");
-            }
-        }
-
-        private void CacheInitialColors()
-        {
-            if (stockRawImage != null)
-            {
-                initialStockRawImageColor = stockRawImage.color;
-            }
-        }
-
-        private void InitializeAudio()
-        {
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.PlayPlaylist(startSceneAudioClips, false);
-                // If there are events related to AudioManager, handle them here
-            }
-            else
-            {
-                Debug.LogError("AudioManager instance is missing.");
-            }
-        }
-
-        #endregion
-
-        #region Video Preparation
-
-        /// <summary>
-        /// Prepares all VideoPlayers by setting their URLs and calling Prepare().
-        /// Ensures that the avatar video is fully loaded before allowing interactions.
-        /// </summary>
-        private IEnumerator PrepareVideos()
-        {
-            // Prepare Intro Video
-            if (introVideoPlayer != null)
-            {
-                //introVideoPlayer.source = VideoSource.Url;
-                introVideoPlayer.Prepare();
-
-                // Wait until introVideoPlayer is prepared
-                while (!introVideoPlayer.isPrepared)
-                {
-                    yield return null;
-                }
-
-                Debug.Log("Intro Video Prepared.");
-            }
-
-            // Prepare Stock Video
-            if (stockVideoPlayer != null)
-            {
-                //stockVideoPlayer.source = VideoSource.Url;
-                stockVideoPlayer.Prepare();
-
-                // Wait until stockVideoPlayer is prepared
-                while (!stockVideoPlayer.isPrepared)
-                {
-                    yield return null;
-                }
-
-                Debug.Log("Stock Video Prepared.");
-            }
-
-            // Prepare Avatar Video
-            if (avatarVideoPlayer != null)
-            {
-                //avatarVideoPlayer.source = VideoSource.Url;
-                avatarVideoPlayer.Prepare();
-            }
-            
-            yield return null;
-        }
-
-        private void OnAvatarVideoPrepared(VideoPlayer vp)
-        {
-            Debug.Log("Avatar Video Prepared.");
-        }
-
-        #endregion
-
-
-        #region Event Handlers
-
-        private void OnVideoFinished(VideoPlayer vp)
-        {
-            // Reset introVideoPlayer time to loop if necessary
-            introVideoPlayer.time = 0;
-
-            StartCoroutine(FadeInAvatar());
-
-            if (avatarVideoPlayer != null && stockVideoPlayer != null)
-            {
-                avatarVideoPlayer.Play();
-                UI.SetActive(true);
-            }
-            else
-            {
-                Debug.LogError("Avatar VideoPlayer or Stock VideoPlayer is not assigned! Please check the Inspector.");
-            }
-        }
-
-        #endregion
-
-        #region Update Methods
-
-        private void HandleAvatarVideoState()
-        {
-            if (avatarVideoPlayer == null)
-                return;
-
-            if (avatarVideoPlayer.isPlaying)
-            {
-                if (!selectButtonVisible)
-                {
-                    CheckAvatarVideoEnd();
-                }
-
-                if (!stockVideoStarted)
-                {
-                    CheckStartStockVideo();
-                }
-            }
-        }
-
-        #endregion
-
-        #region Coroutines
-
-
-        private IEnumerator PlayIntroVideoWhenReady()
-        {
-            if (introVideoPlayer == null)
-            {
-                yield break;
-            }
-
-            // Wait until the intro video is prepared
-            while (!introVideoPlayer.isPrepared)
-            {
-                yield return null;
-            }
-
-            introVideoPlayer.Play();
-        }
-
-        private IEnumerator FadeInAvatar()
-        {
-            float elapsedTime = 0f;
-
-            while (elapsedTime < fadeDuration)
-            {
-                float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-        
-                avatarMaterial.SetFloat("_CanvasGroupAlpha", alpha);
-
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            avatarMaterial.SetFloat("_CanvasGroupAlpha", 1);
-        }
-
-        private IEnumerator FadeInUI()
-        {
-            float elapsedTime = 0f;
-
-            while (elapsedTime < fadeDuration)
-            {
-                float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-                uiMaterial.SetFloat("_CanvasGroupAlpha", alpha);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            uiMaterial.SetFloat("_CanvasGroupAlpha", 1);
-            uiCanvasGroup.interactable = true;
-        }
-
-        private IEnumerator FadeInStockVideo()
-        {
-            if (stockVideoPlayer == null || stockRawImage == null)
-            {
-                yield break;
-            }
-
-            float elapsedTime = 0f;
-            stockVideoPlayer.Play();
-
-            while (elapsedTime < fadeDuration)
-            {
-                float alpha = Mathf.Lerp(0, 1, elapsedTime / fadeDuration);
-                stockRawImage.color = new Color(initialStockRawImageColor.r, initialStockRawImageColor.g, initialStockRawImageColor.b, alpha);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-
-            // Ensure alpha is set to 1
-            stockRawImage.color = new Color(initialStockRawImageColor.r, initialStockRawImageColor.g, initialStockRawImageColor.b, 1f);
-        }
-
-        #endregion
-
-        #region Helper Methods
-
-        private void CheckAvatarVideoEnd()
-        {
-            if (avatarVideoPlayer == null)
-                return;
-
-            if (avatarVideoPlayer.time >= avatarVideoPlayer.length * 0.93f)
+            if (!selectButtonVisible &&
+                avatarVideoPlayer.time >= avatarVideoPlayer.length * .93f)
             {
                 StartCoroutine(FadeInUI());
                 selectButtonVisible = true;
             }
-        }
 
-        private void CheckStartStockVideo()
-        {
-            if (avatarVideoPlayer == null)
-                return;
-
-            if (avatarVideoPlayer.time >= avatarVideoPlayer.length * 0.5625f)
+            if (!stockVideoStarted &&
+                avatarVideoPlayer.time >= avatarVideoPlayer.length * .5625f)
             {
                 StartCoroutine(FadeInStockVideo());
                 stockVideoStarted = true;
             }
         }
 
-        #endregion
+        void OnEnable()
+        {
+            if (introVideoPlayer && !videosPrepared)
+            {
+                introVideoPlayer.loopPointReached += OnIntroFinished;
+                videosPrepared = true;
+            }
+            if (avatarVideoPlayer)
+                avatarVideoPlayer.prepareCompleted += _ => { /* prepared */ };
+        }
+
+        void OnDisable() => StopAllPlayers();
+
+        /* ─── Video prep / playback ──────────────────────────────────────── */
+
+        IEnumerator PrepareVideos()
+        {
+            if (introVideoPlayer) introVideoPlayer.Prepare();
+            if (stockVideoPlayer) stockVideoPlayer.Prepare();
+            if (avatarVideoPlayer) avatarVideoPlayer.Prepare();
+
+            while ((introVideoPlayer && !introVideoPlayer.isPrepared) ||
+                   (stockVideoPlayer && !stockVideoPlayer.isPrepared) ||
+                   (avatarVideoPlayer && !avatarVideoPlayer.isPrepared))
+                yield return null;
+        }
+
+        IEnumerator PlayIntroWhenReady()
+        {
+            while (!introVideoPlayer || !introVideoPlayer.isPrepared) yield return null;
+            introVideoPlayer.Play();
+        }
+
+        void OnIntroFinished(VideoPlayer vp)
+        {
+            vp.time = 0;  
+            StartCoroutine(FadeInAvatar());
+
+            avatarVideoPlayer?.Play();
+            UI.SetActive(true);
+        }
+
+        /* ─── Fade helpers ──────────────────────────────────────────────── */
+
+        IEnumerator FadeInAvatar()
+        {
+            yield return FadeMaterial(avatarMaterial, 0f, 1f, fadeDuration);
+        }
+
+        IEnumerator FadeInUI()
+        {
+            yield return FadeMaterial(uiMaterial, 0f, 1f, fadeDuration,
+                () => uiCanvasGroup.interactable = true);
+        }
+
+        IEnumerator FadeInStockVideo()
+        {
+            if (!stockVideoPlayer || !stockRawImage) yield break;
+            stockVideoPlayer.Play();
+
+            float t = 0;
+            while (t < fadeDuration)
+            {
+                float a = t / fadeDuration;
+                stockRawImage.color = new Color(1, 1, 1, a);
+                t += Time.deltaTime;
+                yield return null;
+            }
+            stockRawImage.color = Color.white;
+        }
+
+        IEnumerator FadeMaterial(Material mat, float from, float to,
+                                 float dur, System.Action onDone = null)
+        {
+            float t = 0;
+            while (t < dur)
+            {
+                float a = Mathf.Lerp(from, to, t / dur);
+                mat.SetFloat("_CanvasGroupAlpha", a);
+                uiCanvasGroup.alpha = a;      // for UI fade
+                t += Time.deltaTime;
+                yield return null;
+            }
+            mat.SetFloat("_CanvasGroupAlpha", to);
+            uiCanvasGroup.alpha = to;
+            onDone?.Invoke();
+        }
+
+        void SetAlphaAll(float a)
+        {
+            for (int i = 0; i < fadeMats.Length; i++)
+                if (fadeMats[i]) fadeMats[i].SetFloat("_CanvasGroupAlpha", a);
+        }
+
+        /* ─── cleanup ───────────────────────────────────────────────────── */
+
+        void StopAllPlayers()
+        {
+            if (introVideoPlayer)
+                introVideoPlayer.loopPointReached -= OnIntroFinished;
+
+            VideoPlayer[] vps = { introVideoPlayer, stockVideoPlayer, avatarVideoPlayer };
+            foreach (var vp in vps)
+                if (vp) vp.Stop();
+        }
     }
 }

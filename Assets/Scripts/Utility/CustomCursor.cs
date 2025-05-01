@@ -1,77 +1,63 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CustomCursor : MonoBehaviour
 {
-    [SerializeField] private RawImage cursorImage;
-    private bool mouseMoved = false;
-    private bool cursorConfined = true;
+    [SerializeField] RawImage cursorImage;
 
-    void Start()
+    RectTransform parentRect;
+    Vector3 lastMousePos;
+    bool cursorConfined = true;
+
+    void Awake()
     {
+        parentRect = cursorImage.rectTransform.parent as RectTransform;
         Cursor.visible = false;
         cursorImage.enabled = false;
-
-        // Start with the cursor confined within the game window
         Cursor.lockState = CursorLockMode.Confined;
     }
 
     void Update()
     {
-        // If mouse has moved, enable the custom cursor image
-        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+        /* ── show image on first movement ───────────────────────── */
+        if (!cursorImage.enabled)
         {
-            if (!mouseMoved)
-            {
-                mouseMoved = true;
+            if (Input.GetAxisRaw("Mouse X") != 0f || Input.GetAxisRaw("Mouse Y") != 0f)
                 cursorImage.enabled = true;
-            }
         }
 
-        // Handle custom cursor movement based on mouse input
-        if (cursorImage != null && cursorConfined)
+        /* ── move image only if mouse moved ─────────────────────── */
+        Vector3 mPos = Input.mousePosition;
+        if (mPos != lastMousePos && cursorConfined)
         {
-            Vector2 cursorPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                (RectTransform)cursorImage.transform.parent,
-                Input.mousePosition,
-                null,
-                out cursorPosition
-            );
-            cursorImage.rectTransform.localPosition = cursorPosition;
+                parentRect, mPos, null, out Vector2 local);
+            cursorImage.rectTransform.localPosition = local;
+            lastMousePos = mPos;
         }
 
-        // Toggle cursor confinement when ESC is pressed
+        /* ── toggle confinement with ESC ────────────────────────── */
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ToggleCursorConfinement();
+            if (cursorConfined) ReleaseCursor();
+            else ConstrainCursor();
         }
 
-        // Re-confine the cursor when clicking inside the game window
-        if (Input.GetMouseButtonDown(0) && !cursorConfined)
-        {
+        /* ── click inside window re-confines ────────────────────── */
+        if (!cursorConfined && Input.GetMouseButtonDown(0))
             ConstrainCursor();
-        }
     }
 
-    private void ToggleCursorConfinement()
+    /* ── helper methods ─────────────────────────────────────────── */
+    void ReleaseCursor()
     {
-        if (cursorConfined)
-        {
-            // Release the cursor so it can move freely outside the game window
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            cursorImage.enabled = false;
-            cursorConfined = false;
-        }
-        else
-        {
-            // Confine the cursor back within the game window
-            ConstrainCursor();
-        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        cursorImage.enabled = false;
+        cursorConfined = false;
     }
 
-    private void ConstrainCursor()
+    void ConstrainCursor()
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;

@@ -1,164 +1,125 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PixelSorter : MonoBehaviour
 {
-    public enum SortMode
-    {
-        White,
-        Black,
-        Bright,
-        Dark
-    }
-
+    public enum SortMode { White, Black, Bright, Dark }
     public SortMode mode = SortMode.White;
 
-    // Threshold values (can be adjusted in the Inspector)
     [Header("Thresholds")]
-    public int whiteValue = -12345678;
-    public int blackValue = -3456789;
-    public float brightValue = 0.5f; // Brightness ranges from 0 to 1
-    public float darkValue = 0.7f;   // Brightness ranges from 0 to 1
+    public uint whiteValue = 0xF0F0F0;   // packed RGB threshold
+    public uint blackValue = 0x202020;
+    public byte brightValue = 128;       // 0-255 grayscale
+    public byte darkValue = 180;       // 0-255 grayscale
 
-    /// <summary>
-    /// Sorts the pixels of the given texture based on the selected mode.
-    /// </summary>
-    /// <param name="inputTexture">The texture to sort.</param>
-    /// <returns>A new sorted texture.</returns>
-    public Texture2D SortTexture(Texture2D inputTexture)
+    /* ─── public API ─────────────────────────────────────────────── */
+
+    public Texture2D SortTexture(Texture2D src, bool clone = true)
     {
-        Texture2D sortedTexture = new Texture2D(inputTexture.width, inputTexture.height, TextureFormat.RGBA32, false);
-        sortedTexture.SetPixels(inputTexture.GetPixels());
+        // 1️⃣ guarantee we’re working on a readable RGBA32 texture
+        Texture2D work = src;
 
-        // Sort rows
-        for (int y = 0; y < sortedTexture.height; y++)
+        bool needsCopy =
+            !src.isReadable ||
+            !(src.format == TextureFormat.RGBA32 || src.format == TextureFormat.ARGB32);
+
+        if (needsCopy || clone)
         {
-            Color[] row = sortedTexture.GetPixels(0, y, sortedTexture.width, 1);
-            Color[] sortedRow = SortPixels(row, mode);
-            sortedTexture.SetPixels(0, y, sortedTexture.width, 1, sortedRow);
+            work = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false);
+            work.SetPixels32(src.GetPixels32());     // this will throw only if src unreadable
+            work.Apply(false, false);
         }
 
-        // Sort columns
-        for (int x = 0; x < sortedTexture.width; x++)
-        {
-            Color[] column = new Color[sortedTexture.height];
-            for (int y = 0; y < sortedTexture.height; y++)
-            {
-                column[y] = sortedTexture.GetPixel(x, y);
-            }
+        // 2️⃣ sort in-place on the Color32 buffer
+        var pix = work.GetPixels32();
+        int w = work.width, h = work.height;
 
-            Color[] sortedColumn = SortPixels(column, mode);
-            for (int y = 0; y < sortedTexture.height; y++)
-            {
-                sortedTexture.SetPixel(x, y, sortedColumn[y]);
-            }
-        }
+        Sort2D(pix, w, h, true);   // rows
+        Sort2D(pix, h, w, false);  // columns (transpose trick)
 
-        sortedTexture.Apply();
-        return sortedTexture;
+        work.SetPixels32(pix);
+        work.Apply(false, !clone);  // make non-readable if we didn’t clone
+        return work;
     }
 
-    /// <summary>
-    /// Sorts an array of pixels based on the selected mode.
-    /// </summary>
-    /// <param name="pixels">The array of pixels to sort.</param>
-    /// <param name="mode">The sorting mode.</param>
-    /// <returns>A new sorted array of pixels.</returns>
-    private Color[] SortPixels(Color[] pixels, SortMode mode)
+    /* ─── internal helpers ───────────────────────────────────────── */
+
+    void Sort2D(Color32[] pix, int w, int h, bool rowMajor)
     {
-        // Determine sorting criteria based on mode
+        // scratch arrays reused each segment
+        int maxLen = Mathf.Max(w, h);
+        var segment = new Color32[maxLen];
+        var keyBytes = new uint[maxLen];                // byte or uint depending mode
+
+        for (int y = 0; y < h; y++)
+        {
+            int idxLine = rowMajor ? y * w : y;    // base index for this line
+            int stride = rowMajor ? 1 : w;        // stride between pixels
+
+            int x = 0;
+            while (x < w)
+            {
+                int idx = idxLine + x * stride;
+                if (idx >= pix.Length) break;
+
+                while (x < w && idx < pix.Length && !Meets(pix[idx]))
+                {
+                    x++;
+                    idx = idxLine + x * stride;
+                }
+                if (x >= w || idx >= pix.Length) break;
+
+                // collect run
+                int run = 0;
+                while (x + run < w)
+                {
+                    int i = idxLine + (x + run) * stride;
+                    if (i >= pix.Length || !Meets(pix[i]))
+                        break;
+
+                    var col = pix[i];
+                    segment[run] = col;
+                    keyBytes[run] = SortKey(col);
+                    run++;
+                }
+
+                // sort run by key
+                System.Array.Sort(keyBytes, segment, 0, run);
+
+                // write back
+                for (int i = 0; i < run; i++)
+                    pix[idxLine + (x + i) * stride] = segment[i];
+
+                x += run;
+            }
+        }
+    }
+
+    /* ─── condition & key helpers ───────────────────────────────── */
+
+    bool Meets(Color32 c)
+    {
         switch (mode)
         {
-            case SortMode.White:
-                return SortByCondition(pixels, c => ColorToInt(c) >= whiteValue);
-            case SortMode.Black:
-                return SortByCondition(pixels, c => ColorToInt(c) <= blackValue);
-            case SortMode.Bright:
-                return SortByCondition(pixels, c => c.grayscale >= brightValue);
-            case SortMode.Dark:
-                return SortByCondition(pixels, c => c.grayscale <= darkValue);
-            default:
-                return pixels;
+            case SortMode.White: return Packed(c) >= whiteValue;
+            case SortMode.Black: return Packed(c) <= blackValue;
+            case SortMode.Bright: return Gray(c) >= brightValue;
+            case SortMode.Dark: return Gray(c) <= darkValue;
+            default: return false;
         }
     }
 
-    /// <summary>
-    /// Converts a Color to an integer representation.
-    /// </summary>
-    /// <param name="c">The color to convert.</param>
-    /// <returns>An integer representing the color.</returns>
-    private int ColorToInt(Color c)
+    uint SortKey(Color32 c)
     {
-        return (int)(c.r * 255) << 16 | (int)(c.g * 255) << 8 | (int)(c.b * 255);
+        return mode switch
+        {
+            SortMode.White or SortMode.Black => Packed(c),
+            _ => Gray(c),
+        };
     }
 
-    /// <summary>
-    /// Sorts pixels that meet a certain condition.
-    /// </summary>
-    /// <param name="pixels">The array of pixels.</param>
-    /// <param name="condition">The condition to sort by.</param>
-    /// <returns>A sorted array of pixels.</returns>
-    private Color[] SortByCondition(Color[] pixels, System.Func<Color, bool> condition)
-    {
-        // Find sequences to sort
-        int start = 0;
-        while (start < pixels.Length)
-        {
-            // Find the start of a sortable sequence
-            while (start < pixels.Length && !condition(pixels[start]))
-                start++;
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    static uint Packed(Color32 c) => (uint)(c.r << 16 | c.g << 8 | c.b);
 
-            if (start >= pixels.Length)
-                break;
-
-            // Find the end of the sortable sequence
-            int end = start + 1;
-            while (end < pixels.Length && condition(pixels[end]))
-                end++;
-
-            // Sort the sequence between start and end
-            if (end > start + 1)
-            {
-                System.Array.Sort(pixels, start, end - start, new ColorComparer(mode));
-            }
-
-            start = end;
-        }
-
-        return pixels;
-    }
-
-    /// <summary>
-    /// Custom comparer for sorting colors based on the selected mode.
-    /// </summary>
-    private class ColorComparer : System.Collections.Generic.IComparer<Color>
-    {
-        private SortMode mode;
-
-        public ColorComparer(SortMode mode)
-        {
-            this.mode = mode;
-        }
-
-        public int Compare(Color a, Color b)
-        {
-            switch (mode)
-            {
-                case SortMode.White:
-                    return ColorToInt(a).CompareTo(ColorToInt(b));
-                case SortMode.Black:
-                    return ColorToInt(a).CompareTo(ColorToInt(b));
-                case SortMode.Bright:
-                    return a.grayscale.CompareTo(b.grayscale);
-                case SortMode.Dark:
-                    return a.grayscale.CompareTo(b.grayscale);
-                default:
-                    return 0;
-            }
-        }
-
-        private int ColorToInt(Color c)
-        {
-            return (int)(c.r * 255) << 16 | (int)(c.g * 255) << 8 | (int)(c.b * 255);
-        }
-    }
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    static byte Gray(Color32 c) => (byte)((c.r * 299 + c.g * 587 + c.b * 114 + 500) / 1000); // perceptual luma
 }

@@ -1,7 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using System.Collections.Generic;
 using Utility;
@@ -36,6 +34,7 @@ public class EndSceneManager : MonoBehaviour
     {
         Camera.main.clearFlags = CameraClearFlags.Nothing;
         backgroundMask.SetActive(true);
+        manageSwarm.gameObject.SetActive(false);
         // Ensure the UI is invisible initially
         if (uiCanvasGroup != null)
         {
@@ -192,6 +191,7 @@ public class EndSceneManager : MonoBehaviour
         }
         uiCanvasGroup.alpha = 0;
         uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
+        manageSwarm.gameObject.SetActive(false);
 
         // Activate and play the end video
         if (endVideoPlayer != null)
@@ -218,7 +218,7 @@ public class EndSceneManager : MonoBehaviour
         // Initialize the swarm after the UI has fully faded in
         if (manageSwarm != null)
         {
-            manageSwarm.InitializeSwarm();
+            manageSwarm.gameObject.SetActive(true);
         }
         else
         {

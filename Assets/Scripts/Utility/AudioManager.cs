@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
+
+    [SerializeField] private AudioMixerGroup musicMixerGroup;
 
     [Header("Fade settings")]
     [SerializeField] private float fadeDuration = 2f;
@@ -40,6 +43,7 @@ public class AudioManager : MonoBehaviour
         // create two AudioSources for overlap cross‑fades
         sourceA = gameObject.AddComponent<AudioSource>();
         sourceB = gameObject.AddComponent<AudioSource>();
+        sourceA.outputAudioMixerGroup = sourceB.outputAudioMixerGroup = musicMixerGroup;
         sourceA.playOnAwake = sourceB.playOnAwake = false;
         sourceA.loop = sourceB.loop = false;
 

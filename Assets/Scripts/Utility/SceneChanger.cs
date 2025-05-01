@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,108 +6,52 @@ namespace Utility
 {
     public class SceneChanger : MonoBehaviour
     {
-        [SerializeField] private string lobbySceneName;
-        [SerializeField] private string firstSceneName;
-        [SerializeField] private string secondSceneName;
-        [SerializeField] private string thirdSceneName;
-        [SerializeField] private string npcStocksSceneName;
+        [SerializeField] string lobbySceneName;
+        [SerializeField] string firstSceneName;
+        [SerializeField] string secondSceneName;
+        [SerializeField] string thirdSceneName;
+        [SerializeField] string npcStocksSceneName;
 
-        private void Update()
+        /* ── public API ─────────────────────────────────────────── */
+
+        public void LoadLobbyScene() => Load(lobbySceneName, true, false);
+        public void LoadLobbySceneWithoutFade() => Load(lobbySceneName, false, false);
+        public void LoadFirstScene() => Load(firstSceneName);
+        public void LoadSecondScene() => Load(secondSceneName);
+        public void LoadThirdScene() => Load(thirdSceneName);
+        public void LoadNPCStocksScene() => Load(npcStocksSceneName);
+
+        /* ── core helper ────────────────────────────────────────── */
+
+        void Load(string scene, bool initAudioFlag = false, bool initUIFlag = false)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (string.IsNullOrEmpty(scene))
             {
-                //ExitGame();
+                Debug.LogWarning("Scene name not assigned.");
+                return;
             }
+
+            // set lobby flags only if we’re going to the lobby
+            if (scene == lobbySceneName)
+            {
+                SceneTransitionContext.ShouldInitializeLobbyAudio = initAudioFlag;
+                SceneTransitionContext.ShouldInitializeLobbyUI = initUIFlag;
+            }
+
+            StartCoroutine(LoadAsync(scene));
         }
 
-        public void LoadLobbyScene()
+        /* uses a cached WaitUntil so no per-call alloc */
+        static readonly WaitUntil waitFrame = new(() => false); // reused
+
+        static IEnumerator LoadAsync(string scene)
         {
-            if (!string.IsNullOrEmpty(lobbySceneName))
-            {
-                // Set the flag to initialize audio when loading the lobby scene
-                SceneTransitionContext.ShouldInitializeLobbyAudio = true;
-                SceneTransitionContext.ShouldInitializeLobbyUI = false;
-                SceneManager.LoadSceneAsync(lobbySceneName);
-            }
-            else
-            {
-                Debug.LogWarning("Lobby scene name is not assigned.");
-            }
+            var op = SceneManager.LoadSceneAsync(scene);
+            while (!op.isDone) yield return waitFrame;
         }
 
-        public void LoadLobbySceneWithoutFade()
-        {
-            if (!string.IsNullOrEmpty(lobbySceneName))
-            {
-                // Set the flag to NOT initialize audio when loading the lobby scene
-                SceneTransitionContext.ShouldInitializeLobbyAudio = false;
-                SceneTransitionContext.ShouldInitializeLobbyUI = false;
-                StartCoroutine(LoadSceneAsync(lobbySceneName));
-            }
-            else
-            {
-                Debug.LogWarning("Lobby scene name is not assigned.");
-            }
-        }
-
-        public void LoadFirstScene()
-        {
-            if (!string.IsNullOrEmpty(firstSceneName))
-            {
-                StartCoroutine(LoadSceneAsync(firstSceneName));
-            }
-            else
-            {
-                Debug.LogWarning("First scene name is not assigned.");
-            }
-        }
-
-        public void LoadSecondScene()
-        {
-            if (!string.IsNullOrEmpty(secondSceneName))
-            {
-                StartCoroutine(LoadSceneAsync(secondSceneName));
-            }
-            else
-            {
-                Debug.LogWarning("Second scene name is not assigned.");
-            }
-        }
-
-        public void LoadThirdScene()
-        {
-            if (!string.IsNullOrEmpty(thirdSceneName))
-            {
-                StartCoroutine(LoadSceneAsync(thirdSceneName));
-            }
-            else
-            {
-                Debug.LogWarning("Third scene name is not assigned.");
-            }
-        }
-
-        public void LoadNPCStocksScene()
-        {
-            if (!string.IsNullOrEmpty(npcStocksSceneName))
-            {
-                StartCoroutine(LoadSceneAsync(npcStocksSceneName));
-            }
-            else
-            {
-                Debug.LogWarning("NPC Stocks scene name is not assigned.");
-            }
-        }
-
-        private IEnumerator LoadSceneAsync(string sceneName)
-        {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-        }
-
-        private void ExitGame()
+        /* optional Exit */
+        public void Exit()
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -119,9 +63,7 @@ namespace Utility
 
     public static class SceneTransitionContext
     {
-        // Flag to determine if audio should be initialized when loading the lobby scene.
         public static bool ShouldInitializeLobbyAudio = true;
         public static bool ShouldInitializeLobbyUI = true;
     }
-
 }
