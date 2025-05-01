@@ -167,6 +167,7 @@ namespace StartScene
             }
             mat.SetFloat("_CanvasGroupAlpha", to);
             can.alpha = to;
+            can.interactable = true;
             onDone?.Invoke();
         }
 
