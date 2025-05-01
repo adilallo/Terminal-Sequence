@@ -11,6 +11,7 @@ namespace StartScene
         /* ─── Serialized ─────────────────────────────────────────────────── */
 
         [Header("Fade Targets")]
+        [SerializeField] CanvasGroup videoCanvasGroup;
         [SerializeField] CanvasGroup uiCanvasGroup;
         [SerializeField] Material uiMaterial;
         [SerializeField] Material avatarMaterial;
@@ -57,7 +58,6 @@ namespace StartScene
                 // Point every RawImage or material at that RT
                 introDisplay.texture = rt;          // RawImage that shows intro
             }
-            Cursor.visible = false;
 
             UI.SetActive(false);
             stockRawImage.color = new Color(1, 1, 1, 0);
@@ -65,10 +65,8 @@ namespace StartScene
             uiCanvasGroup.interactable = false;
 
             AudioManager.Instance?.PlayPlaylist(startSceneAudioClips, false);
-            Debug.Log("Is intro video player prepared? " + introVideoPlayer.isPrepared);
             StartCoroutine(PrepareVideos());
             StartCoroutine(PlayIntroWhenReady());
-            Debug.Log("Is intro video player prepared? " + introVideoPlayer.isPrepared);
         }
 
         void Update()
@@ -78,7 +76,7 @@ namespace StartScene
             if (!selectButtonVisible &&
                 avatarVideoPlayer.time >= avatarVideoPlayer.length * .93f)
             {
-                StartCoroutine(FadeInUI());
+                StartCoroutine(FadeMaterial(uiMaterial, uiCanvasGroup, 0f, 1f, fadeDuration));
                 selectButtonVisible = true;
             }
 
@@ -136,13 +134,7 @@ namespace StartScene
 
         IEnumerator FadeInAvatar()
         {
-            yield return FadeMaterial(avatarMaterial, 0f, 1f, fadeDuration);
-        }
-
-        IEnumerator FadeInUI()
-        {
-            yield return FadeMaterial(uiMaterial, 0f, 1f, fadeDuration,
-                () => uiCanvasGroup.interactable = true);
+            yield return FadeMaterial(avatarMaterial, videoCanvasGroup, 0f, 1f, fadeDuration);
         }
 
         IEnumerator FadeInStockVideo()
@@ -161,7 +153,7 @@ namespace StartScene
             stockRawImage.color = Color.white;
         }
 
-        IEnumerator FadeMaterial(Material mat, float from, float to,
+        IEnumerator FadeMaterial(Material mat, CanvasGroup can, float from, float to,
                                  float dur, System.Action onDone = null)
         {
             float t = 0;
@@ -169,12 +161,12 @@ namespace StartScene
             {
                 float a = Mathf.Lerp(from, to, t / dur);
                 mat.SetFloat("_CanvasGroupAlpha", a);
-                uiCanvasGroup.alpha = a;      // for UI fade
+                can.alpha = a;      // for UI fade
                 t += Time.deltaTime;
                 yield return null;
             }
             mat.SetFloat("_CanvasGroupAlpha", to);
-            uiCanvasGroup.alpha = to;
+            can.alpha = to;
             onDone?.Invoke();
         }
 
