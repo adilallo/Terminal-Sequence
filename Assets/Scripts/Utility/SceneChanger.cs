@@ -21,6 +21,11 @@ namespace Utility
         public void LoadThirdScene() => Load(thirdSceneName);
         public void LoadNPCStocksScene() => Load(npcStocksSceneName);
 
+        void Start()
+        {
+            Application.targetFrameRate = 30;
+        }
+
         /* ── core helper ────────────────────────────────────────── */
 
         void Load(string scene, bool initAudioFlag = false, bool initUIFlag = false)
