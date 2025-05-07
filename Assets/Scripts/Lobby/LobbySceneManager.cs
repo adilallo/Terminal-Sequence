@@ -16,8 +16,6 @@ namespace LobbyScene
 
         SceneChanger sceneChanger;
 
-        bool firstClickReceived;
-
         readonly Material[] fadeMats = new Material[1];
 
         /* ─── life-cycle ─────────────────────────────────────────────────── */
@@ -37,27 +35,13 @@ namespace LobbyScene
             uiCanvasGroup.alpha = 0;
 
             if (SceneTransitionContext.ShouldInitializeLobbyUI)
-            {  
-                StartCoroutine(WaitForFirstInput());
+            {
+                StartCoroutine(FadeInUI());
             }
             else
             {
                 StartCoroutine(FadeInUI());
             }
-        }
-
-        /* ─── input wait (replaces Update polling) ───────────────────────── */
-
-        IEnumerator WaitForFirstInput()
-        {
-            while (!firstClickReceived)
-            {
-                if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
-                    firstClickReceived = true;
-                yield return null;
-            }
-
-            StartCoroutine(FadeInUI());
         }
 
         /* ─── buttons ───────────────────────────────────────────────────── */

@@ -66,8 +66,8 @@ public class NPCStockSceneManager : MonoBehaviour
 
     void Start()
     {
-        sheets = FindObjectOfType<GoogleSheetsHandler>();
-        sceneChanger = FindObjectOfType<SceneChanger>();
+        sheets = FindAnyObjectByType<GoogleSheetsHandler>();
+        sceneChanger = FindAnyObjectByType<SceneChanger>();
 
         if (sheets != null)
         {

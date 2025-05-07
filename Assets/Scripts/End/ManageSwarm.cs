@@ -40,7 +40,9 @@ public class ManageSwarm : MonoBehaviour
 
     void Update()
     {
-        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector2 screenPos = AtariCursorDriver.ScreenCursorPos;
+        //Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray r = Camera.main.ScreenPointToRay(screenPos);
         if (ground.Raycast(r, out float d))
             target = r.GetPoint(d);
 

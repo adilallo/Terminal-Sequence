@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 274317931736937073}
   - component: {fileID: 6830510025018479335}
   - component: {fileID: 7842148070630453071}
+  - component: {fileID: 6403692100395422359}
   m_Layer: 5
   m_Name: Cursor
   m_TagString: Untagged
@@ -72,3 +73,20 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &6403692100395422359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921631903430385189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98155e602e85b1e4292648e97b19dfd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions: {fileID: -944628639613478452, guid: 87bdc99318fc1714e8561b7443ba5c7e, type: 3}
+  mapName: Atari
+  moveAction: Move
+  fireAction: Fire
+  speed: 900

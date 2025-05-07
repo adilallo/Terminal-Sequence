@@ -20,5 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NPCStocks.unity
     guid: 9460af37fdd6b554ea4812a823b17113
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 87bdc99318fc1714e8561b7443ba5c7e,
+      type: 3}
   m_UseUCBPForAssetBundles: 0
