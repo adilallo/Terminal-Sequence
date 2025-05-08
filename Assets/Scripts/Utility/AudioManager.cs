@@ -26,8 +26,6 @@ public class AudioManager : MonoBehaviour
     private bool fadeOutAtEnd;
     private Coroutine playlistRoutine;
 
-    private bool userUnlocked = false; 
-
     public event Action OnPlaylistFinished;
 
     void Awake()
@@ -51,15 +49,6 @@ public class AudioManager : MonoBehaviour
         _incoming = sourceB;
     }
 
-    void Update()
-    {
-        if (!userUnlocked && (Input.GetMouseButtonDown(0) || Input.touchCount > 0))
-        {
-            userUnlocked = true;
-            ProcessQueuedPlaylists();
-        }
-    }
-
     void OnDisable()
     {
         if (playlistRoutine != null) StopCoroutine(playlistRoutine);
@@ -69,17 +58,7 @@ public class AudioManager : MonoBehaviour
     public void PlayPlaylist(List<AudioClip> playlist, bool fadeOut = false)
     {
         if (playlist == null || playlist.Count == 0) return;
-        if (userUnlocked) StartPlaylist(playlist, fadeOut);
-        else playQueue.Enqueue((playlist, fadeOut));
-    }
-
-    private void ProcessQueuedPlaylists()
-    {
-        while (playQueue.Count > 0)
-        {
-            var (pl, fo) = playQueue.Dequeue();
-            StartPlaylist(pl, fo);
-        }
+        StartPlaylist(playlist, fadeOut);
     }
 
     private void StartPlaylist(List<AudioClip> playlist, bool fadeOut)
