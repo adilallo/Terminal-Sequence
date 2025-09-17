@@ -238,6 +238,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0618cf7b0e5d7614d8c31ea341afd5af, type: 3}
+--- !u!114 &291657648 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7842148070630453071, guid: 0618cf7b0e5d7614d8c31ea341afd5af,
+    type: 3}
+  m_PrefabInstance: {fileID: 291657647}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &562201713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -246,6 +258,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1338936920102779155, guid: 8737ea31c55c1e2429099a3ca7892bcc,
+        type: 3}
+      propertyPath: cursorImage
+      value: 
+      objectReference: {fileID: 291657648}
     - target: {fileID: 1538263206593527024, guid: 8737ea31c55c1e2429099a3ca7892bcc,
         type: 3}
       propertyPath: m_Name
@@ -1323,18 +1340,6 @@ MonoBehaviour:
       - m_Target: {fileID: 917462912}
         m_TargetAssemblyTypeName: RandomSound, Assembly-CSharp
         m_MethodName: PlayRandomSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DebugClickAction, Assembly-CSharp
-        m_MethodName: OnPointerClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

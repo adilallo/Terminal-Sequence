@@ -422,6 +422,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1338936920102779155, guid: 8737ea31c55c1e2429099a3ca7892bcc,
+        type: 3}
+      propertyPath: cursorImage
+      value: 
+      objectReference: {fileID: 1961638318}
     - target: {fileID: 1538263206593527024, guid: 8737ea31c55c1e2429099a3ca7892bcc,
         type: 3}
       propertyPath: m_Name
