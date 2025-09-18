@@ -1,76 +1,113 @@
-﻿using UnityEngine;
-using UnityEngine.Networking;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class FlickrImageLoaderOnline : MonoBehaviour
 {
-    // REMOTE (online) location
+    [Header("Remote Source")]
+    [Tooltip("Raw GitHub path ending with a trailing slash; files are 000.jpg, 001.jpg, ...")]
+    [SerializeField]
     private string baseUrl =
         "https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/FlickrImages/";
+    [SerializeField, Tooltip("How many numbered images exist remotely (e.g., 99 -> 000..098)")]
+    private int totalImages = 99;
 
     [Header("UI Elements")]
-    public RawImage[] displayImages;                 // Array of UI elements to display images
-    [SerializeField] private RectTransform parentRect; // Reference to the parent RectTransform (e.g., Canvas)
+    [SerializeField] private RawImage[] displayImages;
+    [SerializeField] private RectTransform parentRect;
 
-    [Header("Materials & Scripts")]
-    [SerializeField] private Material enhancedWeaveBlendMaterial; // Assign the enhanced material in the Inspector
-    [SerializeField] private PixelSorter pixelSorter;             // Reference to the PixelSorter script
+    [Header("Material & Effects")]
+    [SerializeField] private Material enhancedWeaveBlendMaterial;
+    [SerializeField] private PixelSorter pixelSorter;
 
-    [Header("Fallback Settings")]
-    [Tooltip("Local textures to use if remote download fails.")]
-    public Texture2D[] fallbackImages;  // Assign your local images here in the Inspector
+    [Header("Local Images (fallback)")]
+    [SerializeField] private Texture2D[] fallbackImages;
 
-    private int totalImages = 99; // Number of remote images available (000 to 098)
+    [Header("Timing")]
+    [SerializeField] private float refreshInterval = 1f;
+    [SerializeField] private float crossfadeTime = 3f;
+    [SerializeField] private float initialFadeTime = 1.25f;
 
-    void Start()
+    readonly Queue<RawImage> overlayPool = new();
+    WaitForSecondsRealtime wait;
+
+    void Awake()
     {
-        // Validate parentRect
-        if (parentRect == null)
+        if (displayImages == null || displayImages.Length == 0)
+        { Debug.LogError("OnlineImageLooper: displayImages missing"); enabled = false; return; }
+
+        if (!parentRect)
+            parentRect = GetComponentInParent<Canvas>()?.GetComponent<RectTransform>();
+        if (!parentRect)
+        { Debug.LogError("OnlineImageLooper: parent RectTransform not found"); enabled = false; return; }
+
+        // Share one material instance across all slots (matches offline)
+        if (enhancedWeaveBlendMaterial)
         {
-            parentRect = GetComponent<RectTransform>();
-            if (parentRect == null)
-            {
-                Debug.LogError("Parent RectTransform not assigned and not found on the GameObject.");
-                return;
-            }
+            var shared = Instantiate(enhancedWeaveBlendMaterial);
+            if (shared.HasProperty("_CanvasGroupAlpha"))
+                shared.SetFloat("_CanvasGroupAlpha", 1f);
+
+            foreach (var img in displayImages)
+                img.material = shared;
         }
 
-        // Add CanvasGroup to each RawImage for individual fading
-        foreach (RawImage rawImage in displayImages)
+        // Each slot needs a CanvasGroup for fades (start hidden; we fade them in)
+        foreach (var img in displayImages)
         {
-            CanvasGroup canvasGroup = rawImage.GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
-            {
-                canvasGroup = rawImage.gameObject.AddComponent<CanvasGroup>();
-            }
-            canvasGroup.alpha = 1f; // Initially fully visible
+            CanvasGroup cg = img.TryGetComponent(out CanvasGroup cgc) ? cgc : img.gameObject.AddComponent<CanvasGroup>();
+            cg.alpha = 0f;
         }
 
-        // Arrange images with overlap
-        ArrangeImagesWithOverlap();
-
-        // Populate all RawImage components initially
-        PopulateAllImages();
-
-        // Start the update loop every 1 second
-        InvokeRepeating(nameof(UpdateRandomImages), 1f, 1f);
+        wait = new WaitForSecondsRealtime(refreshInterval);
+        StartCoroutine(InitialiseAfterFirstFrame());
     }
 
-    /// <summary>
-    /// Arranges RawImages in a layout that fills the canvas and adds overlap between them.
-    /// </summary>
-    void ArrangeImagesWithOverlap()
+    IEnumerator InitialiseAfterFirstFrame()
+    {
+        // Wait until the canvas has a non-zero size (important when loading additively)
+        while (parentRect.rect.width < 1f || parentRect.rect.height < 1f)
+            yield return null;
+
+        ArrangeImagesWithOverlap();
+
+        // Fill the grid from remote (with fallback). Do them in parallel, then fade in.
+        int remaining = displayImages.Length;
+        for (int i = 0; i < displayImages.Length; i++)
+            StartCoroutine(FillSlotInitial(displayImages[i], () => remaining--));
+
+        while (remaining > 0) yield return null;
+
+        yield return StartCoroutine(FadeInInitialGrid());
+        StartCoroutine(Looper());
+    }
+
+    IEnumerator FadeInInitialGrid()
+    {
+        float t = 0f;
+        while (t < initialFadeTime)
+        {
+            float a = t / initialFadeTime;
+            foreach (var img in displayImages)
+                img.GetComponent<CanvasGroup>().alpha = a;
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        foreach (var img in displayImages)
+            img.GetComponent<CanvasGroup>().alpha = 1f;
+    }
+
+    // --- Layout (kept identical to the offline variant) ---
+    private void ArrangeImagesWithOverlap()
     {
         int n = displayImages.Length;
-        int rows, columns;
-        DetermineGridLayout(n, out rows, out columns);
+        DetermineGridLayout(n, out int rows, out int columns);
 
-        // Calculate cell size based on parent RectTransform with overlap allowance
         float cellWidth = parentRect.rect.width / columns * 1.2f;
         float cellHeight = parentRect.rect.height / rows * 1.2f;
-
-        float overlapMargin = 0.15f; // Overlap margin
+        float overlapMargin = 0.15f;
 
         for (int i = 0; i < n; i++)
         {
@@ -82,193 +119,144 @@ public class FlickrImageLoaderOnline : MonoBehaviour
             float anchorMinY = 1f - ((float)(row + 1) / rows) - overlapMargin;
             float anchorMaxY = 1f - ((float)row / rows) + overlapMargin;
 
-            // Clamp to ensure anchors stay within [0,1]
             anchorMinX = Mathf.Clamp01(anchorMinX);
             anchorMaxX = Mathf.Clamp01(anchorMaxX);
             anchorMinY = Mathf.Clamp01(anchorMinY);
             anchorMaxY = Mathf.Clamp01(anchorMaxY);
 
-            // Assign to RawImage's RectTransform
-            RectTransform rt = displayImages[i].GetComponent<RectTransform>();
+            RectTransform rt = displayImages[i].rectTransform;
             rt.anchorMin = new Vector2(anchorMinX, anchorMinY);
             rt.anchorMax = new Vector2(anchorMaxX, anchorMaxY);
             rt.pivot = new Vector2(0.5f, 0.5f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
-
             rt.localScale = Vector3.one;
 
-            // Random offset for a more organic look
             float randomOffsetX = Random.Range(-0.08f, 0.08f) * parentRect.rect.width / columns;
             float randomOffsetY = Random.Range(-0.08f, 0.08f) * parentRect.rect.height / rows;
             rt.anchoredPosition += new Vector2(randomOffsetX, randomOffsetY);
         }
     }
 
-    /// <summary>
-    /// Determines the optimal grid layout (rows and columns) for the given number of images.
-    /// </summary>
-    /// <param name="n">Number of images.</param>
-    /// <param name="rows">Output number of rows.</param>
-    /// <param name="columns">Output number of columns.</param>
-    void DetermineGridLayout(int n, out int rows, out int columns)
+    private void DetermineGridLayout(int n, out int rows, out int columns)
     {
-        // Start with a square-ish grid
         rows = Mathf.CeilToInt(Mathf.Sqrt(n));
         columns = Mathf.CeilToInt((float)n / rows);
-        // Adjust if needed
         while (rows * columns < n) columns++;
-
-        Debug.Log($"Grid Layout: Rows = {rows}, Columns = {columns}");
     }
 
-    /// <summary>
-    /// Populates all RawImage components by downloading (or falling back), sorting, and assigning images.
-    /// </summary>
-    void PopulateAllImages()
+    // --- Initial fill for each slot ---
+    IEnumerator FillSlotInitial(RawImage img, System.Action onDone)
     {
-        for (int i = 0; i < displayImages.Length; i++)
-        {
-            // Pick a random remote image index from 000 to 098
-            int randomImageNumber = Random.Range(0, totalImages);
-            // Construct the remote image URL
-            string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
+        Texture2D tex = null;
+        yield return StartCoroutine(GetRandomRemoteTexture(result => tex = result));
 
-            // Assign the enhanced custom material (if available)
-            if (enhancedWeaveBlendMaterial != null)
+        if (!tex)
+            tex = RandomLocalTexture();
+
+        img.texture = PrepareTexture(tex);
+        onDone?.Invoke();
+    }
+
+    // --- Main loop (matches offline: pick a slot, overlay, crossfade, swap, recycle) ---
+    IEnumerator Looper()
+    {
+        while (true)
+        {
+            yield return wait;
+
+            int slot = Random.Range(0, displayImages.Length);
+            RawImage target = displayImages[slot];
+            var targetCG = target.GetComponent<CanvasGroup>();
+
+            // Create/reuse overlay
+            RawImage overlay = overlayPool.Count > 0 ? overlayPool.Dequeue() : CreateOverlay();
+            overlay.material = target.material;
+
+            // Fetch remote (with fallback), then apply pixel sort
+            Texture2D tex = null;
+            yield return StartCoroutine(GetRandomRemoteTexture(result => tex = result));
+            if (!tex) tex = RandomLocalTexture();
+            overlay.texture = PrepareTexture(tex);
+
+            // Match transforms & sibling for overlay
+            RectTransform rt = overlay.rectTransform, trt = target.rectTransform;
+            rt.anchorMin = trt.anchorMin; rt.anchorMax = trt.anchorMax;
+            rt.pivot = trt.pivot; rt.sizeDelta = trt.sizeDelta; rt.anchoredPosition = trt.anchoredPosition;
+            rt.SetSiblingIndex(trt.GetSiblingIndex() + 1);
+
+            var ovCG = overlay.GetComponent<CanvasGroup>() ?? overlay.gameObject.AddComponent<CanvasGroup>();
+            ovCG.alpha = 0f;
+
+            // Manual crossfade (unscaled time to match offline)
+            float t = 0f;
+            while (t < crossfadeTime)
             {
-                displayImages[i].material = enhancedWeaveBlendMaterial;
+                float a = t / crossfadeTime;
+                ovCG.alpha = a;         // fade in
+                targetCG.alpha = 1f - a;  // fade out
+                t += Time.unscaledDeltaTime;
+                yield return null;
+            }
+            ovCG.alpha = 1f;
+            targetCG.alpha = 1f; // restore
+
+            // Swap & recycle
+            target.texture = overlay.texture;
+            overlayPool.Enqueue(overlay);
+        }
+    }
+
+    // --- Remote fetch helper (tries once per call) ---
+    IEnumerator GetRandomRemoteTexture(System.Action<Texture2D> onDone)
+    {
+        Texture2D result = null;
+
+        int idx = Random.Range(0, Mathf.Max(1, totalImages));
+        string url = $"{baseUrl}{idx:D3}.jpg";
+
+        using (UnityWebRequest req = UnityWebRequestTexture.GetTexture(url, /*nonReadable:*/ false))
+        {
+            // Mildly helps with intermediaries caching stale 404s
+            req.SetRequestHeader("Cache-Control", "no-cache");
+            yield return req.SendWebRequest();
+
+            if (req.result == UnityWebRequest.Result.Success)
+            {
+                result = DownloadHandlerTexture.GetContent(req);
             }
             else
             {
-                Debug.LogWarning("EnhancedWeaveBlendMaterial is not assigned in the Inspector.");
-            }
-
-            // Start a coroutine to download OR fallback, then pixel-sort, then crossfade
-            StartCoroutine(DownloadSortAndCrossfadeImage(imageUrl, displayImages[i]));
-        }
-    }
-
-    /// <summary>
-    /// Updates a random RawImage component with a new random image every second.
-    /// </summary>
-    void UpdateRandomImages()
-    {
-        // Pick a random RawImage component
-        int randomIndex = Random.Range(0, displayImages.Length);
-        RawImage targetImage = displayImages[randomIndex];
-
-        // Pick a random remote image index
-        int randomImageNumber = Random.Range(0, totalImages);
-
-        // Construct the URL
-        string imageUrl = $"{baseUrl}{randomImageNumber:D3}.jpg";
-
-        // Download or fallback
-        StartCoroutine(DownloadSortAndCrossfadeImage(imageUrl, targetImage));
-    }
-
-    /// <summary>
-    /// Downloads an image, applies pixel sorting, and assigns it to the target RawImage with a crossfade effect.  
-    /// If the download fails, it uses a random fallback image from the local array.
-    /// </summary>
-    IEnumerator DownloadSortAndCrossfadeImage(string url, RawImage targetImage)
-    {
-        // Attempt to download the image
-        UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(url);
-        yield return textureRequest.SendWebRequest();
-
-        Texture2D finalTexture = null;
-
-        if (textureRequest.result == UnityWebRequest.Result.Success)
-        {
-            // Got a remote texture
-            Texture2D downloadedTexture = ((DownloadHandlerTexture)textureRequest.downloadHandler).texture;
-            // Sort via pixelSorter
-            finalTexture = pixelSorter.SortTexture(downloadedTexture);
-        }
-        else
-        {
-            Debug.Log($"Error downloading image from {url}: {textureRequest.error}");
-
-            // ------------- FALLBACK MODE -------------
-            if (fallbackImages != null && fallbackImages.Length > 0)
-            {
-                // Pick one random image from the fallback array
-                int randomFallbackIndex = Random.Range(0, fallbackImages.Length);
-                Texture2D fallbackTexture = fallbackImages[randomFallbackIndex];
-
-                // Sort via pixelSorter
-                finalTexture = pixelSorter.SortTexture(fallbackTexture);
-            }
-            else
-            {
-                // If no fallback images are assigned, just quit
-                Debug.LogWarning("No fallback images available. Cannot load an image.");
-                yield break;
+                Debug.Log($"FlickrImageLoaderOnline: download failed {url} -> {req.error}");
             }
         }
 
-        // Start the crossfade (finalTexture should never be null if we reached here)
-        StartCoroutine(CrossfadeImage(targetImage, finalTexture, 3.0f));
+        onDone?.Invoke(result);
     }
 
-    /// <summary>
-    /// Crossfades from the current image to a new texture.
-    /// </summary>
-    IEnumerator CrossfadeImage(RawImage targetImage, Texture2D newTexture, float duration)
+    // --- Utilities mirrored from offline ---
+    Texture2D RandomLocalTexture()
     {
-        // Create a temporary RawImage for the new texture
-        GameObject newImageObj = new GameObject("TempImage");
-        newImageObj.transform.SetParent(parentRect, false);
-        RawImage newImage = newImageObj.AddComponent<RawImage>();
-        newImage.texture = newTexture;
-        newImage.material = enhancedWeaveBlendMaterial;
+        if (fallbackImages != null && fallbackImages.Length > 0)
+            return fallbackImages[Random.Range(0, fallbackImages.Length)];
+        Debug.LogWarning("FlickrImageLoaderOnline: No fallback images assigned.");
+        return Texture2D.blackTexture;
+    }
 
-        RectTransform targetRect = targetImage.GetComponent<RectTransform>();
-        RectTransform newRect = newImage.GetComponent<RectTransform>();
-        newRect.anchorMin = targetRect.anchorMin;
-        newRect.anchorMax = targetRect.anchorMax;
-        newRect.pivot = targetRect.pivot;
-        newRect.sizeDelta = targetRect.sizeDelta;
-        newRect.anchoredPosition = targetRect.anchoredPosition;
+    Texture2D PrepareTexture(Texture2D src)
+    {
+        if (pixelSorter == null) return src;
+        var sorted = pixelSorter.SortTexture(src);
+        return sorted ? sorted : src;
+    }
 
-        // Ensure new image is on top
-        newImageObj.transform.SetSiblingIndex(targetRect.GetSiblingIndex() + 1);
-
-        // Add CanvasGroup for fading
-        CanvasGroup newCanvasGroup = newImageObj.AddComponent<CanvasGroup>();
-        newCanvasGroup.alpha = 0f;
-
-        // Add or retrieve CanvasGroup for old image
-        CanvasGroup oldCanvasGroup = targetImage.GetComponent<CanvasGroup>();
-        if (oldCanvasGroup == null)
-        {
-            oldCanvasGroup = targetImage.gameObject.AddComponent<CanvasGroup>();
-            oldCanvasGroup.alpha = 1f;
-        }
-
-        // Crossfade
-        float elapsedTime = 0f;
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration;
-            newCanvasGroup.alpha = Mathf.Lerp(0, 1, t);
-            oldCanvasGroup.alpha = Mathf.Lerp(1, 0, t);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        newCanvasGroup.alpha = 1f;
-        oldCanvasGroup.alpha = 0f;
-
-        // Assign the new texture to the target image
-        targetImage.texture = newTexture;
-
-        // Reset the old image's alpha
-        oldCanvasGroup.alpha = 1f;
-
-        // Cleanup temporary object
-        Destroy(newImageObj);
+    RawImage CreateOverlay()
+    {
+        var go = new GameObject("OverlayImage");
+        go.transform.SetParent(parentRect, false);
+        var ri = go.AddComponent<RawImage>();
+        ri.raycastTarget = false;
+        go.AddComponent<CanvasGroup>();
+        return ri;
     }
 }

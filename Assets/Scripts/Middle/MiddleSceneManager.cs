@@ -317,8 +317,8 @@ namespace MiddleScene
 
             float w = canvasSize.x;
             float h = canvasSize.y;
-            float aw = avatarSize.x;
-            float ah = avatarSize.y + 100f;            // y offset fudge
+            float aw = avatarSize.x + 100f;
+            float ah = avatarSize.y + 200f;            // y offset fudge
 
             float yOff = h * 0.046f;
 

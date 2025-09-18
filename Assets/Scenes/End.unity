@@ -170,7 +170,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
@@ -241,6 +241,7 @@ MonoBehaviour:
   avatarVideoPlayer: {fileID: 1415882648}
   avatarCanvasGroup: {fileID: 878701669}
   endVideoPlayer: {fileID: 2087576570}
+  endVideoCanvasGroup: {fileID: 845247591}
   manageSwarm: {fileID: 1074513763}
   endSceneAudioClips:
   - {fileID: 8300000, guid: 01a4bb9f90184483bacaa0a4ddcbc6f5, type: 3}
@@ -614,6 +615,7 @@ GameObject:
   - component: {fileID: 845247588}
   - component: {fileID: 845247590}
   - component: {fileID: 845247589}
+  - component: {fileID: 845247591}
   m_Layer: 5
   m_Name: OutroVideo
   m_TagString: Untagged
@@ -675,6 +677,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 845247587}
   m_CullTransparentMesh: 1
+--- !u!225 &845247591
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845247587}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &878701667
 GameObject:
   m_ObjectHideFlags: 0
@@ -1101,7 +1115,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 1
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
@@ -1363,7 +1377,7 @@ MonoBehaviour:
   m_Sprite: {fileID: 21300000, guid: 27ebbff6bd74c42489ef351d6190db9a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
-  m_FillCenter: 1
+  m_FillCenter: 0
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
@@ -1779,7 +1793,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 1
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0

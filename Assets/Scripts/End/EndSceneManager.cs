@@ -18,6 +18,7 @@ public class EndSceneManager : MonoBehaviour
     [SerializeField] private VideoPlayer avatarVideoPlayer;
     [SerializeField] private CanvasGroup avatarCanvasGroup;
     [SerializeField] private VideoPlayer endVideoPlayer;
+    [SerializeField] private CanvasGroup endVideoCanvasGroup;
 
     [Header("Swarm Management")]
     [SerializeField] private ManageSwarm manageSwarm;
@@ -42,6 +43,7 @@ public class EndSceneManager : MonoBehaviour
             uiCanvasGroup.alpha = 0;
             uiMaterial.SetFloat("_CanvasGroupAlpha", 0);
             avatarMaterial.SetFloat("_CanvasGroupAlpha", 0);
+            endVideoCanvasGroup.alpha = 0;
         }
         else
         {
@@ -196,6 +198,7 @@ public class EndSceneManager : MonoBehaviour
         // Activate and play the end video
         if (endVideoPlayer != null)
         {
+            endVideoCanvasGroup.alpha = 1;
             backgroundMask.SetActive(false);
             endVideoPlayer.Play();
 

@@ -130,7 +130,8 @@ GameObject:
   m_Component:
   - component: {fileID: 21319641}
   - component: {fileID: 21319644}
-  - component: {fileID: 21319647}
+  - component: {fileID: 21319649}
+  - component: {fileID: 21319648}
   - component: {fileID: 21319638}
   - component: {fileID: 21319646}
   - component: {fileID: 21319642}
@@ -330,7 +331,36 @@ MonoBehaviour:
     prefab: {fileID: 5012037255798439823, guid: bb19018d9935aec42ba9df94d49e9e04,
       type: 3}
     preload: 11
---- !u!114 &21319647
+--- !u!114 &21319648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21319637}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8268d2ed4a4e4bb43972cb38c6327445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseUrl: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/FlickrImages/
+  totalImages: 99
+  displayImages:
+  - {fileID: 910010408}
+  - {fileID: 1066078388}
+  - {fileID: 1052568944}
+  - {fileID: 535960734}
+  - {fileID: 154112031}
+  - {fileID: 205104211}
+  parentRect: {fileID: 1715868989}
+  enhancedWeaveBlendMaterial: {fileID: 2100000, guid: 62c659d03f717aa4da1a0c8dfee790a7,
+    type: 2}
+  pixelSorter: {fileID: 469712696}
+  fallbackImages: []
+  refreshInterval: 1
+  crossfadeTime: 2
+  initialFadeTime: 1.25
+--- !u!114 &21319649
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -342,13 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30aa2f9aba729e944954002a5c81b0af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayImages:
-  - {fileID: 910010408}
-  - {fileID: 1066078388}
-  - {fileID: 1052568944}
-  - {fileID: 535960734}
-  - {fileID: 154112031}
-  - {fileID: 205104211}
+  displayImages: []
   parentRect: {fileID: 1715868989}
   enhancedWeaveBlendMaterial: {fileID: 2100000, guid: 62c659d03f717aa4da1a0c8dfee790a7,
     type: 2}
@@ -375,7 +399,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3c06050e1d3b24945ae1583739caa77c, type: 3}
   - {fileID: 2800000, guid: ccf8dc1f277534dcfbed93fe43170a64, type: 3}
   - {fileID: 2800000, guid: f09ddf4cc5ced4f2a88f4ad4e9e620ca, type: 3}
-  - {fileID: 2800000, guid: 36ebdad63299d4af2999a1e6d5557e86, type: 3}
   - {fileID: 2800000, guid: 079db3940b2fe459293698775ec6fb83, type: 3}
   - {fileID: 2800000, guid: 6303944665e854db39d1c14577adc7e0, type: 3}
   - {fileID: 2800000, guid: 3475ccc548bce486c82afec0f1a1ef90, type: 3}
@@ -394,17 +417,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3b3573b4a81234dbcb8ea74fbd5cf31d, type: 3}
   - {fileID: 2800000, guid: bfd0efc17164d49659521efcf6b625d4, type: 3}
   - {fileID: 2800000, guid: aa08994011bbf4f84a6641b674054aed, type: 3}
-  - {fileID: 2800000, guid: 16086e6f170544ef2840a9701ee0629f, type: 3}
-  - {fileID: 2800000, guid: d381b6671444b4f79b7431074cce9b1e, type: 3}
-  - {fileID: 2800000, guid: 14d9deb9161d44686b280a0d8760ef5c, type: 3}
-  - {fileID: 2800000, guid: 85ede0dc20f17441ca196d91d40d9c93, type: 3}
-  - {fileID: 2800000, guid: e210eb91433ab4c08981786df6bea807, type: 3}
-  - {fileID: 2800000, guid: fca191ee718ab4642a4f27fef4c9a666, type: 3}
-  - {fileID: 2800000, guid: 1b52bc5716816435191900da62ce24d0, type: 3}
-  - {fileID: 2800000, guid: 73e283d6a7a35494495294ed2dfd4c2e, type: 3}
-  - {fileID: 2800000, guid: 471a344a5f3aa4319bbf4fc71068be33, type: 3}
-  - {fileID: 2800000, guid: b284db17acc42474e8666cfe270ff0de, type: 3}
-  - {fileID: 2800000, guid: de4f7ead55e1943c6a63a80da7ae0418, type: 3}
   - {fileID: 2800000, guid: 2b3d41a6746df45b2950fd1fa3dad451, type: 3}
   - {fileID: 2800000, guid: 0677064ede3aa4f73a89f5d4eeec466e, type: 3}
   - {fileID: 2800000, guid: 28f4d4ec0e2f84c699dcf8303fa601a9, type: 3}
@@ -1142,7 +1154,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
