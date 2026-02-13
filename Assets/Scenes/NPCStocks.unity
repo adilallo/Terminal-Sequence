@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 21319641}
   - component: {fileID: 21319644}
   - component: {fileID: 21319649}
-  - component: {fileID: 21319648}
   - component: {fileID: 21319638}
   - component: {fileID: 21319646}
   - component: {fileID: 21319642}
@@ -331,35 +330,6 @@ MonoBehaviour:
     prefab: {fileID: 5012037255798439823, guid: bb19018d9935aec42ba9df94d49e9e04,
       type: 3}
     preload: 11
---- !u!114 &21319648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 21319637}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8268d2ed4a4e4bb43972cb38c6327445, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseUrl: https://raw.githubusercontent.com/adilallo/No_Vacancy/feature/adilallo/ISG/Assets/Editor/FlickrImages/
-  totalImages: 99
-  displayImages:
-  - {fileID: 910010408}
-  - {fileID: 1066078388}
-  - {fileID: 1052568944}
-  - {fileID: 535960734}
-  - {fileID: 154112031}
-  - {fileID: 205104211}
-  parentRect: {fileID: 1715868989}
-  enhancedWeaveBlendMaterial: {fileID: 2100000, guid: 62c659d03f717aa4da1a0c8dfee790a7,
-    type: 2}
-  pixelSorter: {fileID: 469712696}
-  fallbackImages: []
-  refreshInterval: 1
-  crossfadeTime: 2
-  initialFadeTime: 1.25
 --- !u!114 &21319649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,7 +342,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30aa2f9aba729e944954002a5c81b0af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayImages: []
+  displayImages:
+  - {fileID: 910010408}
+  - {fileID: 1066078388}
+  - {fileID: 1052568944}
+  - {fileID: 535960734}
+  - {fileID: 154112031}
+  - {fileID: 205104211}
   parentRect: {fileID: 1715868989}
   enhancedWeaveBlendMaterial: {fileID: 2100000, guid: 62c659d03f717aa4da1a0c8dfee790a7,
     type: 2}
